@@ -20,10 +20,22 @@ class Configuration
     public function __construct()
     {
     }
+
+    public function getBaseUrl()
+    {
+        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+        $host = $_SERVER['HTTP_HOST'];
+        $script = $_SERVER['SCRIPT_NAME'];
+
+        // Concatena el protocolo, el host y la ruta de la carpeta raíz del proyecto
+        return $protocol . '://' . $host . dirname($script);
+    }
+
     public function getPerfilJugadorController()
     {
         return new PerfilJugadorController($this->getRenderer());
     }
+
     public function getRankingController()
     {
         return new RankingController($this->getRenderer());
@@ -64,11 +76,23 @@ class Configuration
             $config['database']);
     }
 
+    /*  public function getRouter()
+      {
+          return new Router(
+              $this,
+              "getLobbyController",
+              "list");
+      } */
+
     public function getRouter()
     {
         return new Router(
             $this,
             "getLobbyController",
-            "list");
+            "list",
+            "/TpFinal"
+        );
     }
+
+
 }
