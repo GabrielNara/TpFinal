@@ -9,6 +9,7 @@ include_once('controller/RankingController.php');
 include_once('controller/CrearPartidaController.php');
 include_once('controller/CrearPreguntaController.php');
 include_once('controller/LobbyController.php');
+include_once('controller/PerfilJugadorController.php');
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 
@@ -19,7 +20,10 @@ class Configuration
     public function __construct()
     {
     }
-
+    public function getPerfilJugadorController()
+    {
+        return new PerfilJugadorController($this->getRenderer());
+    }
     public function getRankingController()
     {
         return new RankingController($this->getRenderer());
