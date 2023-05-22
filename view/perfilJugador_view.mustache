@@ -1,49 +1,49 @@
 {{> header}}
-<div class="bg-gray-200 rounded-lg p-6 flex flex-col md:flex-row">
-  <div class="md:w-1/2 flex items-center justify-center mb-4 md:mb-0">
-    <img src="https://i.ibb.co/L1LQtBm/Ellipse-1.png" alt="Foto de perfil" class="w-40 h-40 rounded-full">
-  </div>
-  <div class="md:w-1/2 md:ml-6">
-    <h2 class="text-2xl font-semibold text-gray-800 mb-2">Alexis</h2>
-    <p class="text-gray-600 mb-2">Posición en el ranking: 1</p>
-    <p class="text-gray-600 mb-2">Puntaje: 100</p>
-    <p class="text-gray-600 mb-2">Partidas: 2423</p>
-
-      <div class="flex items-center">
-        <img src="https://borealtech.com/wp-content/uploads/2018/10/codigo-qr-1024x1024-1.jpg" alt="Foto del código QR" class="w-24 h-24">
-      </div>
-
-  </div>
-</div>
-<div class="bg-gray-200 rounded-lg p-6 flex flex-col md:flex-row justify-center items-center">
-    <div class="md:w-3/4 md:ml-6 ">
+<div class="w-full h-screen flex flex-col justify-center">
+    <div class="bg-gray-200 rounded-lg p-6 flex flex-col md:flex-row">
+        <div class="md:w-1/2 flex items-center justify-center mb-4 md:mb-0">
+            <img src="https://i.ibb.co/L1LQtBm/Ellipse-1.png" alt="Foto de perfil" class="w-40 h-40 rounded-full">
+        </div>
+        <div class="md:w-1/2 md:ml-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-2">Alexis</h2>
+            <p class="text-gray-600 mb-2">Posición en el ranking: 1</p>
+            <p class="text-gray-600 mb-2">Puntaje: 100</p>
+            <p class="text-gray-600 mb-2">Partidas: 2423</p>
+            <div class="flex items-center">
+                <img src="https://borealtech.com/wp-content/uploads/2018/10/codigo-qr-1024x1024-1.jpg"
+                     alt="Foto del código QR" class="w-24 h-24">
+            </div>
+        </div>
+    </div>
+    <div class="bg-gray-200 rounded-lg p-6 flex flex-col md:flex-row justify-center items-center">
+        <div class="md:w-3/4 md:ml-6 ">
             <p class="text-gray-600">Mapa:</p>
             <div id="map" class="h-64 rounded-lg"></div>
-          </div>
+        </div>
+    </div>
 </div>
-
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvZj61EiOcl1RlGGo3dt9u2OpyqqYkohk"></script>
 <script>
-  function initMap() {
-    var myLatLng = {lat: 40.7128, lng: -74.0060};
+    function initMap() {
+        var myLatLng = {lat: 40.7128, lng: -74.0060};
 
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 15,
-      center: myLatLng,
-      disableDefaultUI: true,
-      zoomControl: true,
-      gestureHandling: 'cooperative'
-    });
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: myLatLng,
+            disableDefaultUI: true,
+            zoomControl: true,
+            gestureHandling: 'cooperative'
+        });
 
-    var marker = new google.maps.Marker({
-      position: myLatLng,
-      map: map,
-      title: 'Marcador'
-    });
-  }
+        var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            title: 'Marcador'
+        });
+    }
 
-  // Inicializar el mapa cuando la página haya cargado
-  window.onload = function() {
-    initMap();
-  };
+    // Inicializar el mapa cuando la página haya cargado
+    window.onload = function () {
+        initMap();
+    };
 </script>
