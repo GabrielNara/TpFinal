@@ -4,6 +4,7 @@ include_once("helpers/MustacheRender.php");
 include_once('helpers/Router.php');
 
 include_once("model/LobbyModel.php");
+include_once("model/FormRegistroModel.php");
 
 include_once('controller/RankingController.php');
 include_once('controller/CrearPartidaController.php');
@@ -37,9 +38,13 @@ class Configuration
     {
         return new PerfilJugadorController($this->getRenderer());
     }
+
     public function getFormRegistroController()
     {
-        return new FormRegistroController($this->getRenderer());
+        return new FormRegistroController(
+            $this->getRenderer(),
+            new FormRegistroModel($this->getDatabase())
+        );
     }
 
     public function getRankingController()
@@ -81,14 +86,6 @@ class Configuration
             $config['password'],
             $config['database']);
     }
-
-    /*  public function getRouter()
-      {
-          return new Router(
-              $this,
-              "getLobbyController",
-              "list");
-      } */
 
     public function getRouter()
     {
