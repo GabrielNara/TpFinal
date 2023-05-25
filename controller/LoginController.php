@@ -24,7 +24,13 @@ class LoginController
         $pass = $_POST['password'];
 
         $data["usuario"] = $this->usuarioModel->getUsuario($user, $pass);
-        $this->renderer->render("lobby", $data);
 
+        if (empty($data["usuario"])) {
+            $error["msj"] = "Usuario o clave incorrecta";
+            $this->renderer->render("login", $error);
+        } else {
+
+            $this->renderer->render("lobby", $data);
+        }
     }
 }
