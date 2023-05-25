@@ -12,7 +12,6 @@ class LoginController
         $this->usuarioModel = $usuarioModel;
     }
 
-
     public function list()
     {
         $this->renderer->render("login");
@@ -20,18 +19,12 @@ class LoginController
 
     public function loguearse()
     {
-        $nombre = $_POST['nombre'];
-        $apellido = $_POST['apellido'];
-        $username = $_POST['username'];
-        $localidad = $_POST['localidad'];
-        $sexo = $_POST['sexo'];
-        $fnacimiento = $_POST['fnacimiento'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $cpassword = $_POST['cpassword'];
-        $foto_perfil = $_FILES['fotoPerfil'];
-        $datos = array($nombre, $apellido, $username, $localidad, $sexo, $fnacimiento, $email, $password, $cpassword, $foto_perfil);
-        $this->formRegistroModel->registrarUsuario($datos);
-    }
 
+        $user = $_POST['username'];
+        $pass = $_POST['password'];
+
+        $data["usuario"] = $this->usuarioModel->getUsuario($user, $pass);
+        $this->renderer->render("lobby", $data);
+
+    }
 }
