@@ -1,9 +1,6 @@
 {{> header}}
 {{#usuario}}
-    <tr>
-        <td>{{nombre}}</td>
-    </tr>
-{{/usuario}}
+    <body class="bg-gray-100">
 <div class="flex w-full h-screen justify-center items-center">
     <div class="w-4/5 p-3">
         <div class="bg-white rounded-lg shadow-lg w-full mt-8 flex">
@@ -30,16 +27,16 @@
                     </a>
                 </div>
                 <div class="w-full flex items-center p-6 space-x-4">
-                    <a href="perfilJugador/list"
+                    <a href="lobby/perfilJugador/getPerfil?idUsuario={{id}}"
                        class="flex items-center hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52">
                         <img class="w-12 rounded-full" src="https://i.ibb.co/L1LQtBm/Ellipse-1.png" alt="avatar">
-                        <p class="cursor-pointer text-md leading-5 text-white">Alexis Enache</p>
+                        <p class="cursor-pointer text-md leading-5 text-white">{{nombre}} {{apellido}}</p>
                     </a>
                 </div>
             </div>
             <div class="flex flex-col w-full sm:w-4/5 justify-center">
                 <h1 class="font-bold text-5xl text-center text-indigo-700 my-4">
-                    Hola, Alexis!
+                    Hola, {{nombre}}!
                 </h1>
                 <p class="text-3xl mx-12 my-4">Récord: 25 preguntas</p>
                 <div class="w-4/5 my-4 mx-auto border-b border-gray-200 shadow">
@@ -62,3 +59,5 @@
         </div>
     </div>
 </div>
+    </body>
+{{/usuario}}

@@ -43,7 +43,7 @@ class Configuration
 
     public function getPerfilJugadorController()
     {
-        return new PerfilJugadorController($this->getRenderer());
+        return new PerfilJugadorController($this->getRenderer(), new UsuarioModel($this->getDatabase()));
     }
 
     public function getFormRegistroController()
