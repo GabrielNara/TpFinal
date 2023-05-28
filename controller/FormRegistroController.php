@@ -28,7 +28,7 @@ class FormRegistroController
         $email = $_POST['email'];
         $password = $_POST['password'];
         $cpassword = $_POST['cpassword'];
-        $foto_perfil = $_FILES['fotoPerfil'];
+        $foto_perfil = $_FILES['fotoPerfil']['name'];
         $datos = array($nombre, $apellido, $username, $localidad, $sexo, $fnacimiento, $email, $password, $cpassword, $foto_perfil);
         $this->formRegistroModel->registrarUsuario($datos);
     }
