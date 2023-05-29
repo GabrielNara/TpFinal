@@ -29,8 +29,9 @@ class LoginController
             $error["msj"] = "Usuario o clave incorrecta";
             $this->renderer->render("login", $error);
         } else {
-
-            $this->renderer->render("lobby", $data);
+            $_SESSION['usuario'] = $user;
+            header('Location: /tpfinal/lobby/list');
+            exit();
         }
     }
 }

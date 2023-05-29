@@ -31,6 +31,14 @@ class FormRegistroController
         $foto_perfil = $_FILES['fotoPerfil']['name'];
         $datos = array($nombre, $apellido, $username, $localidad, $sexo, $fnacimiento, $email, $password, $cpassword, $foto_perfil);
         $this->formRegistroModel->registrarUsuario($datos);
+
+
+
+    }
+
+    public function validar(){
+
+        $this->formRegistroModel->validarCorreo();
     }
 
 }
