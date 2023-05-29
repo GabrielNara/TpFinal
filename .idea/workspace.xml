@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="500f7f56-7c0b-4a89-9880-2421ecee61d5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Configuration.php" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/FormRegistroController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/FormRegistroController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/formRegistro_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/formRegistro_view.mustache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +42,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/xampp/htdocs/view",
+    "last_opened_file_path": "C:/xampp/htdocs/phpprueba",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -72,6 +69,8 @@
       <workItem from="1684760433640" duration="1085000" />
       <workItem from="1684762839040" duration="3659000" />
       <workItem from="1684879914343" duration="5712000" />
+      <workItem from="1685301633529" duration="46000" />
+      <workItem from="1685311211248" duration="2706000" />
     </task>
     <servers />
   </component>
