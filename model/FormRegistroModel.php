@@ -35,12 +35,50 @@ class FormRegistroModel
         $email = $datos[6];
         $contrasena = $datos[7];
         $fotoperfil = $datos[9];
-
+        $token = uniqid();
+        $this->enviarEmail($token,$email);
         $this->moverImagen($fotoperfil);
 
-        $query = "INSERT INTO `usuarios`(`nombre`, `apellido`, `email`, `contrasena`, `ano_nacimiento`, `sexo`, `pais_ciudad`, `nombre_usuario`, `foto_perfil`) 
-VALUES ('$nombre','$apellido','$email','$contrasena','$anionacimiento','$sexo','$localidad','$username','$fotoperfil')";
+        $query = "INSERT INTO `usuarios`(`nombre`, `apellido`, `email`, `contrasena`, `ano_nacimiento`, `sexo`, `pais_ciudad`, `nombre_usuario`, `foto_perfil`,`token`) 
+VALUES ('$nombre','$apellido','$email','$contrasena','$anionacimiento','$sexo','$localidad','$username','$fotoperfil','$token')";
         return $this->database->queryInsertar($query);
+
+    }
+
+    public function enviarEmail($token,$email) {
+
+      $subject = "Validación de correo electrónico";
+      $message = "Por favor, haz clic en el siguiente enlace para validar tu correo electrónico: ";
+      $message .= "http://localhost:8080/tpFinal/formregistro/validar?token=$token";
+      $headers = "From: http://localhost:8080/tpFinal/";
+
+      mail($email, $subject, $message, $headers);
+    }
+
+    public function validarCorreo() {
+        // Obtener el token desde la URL
+        $token = $_GET['token'];
+
+        $query = "SELECT * FROM usuarios WHERE token = '$token'";
+        $result = $this->database->query($query);
+        
+
+        if (!empty($result)) {
+            // El token es válido, marcar la cuenta de usuario como validada
+
+            $email = $result[0]['email'];
+
+            // Actualizar la columna de validación en la base de datos
+            $query = "UPDATE usuarios SET validado = 1 WHERE email = '$email'";
+            $this->database->queryInsertar($query);
+
+            // Mostrar un mensaje de éxito o redirigir al usuario a una página de éxito
+            echo "¡Tu correo electrónico ha sido validado con éxito!";
+        } else {
+            // El token no es válido
+            echo "El token de validación no es válido.";
+        }
+
 
     }
 
