@@ -8,9 +8,4 @@ class LobbyModel
     {
         $this->database = $database;
     }
-
-    public function get()
-    {
-        return $this->database->query('');
-    }
 }

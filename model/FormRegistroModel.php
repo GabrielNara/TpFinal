@@ -1,5 +1,7 @@
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer;
+
 class FormRegistroModel
 {
     private $database;
@@ -9,7 +11,7 @@ class FormRegistroModel
         $this->database = $database;
     }
 
-    public function registrarUsuario($datos)
+    public function validarDatosUsuario($datos)
     {
         if (empty($datos[0])) throw new Exception('El campo nombre no puede estar vacío.');
         if (empty($datos[1])) throw new Exception('El campo apellido no puede estar vacío.');
@@ -35,22 +37,61 @@ class FormRegistroModel
         $email = $datos[6];
         $contrasena = $datos[7];
         $fotoperfil = $datos[9];
-
+        $token = uniqid();
         $this->moverImagen($fotoperfil);
+        $this->enviarEmail($token,$email);
 
-        $query = "INSERT INTO `usuarios`(`nombre`, `apellido`, `email`, `contrasena`, `ano_nacimiento`, `sexo`, `pais_ciudad`, `nombre_usuario`, `foto_perfil`) 
-VALUES ('$nombre','$apellido','$email','$contrasena','$anionacimiento','$sexo','$localidad','$username','$fotoperfil')";
+        $query = "INSERT INTO `usuarios`(`nombre`, `apellido`, `email`, `contrasena`, `ano_nacimiento`, `sexo`, `pais_ciudad`, `nombre_usuario`, `foto_perfil`,`token`) 
+VALUES ('$nombre','$apellido','$email','$contrasena','$anionacimiento','$sexo','$localidad','$username','$fotoperfil','$token')";
         return $this->database->queryInsertar($query);
+    }
 
+    public function enviarEmail($token,$email) {
+        $asunto = 'Confirmá tu email para empezar a jugar';
+        $cuerpo = "Por favor, haz clic en el siguiente enlace para validar tu correo electrónico: ";
+        $cuerpo .= "http://localhost/tpFinal/formregistro/validar?token=$token";
+
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'juegopreguntastpweb2@gmail.com';
+        $mail->Password = 'lwzrhqlwmlewptrc';
+        $mail->SMTPSecure = 'ssl';
+        $mail->Port = 465;
+        $mail->CharSet = 'UTF-8';
+        $mail->setFrom('juegopreguntastpweb2@gmail.com');
+        $mail->addAddress($email);
+        $mail->Subject = $asunto;
+        $mail->Body = $cuerpo;
+        $mail->send();
+    }
+
+    public function validarCorreo() {
+        // Obtener el token desde la URL// obtengo el token desde una consulta a la bd
+        $token = $_GET['token'];
+
+        $query = "SELECT * FROM usuarios WHERE token = '$token'";
+        $result = $this->database->query($query);
+
+        if (!empty($result)) {
+            // El token es válido, marcar la cuenta de usuario como validada
+            $email = $result[0]['email'];
+
+            // Actualizar la columna de validación en la base de datos
+            $query = "UPDATE usuarios SET validado = 1 WHERE email = '$email'";
+            $this->database->queryInsertar($query);
+        } else {
+            // El token no es válido
+            echo "El token de validación no es válido.";
+        }
     }
 
     public function moverImagen($fotoperfil){
         $fotoperfil = $_FILES['fotoPerfil']['tmp_name'];
-
         $rutaImg = 'public/' . $fotoperfil; /*defino la ruta completa del archivo*/
         $infoImg = pathinfo($rutaImg); /*obtengo toda la infromacion de la imaten*/
         $extension = strtolower($infoImg['extension']); /*obtengo la extension*/
         move_uploaded_file($fotoperfil, "./public/" .  $_FILES['fotoPerfil']['name']);
     }
-
 }

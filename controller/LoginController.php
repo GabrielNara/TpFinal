@@ -19,19 +19,24 @@ class LoginController
 
     public function loguearse()
     {
-
         $user = $_POST['username'];
         $pass = $_POST['password'];
 
-        $data["usuario"] = $this->usuarioModel->getUsuario($user, $pass);
+        $usuario = $this->usuarioModel->getUsuario($user, $pass);
 
-        if (empty($data["usuario"])) {
+        if (empty($usuario)) {
             $error["msj"] = "Usuario o clave incorrecta";
             $this->renderer->render("login", $error);
         } else {
-            $_SESSION['usuario'] = $user;
-            header('Location: /tpfinal/lobby/list');
-            exit();
+            if ($usuario[0]['validado'] == 1) {
+                $_SESSION['usuario'] = $usuario[0];
+                header('Location: /tpfinal/lobby/list');
+                exit();
+            } else {
+                $data['faltaConfirmarMail'] = $usuario[0]['email'];
+                $this->renderer->render("faltaConfirmarMail", $data);
+            }
         }
     }
+
 }

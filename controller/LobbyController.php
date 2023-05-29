@@ -15,7 +15,8 @@ class LobbyController
             header('Location: /tpfinal/');
             exit();
         } else {
-            $this->renderer->render('lobby');
+            $data['usuario'] = $_SESSION['usuario'];
+            $this->renderer->render('lobby', $data);
         }
     }
 
