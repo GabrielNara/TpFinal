@@ -43,4 +43,8 @@ class FormRegistroController
         $this->formRegistroModel->confirmarValidacion();
     }
 
+    public function confirmarMail(){
+        $this->renderer->render("confirmarMail");
+    }
+
 }
