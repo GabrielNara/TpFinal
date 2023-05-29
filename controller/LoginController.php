@@ -28,12 +28,12 @@ class LoginController
             $error["msj"] = "Usuario o clave incorrecta";
             $this->renderer->render("login", $error);
         } else {
+            $_SESSION['usuario'] = $usuario[0];
             if ($usuario[0]['validado'] == 1) {
-                $_SESSION['usuario'] = $usuario[0];
                 header('Location: /tpfinal/lobby/list');
                 exit();
             } else {
-                $data['faltaConfirmarMail'] = $usuario[0]['email'];
+                $data['usuario'] = $_SESSION['usuario'];
                 $this->renderer->render("faltaConfirmarMail", $data);
             }
         }

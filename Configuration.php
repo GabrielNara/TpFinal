@@ -81,7 +81,8 @@ class Configuration
 
     public function getLobbyController()
     {
-        return new LobbyController($this->getRenderer());
+        return new LobbyController($this->getRenderer(),
+            new LobbyModel($this->getDatabase()));
     }
 
     private function getArrayConfig()
