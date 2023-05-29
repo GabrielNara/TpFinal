@@ -30,11 +30,14 @@ class FormRegistroController
         $cpassword = $_POST['cpassword'];
         $foto_perfil = $_FILES['fotoPerfil']['name'];
         $datos = array($nombre, $apellido, $username, $localidad, $sexo, $fnacimiento, $email, $password, $cpassword, $foto_perfil);
-        $this->formRegistroModel->registrarUsuario($datos);
-
-
+        $this->formRegistroModel->validarDatosUsuario($datos);
 
     }
+
+    public function confirmarMail(){
+        $this->renderer->render("confirmarMail");
+    }
+
 
     public function validar(){
 
