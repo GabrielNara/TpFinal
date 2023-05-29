@@ -15,11 +15,21 @@ class FormRegistroModel
     {
         if (empty($datos[0])) throw new Exception('El campo nombre no puede estar vacío.');
         if (empty($datos[1])) throw new Exception('El campo apellido no puede estar vacío.');
-        if (empty($datos[2])) throw new Exception('El campo username no puede estar vacío.');
+        if (empty($datos[2])) throw new Exception('El campo nombre de usuario no puede estar vacío.');
+        $query = "SELECT * FROM usuarios WHERE nombre_usuario = '$datos[2]'";
+        $result = $this->database->query($query);
+        if (count($result) > 0) {
+            throw new Exception('Ya existe un jugador con ese nombre de usuario.');
+        }
         if (empty($datos[3])) throw new Exception('El campo país y ciudad no puede estar vacío.');
         if (empty($datos[4])) throw new Exception('El campo sexo no puede estar vacío.');
         if (empty($datos[5])) throw new Exception('El campo año de nacimiento no puede estar vacío.');
         if (empty($datos[6])) throw new Exception('El campo email no puede estar vacío.');
+        $query = "SELECT * FROM usuarios WHERE email = '$datos[6]'";
+        $result = $this->database->query($query);
+        if (count($result) > 0) {
+            throw new Exception('Ya existe un jugador con ese correo electrónico.');
+        }
         if (empty($datos[7])) throw new Exception('El campo contraseña no puede estar vacío.');
         if (empty($datos[8])) throw new Exception('El campo repetir contraseña no puede estar vacío.');
         if (empty($datos[9])) throw new Exception('Debe subir una foto de perfil.');
@@ -35,7 +45,7 @@ class FormRegistroModel
         $sexo = $datos[4];
         $anionacimiento = $datos[5];
         $email = $datos[6];
-        $contrasena = $datos[7];
+        $contrasena = md5($datos[7]);
         $fotoperfil = $datos[9];
         $token = uniqid();
         $this->moverImagen($fotoperfil);
