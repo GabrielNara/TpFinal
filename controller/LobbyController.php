@@ -11,6 +11,18 @@ class LobbyController
 
     public function list()
     {
-        $this->renderer->render('lobby');
+        if (!isset($_SESSION['usuario'])) {
+            header('Location: /tpfinal/');
+            exit();
+        } else {
+            $this->renderer->render('lobby');
+        }
+    }
+
+    public function cerrarSesion()
+    {
+        session_destroy();
+        header('Location: /tpfinal/');
+        exit();
     }
 }

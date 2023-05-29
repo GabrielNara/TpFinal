@@ -7,6 +7,7 @@ include_once("model/LobbyModel.php");
 include_once("model/FormRegistroModel.php");
 include_once("model/UsuarioModel.php");
 
+include_once('controller/HomeController.php');
 include_once('controller/RankingController.php');
 include_once('controller/CrearPartidaController.php');
 include_once('controller/CrearPreguntaController.php');
@@ -54,6 +55,11 @@ class Configuration
         );
     }
 
+    public function getHomeController()
+    {
+        return new HomeController($this->getRenderer());
+    }
+
     public function getRankingController()
     {
         return new RankingController($this->getRenderer());
@@ -98,7 +104,7 @@ class Configuration
     {
         return new Router(
             $this,
-            "getLobbyController",
+            "getHomeController",
             "list",
             "/TpFinal"
         );
