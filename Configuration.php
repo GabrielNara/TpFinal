@@ -5,6 +5,7 @@ include_once('helpers/Router.php');
 
 include_once("model/LobbyModel.php");
 include_once("model/FormRegistroModel.php");
+include_once("model/UsuarioModel.php");
 
 include_once('controller/RankingController.php');
 include_once('controller/CrearPartidaController.php');
@@ -12,6 +13,7 @@ include_once('controller/CrearPreguntaController.php');
 include_once('controller/LobbyController.php');
 include_once('controller/PerfilJugadorController.php');
 include_once('controller/FormRegistroController.php');
+include_once('controller/LoginController.php');
 
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
@@ -32,6 +34,11 @@ class Configuration
 
         // Concatena el protocolo, el host y la ruta de la carpeta raíz del proyecto
         return $protocol . '://' . $host . dirname($script);
+    }
+
+    public function getLoginController()
+    {
+        return new LoginController($this->getRenderer(), new UsuarioModel($this->getDatabase()));
     }
 
     public function getPerfilJugadorController()

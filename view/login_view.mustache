@@ -1,0 +1,43 @@
+{{> header}}
+<div class="bg-gray-200 h-screen overflow-hidden flex items-center justify-center">
+    <div class="w-10/12 lg:w-9/12 xl:w-7/12 flex">
+        <div class="w-full h-auto hidden lg:block lg:w-1/2 bg-cover rounded-lg lg:rounded-r-none"
+             style="background-image: url('https://mlqfdkzc0cug.i.optimole.com/w:auto/h:auto/q:mauto/f:avif/https://humanit.as/experiences/wp-content/uploads/sites/7/2015/12/Question-Mark-HD-Wallpaper15.jpg')">
+        </div>
+        <div class="w-full lg:w-1/2 bg-white rounded-lg lg:rounded-l-none py-24 px-12">
+            <h3 class="font-bold text-3xl text-indigo-700 text-center tracking-widest uppercase mb-4">Login</h3>
+
+            <form class="bg-white" method="POST" action="loguearse">
+                <div class="mb-4">
+                    <label class="block mb-2 text-sm font-bold" for="username">
+                        Username
+                    </label>
+                    <input type="text" id="username" name="username"
+                           class="w-full p-3 text-md border rounded shadow focus:outline-none focus:shadow-outline"
+                           placeholder="Username"/>
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-2 text-sm font-bold" for="password">
+                        Password
+                    </label>
+                    <input type="password" id="password" name="password"
+                           class="w-full p-3 text-md border rounded shadow focus:outline-none focus:shadow-outline"
+                           placeholder="***********"/>
+                </div>
+                <div class="mb-4">
+                    <button class="w-full p-3 font-bold text-white bg-indigo-600 rounded-full focus:outline-none"
+                            type="submit">
+                        Sign In
+                    </button>
+                </div>
+                <hr class="mb-4 border-t"/>
+                {{#msj}}
+                    <span class="text-sm text-center bg-red-500 text-white px-4 py-2 rounded">
+                        el usuario o contraseña es incorrecto
+                    </span>
+                {{/msj}}
+            </form>
+        </div>
+    </div>
+</div>
+{{> footer}}
