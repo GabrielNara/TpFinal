@@ -9,7 +9,7 @@ class FormRegistroModel
         $this->database = $database;
     }
 
-    public function registrarUsuario($datos)
+    public function validarDatosUsuario($datos)
     {
         if (empty($datos[0])) throw new Exception('El campo nombre no puede estar vacío.');
         if (empty($datos[1])) throw new Exception('El campo apellido no puede estar vacío.');
@@ -36,7 +36,7 @@ class FormRegistroModel
         $contrasena = $datos[7];
         $fotoperfil = $datos[9];
         $token = uniqid();
-        $this->enviarEmail($token,$email);
+        //$this->enviarEmail($token,$email);
         $this->moverImagen($fotoperfil);
 
         $query = "INSERT INTO `usuarios`(`nombre`, `apellido`, `email`, `contrasena`, `ano_nacimiento`, `sexo`, `pais_ciudad`, `nombre_usuario`, `foto_perfil`,`token`) 
@@ -56,12 +56,14 @@ VALUES ('$nombre','$apellido','$email','$contrasena','$anionacimiento','$sexo','
     }
 
     public function validarCorreo() {
-        // Obtener el token desde la URL
+        // Obtener el token desde la URL// obtengo el token desde una consulta a la bd
+        
+
         $token = $_GET['token'];
 
         $query = "SELECT * FROM usuarios WHERE token = '$token'";
         $result = $this->database->query($query);
-        
+
 
         if (!empty($result)) {
             // El token es válido, marcar la cuenta de usuario como validada
