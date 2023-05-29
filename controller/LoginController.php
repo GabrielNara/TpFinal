@@ -23,15 +23,15 @@ class LoginController
         $user = $_POST['username'];
         $pass = $_POST['password'];
 
-        $data["usuario"] = $this->usuarioModel->getUsuario($user, $pass);
+        $data["usuario"] = $this->usuarioModel->getUsuarioByUserAndPassword($user, $pass);
 
         if (empty($data["usuario"])) {
             $error["msj"] = "Usuario o clave incorrecta";
             $this->renderer->render("login", $error);
         } else {
-            $_SESSION['usuario'] = $user;
-            header('Location: /tpfinal/lobby/list');
-            exit();
+            $_SESSION['usuario'] = $data["usuario"][0][0];
+            $this->renderer->render("lobby", $data);
+
         }
     }
 }

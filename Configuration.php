@@ -44,7 +44,7 @@ class Configuration
 
     public function getPerfilJugadorController()
     {
-        return new PerfilJugadorController($this->getRenderer());
+        return new PerfilJugadorController($this->getRenderer(), new UsuarioModel($this->getDatabase()));
     }
 
     public function getFormRegistroController()
@@ -77,7 +77,7 @@ class Configuration
 
     public function getLobbyController()
     {
-        return new LobbyController($this->getRenderer());
+        return new LobbyController($this->getRenderer(), new UsuarioModel($this->getDatabase()));
     }
 
     private function getArrayConfig()
@@ -106,7 +106,7 @@ class Configuration
             $this,
             "getHomeController",
             "list",
-            "/TpFinal"
+            "/tpfinal"
         );
     }
 

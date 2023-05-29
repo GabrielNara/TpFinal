@@ -1,12 +1,14 @@
 <?php
+include_once('./model/UsuarioModel.php');
 
 class LobbyController
 {
     private $renderer;
 
-    public function __construct($renderer)
+    public function __construct($renderer, $usuarioModel)
     {
         $this->renderer = $renderer;
+        $this->usuarioModel = $usuarioModel;
     }
 
     public function list()
@@ -15,7 +17,10 @@ class LobbyController
             header('Location: /tpfinal/');
             exit();
         } else {
-            $this->renderer->render('lobby');
+
+            $data["usuario"] = $this->usuarioModel->getUsuarioById($_SESSION['usuario']);
+
+            $this->renderer->render('lobby', $data);
         }
     }
 

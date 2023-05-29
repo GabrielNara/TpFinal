@@ -1,65 +1,64 @@
 {{> header}}
+
 {{#usuario}}
-    <tr>
-        <td>{{nombre}}</td>
-    </tr>
-{{/usuario}}
-<div class="flex w-full h-screen justify-center items-center">
-    <div class="w-4/5 p-3">
-        <div class="bg-white rounded-lg shadow-lg w-full mt-8 flex">
-            <div class="flex flex-col h-full w-full sm:w-1/5 bg-gray-900">
-                <div class="hidden xl:flex justify-start p-6 items-center space-x-6">
-                    <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/sidebar2-svg1.svg" alt="logo">
-                    <p class="text-2xl leading-6 text-white">Juego de preguntas</p>
+    <div class="flex w-full h-screen justify-center items-center">
+        <div class="w-4/5 p-3">
+            <div class="bg-white rounded-lg shadow-lg w-full mt-8 flex">
+                <div class="flex flex-col h-full w-full sm:w-1/5 bg-gray-900">
+                    <div class="hidden xl:flex justify-start p-6 items-center space-x-6">
+                        <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/sidebar2-svg1.svg" alt="logo">
+                        <p class="text-2xl leading-6 text-white">Juego de preguntas</p>
+                    </div>
+                    <div class="flex flex-col justify-center items-center p-6 border-b border-gray-600 w-full">
+                        <a href="../crearPartida/list"
+                           class="flex items-center hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52">
+                            <i class="w-1/5 text-center fa-solid fa-plus"></i>
+                            <p class="w-4/5 text-base">Crear partida</p>
+                        </a>
+                        <a href="../crearPregunta/list"
+                           class="flex items-center hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52">
+                            <i class="w-1/5 text-center fa-solid fa-question"></i>
+                            <p class="w-4/5 text-base">Crear pregunta</p>
+                        </a>
+                        <a href="../ranking/list"
+                           class="flex items-center hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52">
+                            <i class="w-1/5 text-center fa-solid fa-ranking-star"></i>
+                            <p class="w-4/5 text-base">Ranking</p>
+                        </a>
+                    </div>
+                    <div class="w-full flex items-center p-6 space-x-4">
+                        <a href="../perfilJugador/getPerfil?idUsuario={{id}}"
+                        class="flex items-center hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700
+                        text-gray-400 rounded px-3 py-2 w-full md:w-52">
+                        <img class="w-12 rounded-full" src="../public/{{foto_perfil}}" alt="avatar">
+                        <p class="cursor-pointer text-md leading-5 text-white">{{nombre}} {{apellido}}</p>
+                        </a>
+                    </div>
                 </div>
-                <div class="flex flex-col justify-center items-center p-6 border-b border-gray-600 w-full">
-                    <a href="crearPartida/list"
-                       class="flex items-center hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52">
-                        <i class="w-1/5 text-center fa-solid fa-plus"></i>
-                        <p class="w-4/5 text-base">Crear partida</p>
-                    </a>
-                    <a href="crearPregunta/list"
-                       class="flex items-center hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52">
-                        <i class="w-1/5 text-center fa-solid fa-question"></i>
-                        <p class="w-4/5 text-base">Crear pregunta</p>
-                    </a>
-                    <a href="ranking/list"
-                       class="flex items-center hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52">
-                        <i class="w-1/5 text-center fa-solid fa-ranking-star"></i>
-                        <p class="w-4/5 text-base">Ranking</p>
-                    </a>
-                </div>
-                <div class="w-full flex items-center p-6 space-x-4">
-                    <a href="perfilJugador/list"
-                       class="flex items-center hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52">
-                        <img class="w-12 rounded-full" src="https://i.ibb.co/L1LQtBm/Ellipse-1.png" alt="avatar">
-                        <p class="cursor-pointer text-md leading-5 text-white">Alexis Enache</p>
-                    </a>
-                </div>
-            </div>
-            <div class="flex flex-col w-full sm:w-4/5 justify-center">
-                <h1 class="font-bold text-5xl text-center text-indigo-700 my-4">
-                    Hola, Alexis!
-                </h1>
-                <p class="text-3xl mx-12 my-4">Récord: 25 preguntas</p>
-                <div class="w-4/5 my-4 mx-auto border-b border-gray-200 shadow">
-                    <table class="w-full divide-y divide-indigo-700 ">
-                        <thead class="bg-gray-50">
-                        <tr>
-                            <th class="text-center text-md px-6 py-2 text-gray-500">Fecha</th>
-                            <th class="text-center text-md px-6 py-2 text-gray-500">Cantidad de repuestas</th>
-                        </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-300">
-                        <tr class="whitespace-nowrap">
-                            <td class="px-6 py-4 text-center text-md text-gray-900">21/05/2023 18:06 hs</td>
-                            <td class="px-6 py-4 text-center text-md text-gray-500">15</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                <div class="flex flex-col w-full sm:w-4/5 justify-center">
+                    <h1 class="font-bold text-5xl text-center text-indigo-700 my-4">
+                        Hola, {{nombre}}!
+                    </h1>
+                    <p class="text-3xl mx-12 my-4">Récord: 25 preguntas</p>
+                    <div class="w-4/5 my-4 mx-auto border-b border-gray-200 shadow">
+                        <table class="w-full divide-y divide-indigo-700 ">
+                            <thead class="bg-gray-50">
+                            <tr>
+                                <th class="text-center text-md px-6 py-2 text-gray-500">Fecha</th>
+                                <th class="text-center text-md px-6 py-2 text-gray-500">Cantidad de repuestas</th>
+                            </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-300">
+                            <tr class="whitespace-nowrap">
+                                <td class="px-6 py-4 text-center text-md text-gray-900">21/05/2023 18:06 hs</td>
+                                <td class="px-6 py-4 text-center text-md text-gray-500">15</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
+        <a href="cerrarSesion">Cerrar sesión</a>
     </div>
-    <a href="cerrarSesion">Cerrar sesión</a>
-</div>
+{{/usuario}}
