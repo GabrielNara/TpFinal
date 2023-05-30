@@ -14,9 +14,9 @@
                     </label>
                     <input type="text" id="username" name="username"
                            class="w-full mb-3 p-3 text-md border rounded shadow focus:outline-none focus:shadow-outline"
-                           placeholder="Username"/>
-                    <div class="w-full"><span class="text-sm bg-red-200 text-red-800">{{errorUsername}}</span></div>
-                    <div class="w-full"><span class="text-sm bg-red-200 text-red-800">{{errorNombreUsuario}}</span></div>
+                           placeholder="Username" value="{{datos.username}}"/>
+                    <div class="w-full"><span class="text-sm bg-red-200 text-red-800">{{errores.errorUsername}}</span></div>
+                    <div class="w-full"><span class="text-sm bg-red-200 text-red-800">{{errores.errorNombreUsuario}}</span></div>
                 </div>
                 <div class="mb-4">
                     <label class="block mb-2 text-sm font-bold" for="password">
@@ -25,8 +25,8 @@
                     <input type="password" id="password" name="password"
                            class="w-full mb-3 p-3 text-md border rounded shadow focus:outline-none focus:shadow-outline"
                            placeholder="***********"/>
-                    <div class="w-full"><span class="text-sm bg-red-200 text-red-800">{{errorContrasena}}</span></div>
-                    <div class="w-full"><span class="text-sm bg-red-200 text-red-800">{{errorCredenciales}}</span></div>
+                    <div class="w-full"><span class="text-sm bg-red-200 text-red-800">{{errores.errorContrasena}}</span></div>
+                    <div class="w-full"><span class="text-sm bg-red-200 text-red-800">{{errores.errorCredenciales}}</span></div>
                 </div>
                 <div class="mb-4">
                     <button class="w-full p-3 font-bold text-white bg-indigo-600 rounded-full focus:outline-none"

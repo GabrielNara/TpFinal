@@ -18,7 +18,7 @@
                       method="POST"
                       enctype="multipart/form-data">
                     <div class="mb-2 md:flex md:justify-center">
-                        <div class="mb-2 md:mr-2 md:mb-0">
+                        <div class="w-full md:w-1/2 mb-2 md:mr-2 md:mb-0">
                             <label class="block mb-2 text-sm font-bold text-gray-700" for="nombre">
                                 Nombre
                             </label>
@@ -27,10 +27,11 @@
                                     id="nombre" name="nombre"
                                     type="text"
                                     placeholder="Nombre"
+                                    value="{{datos.nombre}}"
                             />
-                            <span class="text-sm bg-red-200 text-red-800">{{errorNombre}}</span>
+                                <span class="text-sm bg-red-200 text-red-800">{{errores.errorNombre}}</span>
                         </div>
-                        <div class="md:ml-2">
+                        <div class="w-full md:w-1/2 md:ml-2">
                             <label class="block mb-2 text-sm font-bold text-gray-700" for="apellido">
                                 Apellido
                             </label>
@@ -39,14 +40,15 @@
                                     id="apellido" name="apellido"
                                     type="text"
                                     placeholder="Apellido"
+                                    value="{{datos.apellido}}"
                             />
-                            <span class="text-sm bg-red-200 text-red-800">{{errorApellido}}</span>
+                            <span class="text-sm bg-red-200 text-red-800">{{errores.errorApellido}}</span>
                         </div>
                     </div>
 
 
                     <div class="mb-2 md:flex md:justify-center">
-                        <div class="w-1/2 mb-2 md:mr-2 md:mb-0">
+                        <div class="w-full md:w-1/2 mb-2 md:mr-2 md:mb-0">
                             <label class="block mb-2 text-sm font-bold text-gray-700" for="username">
                                 Nombre de Usuario
                             </label>
@@ -55,10 +57,11 @@
                                     id="username" name="username"
                                     type="text"
                                     placeholder="Nombre de usuario"
+                                    value="{{datos.username}}"
                             />
-                            <span class="text-sm bg-red-200 text-red-800">{{errorUsername}}</span>
+                            <span class="text-sm bg-red-200 text-red-800">{{errores.errorUsername}}</span>
                         </div>
-                        <div class="w-1/2 md:ml-2">
+                        <div class="w-full md:w-1/2 md:ml-2">
                             <label class="block mb-2 text-sm font-bold text-gray-700" for="localidad">
                                 País y Ciudad
                             </label>
@@ -67,15 +70,16 @@
                                     id="localidad" name="localidad"
                                     type="text"
                                     placeholder="Pais y ciudad"
+                                    value="{{datos.localidad}}"
 
                             />
-                            <span class="text-sm bg-red-200 text-red-800">{{errorPaisCiudad}}</span>
+                            <span class="text-sm bg-red-200 text-red-800">{{errores.errorPaisCiudad}}</span>
                         </div>
                     </div>
 
 
                     <div class="mb-2 md:flex md:justify-center">
-                        <div class="w-1/2 mb-2 md:mr-2 md:mb-0">
+                        <div class="w-full md:w-1/2 mb-2 md:mr-2 md:mb-0">
                             <label class="block mb-2 text-sm font-bold text-gray-700" for="sexo">
                                 Sexo
                             </label>
@@ -84,10 +88,11 @@
                                     id="sexo" name="sexo"
                                     type="text"
                                     placeholder="Sexo"
+                                    value="{{datos.sexo}}"
                             />
-                            <span class="text-sm bg-red-200 text-red-800">{{errorSexo}}</span>
+                            <span class="text-sm bg-red-200 text-red-800">{{errores.errorSexo}}</span>
                         </div>
-                        <div class="w-1/2 md:ml-2">
+                        <div class="w-full md:w-1/2 md:ml-2">
                             <label class="block mb-2 text-sm font-bold text-gray-700" for="fnacimiento">
                                 Año de nacimiento
                             </label>
@@ -96,9 +101,10 @@
                                     id="fnacimiento" name="fnacimiento"
                                     type="number"
                                     placeholder="Año de Nacimiento"
+                                    value="{{datos.fnacimiento}}"
 
                             />
-                            <span class="text-sm bg-red-200 text-red-800">{{errorAnoNacimiento}}</span>
+                            <span class="text-sm bg-red-200 text-red-800">{{errores.errorAnoNacimiento}}</span>
                         </div>
                     </div>
 
@@ -112,11 +118,12 @@
                                 id="email" name="email"
                                 type="email"
                                 placeholder="Email"
+                                value="{{datos.email}}"
                         />
-                        <span class="text-sm bg-red-200 text-red-800">{{errorEmail}}</span>
+                        <span class="text-sm bg-red-200 text-red-800">{{errores.errorEmail}}</span>
                     </div>
                     <div class="mb-2 md:flex md:justify-center">
-                        <div class="w-1/2 mb-2 md:mr-2 md:mb-0">
+                        <div class="w-full md:w-1/2 mb-2 md:mr-2 md:mb-0">
                             <label class="block mb-2 text-sm font-bold text-gray-700" for="password">
                                 Contraseña
                             </label>
@@ -125,10 +132,11 @@
                                     id="password" name="password"
                                     type="password"
                                     placeholder="******************"
+                                    value="{{datos.password}}"
                             />
-                            <span class="text-sm bg-red-200 text-red-800">{{errorContrasena}}</span>
+                            <span class="text-sm bg-red-200 text-red-800">{{errores.errorContrasena}}</span>
                         </div>
-                        <div class="w-1/2 md:ml-2">
+                        <div class="w-full md:w-1/2 md:ml-2">
                             <label class="block mb-2 text-sm font-bold text-gray-700" for="cpassword">
                                 Repetir contraseña
                             </label>
@@ -137,8 +145,9 @@
                                     id="cpassword" name="cpassword"
                                     type="password"
                                     placeholder="******************"
+                                    value="{{datos.cpassword}}"
                             />
-                            <span class="text-sm bg-red-200 text-red-800">{{errorRepetirContrasena}}</span>
+                            <span class="text-sm bg-red-200 text-red-800">{{errores.errorRepetirContrasena}}</span>
                         </div>
                     </div>
 
@@ -163,7 +172,7 @@
       "/>
                         </div>
                     </div>
-                    <span class="text-sm bg-red-200 text-red-800">{{errorFotoPerfil}}</span>
+                    <span class="text-sm bg-red-200 text-red-800">{{errores.errorFotoPerfil}}</span>
                     <div class="text-center">
                         <button
                                 class="w-full my-2 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"

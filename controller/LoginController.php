@@ -19,14 +19,20 @@ class LoginController
 
     public function loguearse()
     {
-        $nombre_usuario = $_POST['username'];
-        $contrasena = $_POST['password'];
+        $datos = array (
+            'username' => $_POST['username'],
+            'password' => $_POST['password']
+        );
 
-        $usuario = $this->usuarioModel->getUsuario($nombre_usuario, $contrasena);
+        $usuario = $this->usuarioModel->getUsuario($datos);
 
         if (empty($usuario)) {
-            $errores = $this->usuarioModel->getErrores($nombre_usuario, $contrasena);
-            $this->renderer->render("login", $errores);
+            $errores = $this->usuarioModel->getErrores($datos);
+            $contexto = array(
+                'datos' => $datos,
+                'errores' => $errores
+            );
+            $this->renderer->render("login", $contexto);
         } else {
             $_SESSION['usuario'] = $usuario[0];
             if ($usuario[0]['validado'] == 1) {
