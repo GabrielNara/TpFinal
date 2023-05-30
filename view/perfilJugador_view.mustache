@@ -1,24 +1,26 @@
 {{> header}}
-<div class="w-full h-screen flex flex-col justify-center">
-    <div class="bg-gray-200 rounded-lg p-6 flex flex-col md:flex-row">
-        <div class="md:w-1/2 flex items-center justify-center mb-4 md:mb-0">
-            <img src="https://i.ibb.co/L1LQtBm/Ellipse-1.png" alt="Foto de perfil" class="w-40 h-40 rounded-full">
-        </div>
-        <div class="md:w-1/2 md:ml-6">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-2">{{usuario.nombre}}</h2>
-            <p class="text-gray-600 mb-2">Posición en el ranking: 1</p>
-            <p class="text-gray-600 mb-2">Puntaje: 100</p>
-            <p class="text-gray-600 mb-2">Partidas: 2423</p>
-            <div class="flex items-center">
-                <img src="https://borealtech.com/wp-content/uploads/2018/10/codigo-qr-1024x1024-1.jpg"
-                     alt="Foto del código QR" class="w-24 h-24">
+<div class="flex w-full h-screen justify-center items-center">
+    <div class="w-full md:w-4/5 p-3">
+        <div class="bg-white rounded-lg shadow-lg p-4 w-full flex flex-col items-center">
+            <div class="w-full md:w-4/5 flex flex-col md:flex-row items-center justify-center mb-6">
+                <div class="w-full md:w-1/3 flex justify-center">
+                    <img src="/tpfinal/public/{{foto_perfil}}" alt="Foto de perfil" class="w-40 h-40 rounded-full">
+                </div>
+                <div class="w-full md:w-1/3 flex flex-col items-center">
+                    <h2 class="text-5xl font-semibold text-gray-800 mb-2">{{nombre_usuario}}</h2>
+                </div>
+                <div class="w-full md:w-1/3 flex justify-center">
+                    <img src="https://borealtech.com/wp-content/uploads/2018/10/codigo-qr-1024x1024-1.jpg" alt="Foto del código QR" class="w-24 h-24">
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="bg-gray-200 rounded-lg p-6 flex flex-col md:flex-row justify-center items-center">
-        <div class="md:w-3/4 md:ml-6 ">
-            <p class="text-gray-600">Mapa:</p>
-            <div id="map" class="h-64 rounded-lg"></div>
+            <div class="w-full md:w-4/5 lg:w-1/2 flex flex-col items-center justify-center my-6">
+                <p class="text-2xl text-gray-600 mb-2">Posición en el ranking: 1</p>
+                <p class="text-2xl text-gray-600 mb-2">Puntaje: 100</p>
+                <p class="text-2xl text-gray-600 mb-2">Partidas: 2423</p>
+            </div>
+            <div class="w-full md:w-4/5 lg:w-1/2 flex flex-col items-center justify-center mt-6">
+                <div id="map" class="w-[350px] md:w-[500px] lg:w-[600px] h-[350px] rounded-lg"></div>
+            </div>
         </div>
     </div>
 </div>

@@ -25,10 +25,10 @@
                     </a>
                 </div>
                 <div class="w-full flex items-center p-6 space-x-4">
-                    <a href="/tpFinal/perfilJugador/list"
+                    <a href="/tpFinal/perfilJugador/list?id={{usuario.id}}"
                        class="flex items-center hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52">
-                        <img class="w-12 rounded-full" src="https://i.ibb.co/L1LQtBm/Ellipse-1.png" alt="avatar">
-                        <p class="cursor-pointer text-md leading-5 text-white">{{usuario.nombre}} {{usuario.apellido}}</p>
+                        <img class="mx-4 w-14 h-14 rounded-full" src="/tpfinal/public/{{usuario.foto_perfil}}" alt="avatar">
+                        <p class="cursor-pointer text-lg leading-5 text-white">{{usuario.nombre}} {{usuario.apellido}}</p>
                     </a>
                 </div>
             </div>

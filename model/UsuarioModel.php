@@ -14,6 +14,11 @@ class UsuarioModel
         return $this->database->query($query);
     }
 
+    public function getUsuarioPorId($id) {
+        $query = "SELECT * FROM usuarios WHERE id='" . $id . "'";
+        return $this->database->query($query);
+    }
+
     public function getUsuarioPorNombreUsuario($nombre_usuario) {
         $query = "SELECT * FROM usuarios WHERE nombre_usuario='" . $nombre_usuario . "'";
         return $this->database->query($query);
