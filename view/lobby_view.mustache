@@ -1,48 +1,48 @@
 {{> header}}
 <div class="flex w-full h-screen justify-center items-center">
-    <div class="w-4/5 p-3">
-        <div class="bg-white rounded-lg shadow-lg w-full mt-8 flex">
-            <div class="flex flex-col h-full w-full sm:w-1/5 bg-gray-900">
-                <div class="hidden xl:flex justify-start p-6 items-center space-x-6">
+    <div class="w-[90%] lg:w-[95%] xl:w-4/5 p-3">
+        <div class="bg-white rounded-lg shadow-lg w-full mt-8 flex flex-col-reverse lg:flex-row">
+            <div class="flex flex-col w-full lg:w-1/4 xl:w-1/5 bg-gray-900">
+                <div class="hidden lg:flex justify-start p-6 items-center space-x-6">
                     <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/sidebar2-svg1.svg" alt="logo">
                     <p class="text-2xl leading-6 text-white">Quiz Time</p>
                 </div>
-                <div class="flex flex-col justify-center items-center p-6 border-b border-gray-600 w-full">
+                <div class="flex flex-col sm:flex-row lg:flex-col justify-center items-center p-6 border-b border-gray-600 w-full">
                     <a href="/tpFinal/crearPartida/list"
-                       class="flex items-center hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52">
-                        <i class="w-1/5 text-center fa-solid fa-plus"></i>
-                        <p class="w-4/5 text-base">Crear partida</p>
+                       class="flex justify-center lg:justify-start items-center hover:text-white text-center lg:text-start focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full lg:w-52">
+                        <i class="mx-2 sm:mx-1 lg:w-1/5 text-center fa-solid fa-plus"></i>
+                        <p class="mx-2 sm:mx-1 lg:w-4/5 text-base">Crear partida</p>
                     </a>
                     <a href="/tpFinal/crearPregunta/list"
-                       class="flex items-center hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52">
-                        <i class="w-1/5 text-center fa-solid fa-question"></i>
-                        <p class="w-4/5 text-base">Crear pregunta</p>
+                       class="flex justify-center lg:justify-start items-center hover:text-white text-center lg:text-start focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full lg:w-52">
+                        <i class="mx-2 sm:mx-1 lg:w-1/5 text-center fa-solid fa-question"></i>
+                        <p class="mx-2 sm:mx-1 lg:w-4/5 text-base">Crear pregunta</p>
                     </a>
                     <a href="/tpFinal/ranking/list"
-                       class="flex items-center hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52">
-                        <i class="w-1/5 text-center fa-solid fa-ranking-star"></i>
-                        <p class="w-4/5 text-base">Ranking</p>
+                       class="flex justify-center lg:justify-start items-center hover:text-white text-center lg:text-start focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full lg:w-52">
+                        <i class="mx-2 sm:mx-1 lg:w-1/5 text-center fa-solid fa-ranking-star"></i>
+                        <p class="mx-2 sm:mx-1 lg:w-4/5 text-base">Ranking</p>
                     </a>
                 </div>
                 <div class="w-full flex items-center p-6 space-x-4">
-                    <a href="/tpFinal/perfilJugador/list"
-                       class="flex items-center hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52">
-                        <img class="w-12 rounded-full" src="https://i.ibb.co/L1LQtBm/Ellipse-1.png" alt="avatar">
-                        <p class="cursor-pointer text-md leading-5 text-white">{{usuario.nombre}} {{usuario.apellido}}</p>
+                    <a href="/tpFinal/perfilJugador/list?id={{usuario.id}}"
+                       class="flex justify-center lg:justify-start items-center hover:text-white text-center lg:text-start focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full lg:w-52">
+                        <img class="mx-4 w-14 h-14 rounded-full" src="/tpfinal/public/{{usuario.foto_perfil}}" alt="avatar">
+                        <p class="cursor-pointer text-lg leading-5 text-white">{{usuario.nombre}} {{usuario.apellido}}</p>
                     </a>
                 </div>
             </div>
-            <div class="flex flex-col w-full sm:w-4/5 justify-center">
-                <div class="w-1/4">
-                    <button type="button" class="mx-6 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
+            <div class="flex flex-col w-full lg:w-3/4 xl:w-4/5 justify-center">
+                <div class="w-full xl:w-1/4">
+                    <button type="button" class="m-6 lg:mx-6 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
                         <a href="cerrarSesion">Cerrar sesión</a>
                     </button>
                 </div>
-                <h1 class="font-bold text-5xl text-center text-indigo-700 my-4">
+                <h1 class="font-bold text-4xl lg:text-5xl text-center text-indigo-700 my-4">
                     Hola, {{usuario.nombre}}!
                 </h1>
-                <p class="text-3xl mx-12 my-4">Récord: 25 preguntas</p>
-                <div class="w-4/5 my-4 mx-auto border-b border-gray-200 shadow">
+                <p class="text-2xl lg:text-3xl mx-12 my-4">Récord: 25 preguntas</p>
+                <div class="w-[95%] sm:w-4/5 my-4 mx-auto border-b border-gray-200 shadow">
                     <table class="w-full divide-y divide-indigo-700 ">
                         <thead class="bg-gray-50">
                         <tr>

@@ -9,8 +9,13 @@ class UsuarioModel
         $this->database = $database;
     }
 
-    public function getUsuario($nombre_usuario, $contrasena) {
-        $query = "SELECT * FROM usuarios WHERE nombre_usuario='" . $nombre_usuario . "' AND contrasena='" . $contrasena . "'";
+    public function getUsuario($datos) {
+        $query = "SELECT * FROM usuarios WHERE nombre_usuario='" . $datos['username'] . "' AND contrasena='" . $datos['password'] . "'";
+        return $this->database->query($query);
+    }
+
+    public function getUsuarioPorId($id) {
+        $query = "SELECT * FROM usuarios WHERE id='" . $id . "'";
         return $this->database->query($query);
     }
 
@@ -19,18 +24,18 @@ class UsuarioModel
         return $this->database->query($query);
     }
 
-    public function getErrores($nombre_usuario, $contrasena) {
+    public function getErrores($datos) {
         $errores = [];
-        if (empty($nombre_usuario)) {
+        if (empty($datos['username'])) {
             $errores['errorUsername'] = 'El usuario no puede estar vacío.';
         }
-        if (empty($contrasena)) {
+        if (empty($datos['password'])) {
             $errores['errorContrasena'] = 'La contraseña no puede estar vacía.';
         }
-        if (strlen($nombre_usuario) > 0 && empty($this->getUsuarioPorNombreUsuario($nombre_usuario))) {
+        if (strlen($datos['username']) > 0 && empty($this->getUsuarioPorNombreUsuario($datos['username']))) {
             $errores['errorNombreUsuario'] = 'No existe un usuario con ese nombre de usuario.';
         }
-        if (empty($this->getUsuario($nombre_usuario, $contrasena)) && !empty($this->getUsuarioPorNombreUsuario($nombre_usuario))) {
+        if (empty($this->getUsuario($datos)) && !empty($this->getUsuarioPorNombreUsuario($datos['username'])) && !empty($datos['password'])) {
             $errores['errorCredenciales'] = 'La contraseña es incorrecta.';
         }
         return $errores;
