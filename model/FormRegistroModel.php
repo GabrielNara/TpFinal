@@ -13,28 +13,69 @@ class FormRegistroModel
 
     public function validarDatosUsuario($datos)
     {
-        if (empty($datos[0])) throw new Exception('El campo nombre no puede estar vacío.');
-        if (empty($datos[1])) throw new Exception('El campo apellido no puede estar vacío.');
-        if (empty($datos[2])) throw new Exception('El campo nombre de usuario no puede estar vacío.');
+        $errores = [];
+        if (empty($datos[0])) {
+            ////throw new Exception('El campo nombre no puede estar vacío.');
+            $errores['errorNombre'] = 'El campo nombre no puede estar vacío.';
+        }
+        if (empty($datos[1])) {
+            //throw new Exception('El campo apellido no puede estar vacío.');
+            $errores['errorApellido'] = 'El campo apellido no puede estar vacío.';
+        }
+        if (empty($datos[2])) {
+            //throw new Exception('El campo nombre de usuario no puede estar vacío.');
+            $errores['errorUsername'] = 'El campo nombre de usuario no puede estar vacío.';
+        }
         $query = "SELECT * FROM usuarios WHERE nombre_usuario = '$datos[2]'";
         $result = $this->database->query($query);
         if (count($result) > 0) {
-            throw new Exception('Ya existe un jugador con ese nombre de usuario.');
+            //throw new Exception('Ya existe un jugador con ese nombre de usuario.');
+            $errores['errorUsername'] = 'Ya existe un jugador con ese nombre de usuario.';
         }
-        if (empty($datos[3])) throw new Exception('El campo país y ciudad no puede estar vacío.');
-        if (empty($datos[4])) throw new Exception('El campo sexo no puede estar vacío.');
-        if (empty($datos[5])) throw new Exception('El campo año de nacimiento no puede estar vacío.');
-        if (empty($datos[6])) throw new Exception('El campo email no puede estar vacío.');
+        if (empty($datos[3])) {
+            //throw new Exception('El campo país y ciudad no puede estar vacío.');
+            $errores['errorPaisCiudad'] = 'El campo país y ciudad no puede estar vacío.';
+        }
+        if (empty($datos[4])) {
+            //throw new Exception('El campo sexo no puede estar vacío.');
+            $errores['errorSexo'] = 'El campo sexo no puede estar vacío.';
+        }
+        if (empty($datos[5])) {
+            //throw new Exception('El campo año de nacimiento no puede estar vacío.');
+            $errores['errorAnoNacimiento'] = 'El campo año de nacimiento no puede estar vacío.';
+        }
+        if (empty($datos[6])) {
+            //throw new Exception('El campo email no puede estar vacío.');
+            $errores['errorEmail'] = 'El campo email no puede estar vacío.';
+        }
         $query = "SELECT * FROM usuarios WHERE email = '$datos[6]'";
         $result = $this->database->query($query);
         if (count($result) > 0) {
-            throw new Exception('Ya existe un jugador con ese correo electrónico.');
+            //throw new Exception('Ya existe un jugador con ese correo electrónico.');
+            $errores['errorEmail'] = 'El campo email no puede estar vacío.';
         }
-        if (empty($datos[7])) throw new Exception('El campo contraseña no puede estar vacío.');
-        if (empty($datos[8])) throw new Exception('El campo repetir contraseña no puede estar vacío.');
-        if (empty($datos[9])) throw new Exception('Debe subir una foto de perfil.');
-        if (!filter_var($datos[6], FILTER_VALIDATE_EMAIL)) throw new Exception('El email no es válido.');
-        $this->cargarDatos($datos);
+        if (empty($datos[7])) {
+            //throw new Exception('El campo contraseña no puede estar vacío.');
+            $errores['errorContrasena'] = 'El campo contraseña no puede estar vacío.';
+        }
+        if (empty($datos[8])) {
+            //throw new Exception('El campo repetir contraseña no puede estar vacío.');
+            $errores['errorRepetirContrasena'] = 'El campo repetir contraseña no puede estar vacío.';
+        }
+        if (empty($datos[9])) {
+            //throw new Exception('Debe subir una foto de perfil.');
+            $errores['errorFotoPerfil'] = 'Debe subir una foto de perfil.';
+        }
+        if (!filter_var($datos[6], FILTER_VALIDATE_EMAIL)) {
+            //throw new Exception('El email no es válido.');
+            $errores['errorEmail'] = 'El email no es válido.';
+        }
+
+        if (count($errores) == 0) {
+            $this->cargarDatos($datos);
+        }
+
+        return $errores;
     }
 
     public function cargarDatos($datos){
