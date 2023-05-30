@@ -57,7 +57,7 @@ VALUES ('$nombre','$apellido','$email','$contrasena','$anionacimiento','$sexo','
 
     public function validarCorreo() {
         // Obtener el token desde la URL// obtengo el token desde una consulta a la bd
-        
+
 
         $token = $_GET['token'];
 
