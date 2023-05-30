@@ -4,14 +4,10 @@
         <div class="w-full h-auto hidden lg:block lg:w-1/2 bg-cover rounded-lg lg:rounded-r-none"
              style="background-image: url('https://mlqfdkzc0cug.i.optimole.com/w:auto/h:auto/q:mauto/f:avif/https://humanit.as/experiences/wp-content/uploads/sites/7/2015/12/Question-Mark-HD-Wallpaper15.jpg')">
         </div>
-        <div class="w-full lg:w-1/2 bg-white rounded-lg lg:rounded-l-none py-24 px-12">
-            <h3 class="font-bold text-3xl text-indigo-700 text-center tracking-widest uppercase mb-4">Tu cuenta fue creada con exito</h3>
-
-            <p>Te enviamos un mail para confirmar tu cuenta {{ }}</p>
-
-           <a href="validar">ya confirme mi mail</a>
-
-
+        <div class="w-full lg:w-1/2 bg-white rounded-lg lg:rounded-l-none py-24 px-12 flex flex-col justify-center items-center">
+            <h3 class="font-bold text-3xl text-indigo-700 text-center tracking-widest uppercase my-6">Tu cuenta fue creada con éxito</h3>
+            <p class="text-lg my-6">¡Te enviamos un correo electrónico a <span class="font-bold">{{.}}</span> para confirmar tu cuenta!</p>
         </div>
     </div>
 </div>
+{{> footer}}

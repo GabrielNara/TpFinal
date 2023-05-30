@@ -8,6 +8,7 @@ class PerfilJugadorController {
     }
 
     public function list() {
-        $this->renderer->render("perfilJugador");
+        $data['usuario'] = $_SESSION['usuario'];
+        $this->renderer->render("perfilJugador", $data);
     }
 }
