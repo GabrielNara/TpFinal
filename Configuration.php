@@ -17,7 +17,11 @@ include_once('controller/FormRegistroController.php');
 include_once('controller/LoginController.php');
 
 
+
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
+require 'third-party/PHPMailer/src/Exception.php';
+require 'third-party/PHPMailer/src/PHPMailer.php';
+require 'third-party/PHPMailer/src/SMTP.php';
 
 class Configuration
 {
@@ -44,7 +48,7 @@ class Configuration
 
     public function getPerfilJugadorController()
     {
-        return new PerfilJugadorController($this->getRenderer());
+        return new PerfilJugadorController($this->getRenderer(), new UsuarioModel($this->getDatabase()));
     }
 
     public function getFormRegistroController()
@@ -77,7 +81,8 @@ class Configuration
 
     public function getLobbyController()
     {
-        return new LobbyController($this->getRenderer());
+        return new LobbyController($this->getRenderer(),
+            new LobbyModel($this->getDatabase()));
     }
 
     private function getArrayConfig()

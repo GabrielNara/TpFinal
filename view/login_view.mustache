@@ -10,32 +10,36 @@
             <form class="bg-white" method="POST" action="loguearse">
                 <div class="mb-4">
                     <label class="block mb-2 text-sm font-bold" for="username">
-                        Username
+                        Nombre de usuario
                     </label>
                     <input type="text" id="username" name="username"
-                           class="w-full p-3 text-md border rounded shadow focus:outline-none focus:shadow-outline"
-                           placeholder="Username"/>
+                           class="w-full mb-3 p-3 text-md border rounded shadow focus:outline-none focus:shadow-outline"
+                           placeholder="Username" value="{{datos.username}}"/>
+                    <div class="w-full"><span class="text-sm bg-red-200 text-red-800">{{errores.errorUsername}}</span></div>
+                    <div class="w-full"><span class="text-sm bg-red-200 text-red-800">{{errores.errorNombreUsuario}}</span></div>
                 </div>
                 <div class="mb-4">
                     <label class="block mb-2 text-sm font-bold" for="password">
-                        Password
+                        Contraseña
                     </label>
                     <input type="password" id="password" name="password"
-                           class="w-full p-3 text-md border rounded shadow focus:outline-none focus:shadow-outline"
+                           class="w-full mb-3 p-3 text-md border rounded shadow focus:outline-none focus:shadow-outline"
                            placeholder="***********"/>
+                    <div class="w-full"><span class="text-sm bg-red-200 text-red-800">{{errores.errorContrasena}}</span></div>
+                    <div class="w-full"><span class="text-sm bg-red-200 text-red-800">{{errores.errorCredenciales}}</span></div>
                 </div>
                 <div class="mb-4">
                     <button class="w-full p-3 font-bold text-white bg-indigo-600 rounded-full focus:outline-none"
                             type="submit">
-                        Sign In
+                        Iniciar sesión
                     </button>
                 </div>
-                <hr class="mb-4 border-t"/>
-                {{#msj}}
-                    <span class="text-sm text-center bg-red-500 text-white px-4 py-2 rounded">
-                        el usuario o contraseña es incorrecto
-                    </span>
-                {{/msj}}
+                <hr class="my-6 border-t"/>
+                <div class="text-center">
+                    <a class="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800" href="/tpfinal/formregistro/list">
+                        ¿No tenés una cuenta? Registrate
+                    </a>
+                </div>
             </form>
         </div>
     </div>
