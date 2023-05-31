@@ -2,20 +2,21 @@
 <div class="flex flex-col justify-center items-center w-full h-screen">
     <h1 class="font-bold text-5xl text-center text-indigo-700">Pregunta 1</h1>
     <div class="bg-white p-12 rounded-lg shadow-lg w-[90%] sm:w-[500px] mt-8">
+        <div class="w-full text-center text-xl text-blue-800 font-bold p-4 bg-blue-300">{{categoria.categoria}}</div>
         <p class="text-xl text-indigo-600 my-2">0 puntos</p>
-        <p class="text-2xl font-bold my-2">¿Cuándo se creó Facebook?</p>
+        <p class="text-2xl font-bold my-2">{{pregunta.pregunta}}</p>
         <label for="a"
                class="block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:bg-gray-200 cursor-pointer">
-            <input id="a" type="radio" class="hidden">2005</label>
+            <input id="a" type="radio" class="hidden">{{respuestas.a}}</label>
         <label for="b"
                class="block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:bg-gray-200 cursor-pointer">
-            <input id="b" type="radio" class="hidden">2008</label>
+            <input id="b" type="radio" class="hidden">{{respuestas.b}}</label>
         <label for="c"
                class="block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:bg-gray-200 cursor-pointer">
-            <input id="c" type="radio" class="hidden">2006</label>
+            <input id="c" type="radio" class="hidden">{{respuestas.c}}</label>
         <label for="d"
                class="block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:bg-gray-200 cursor-pointer">
-            <input id="d" type="radio" class="hidden">2004</label>
+            <input id="d" type="radio" class="hidden">{{respuestas.d}}</label>
         <div class="w-full flex justify-between mt-6">
             <button class="text-indigo-600 text-md font-bold tracking-wide px-5 py-2">
                 <i class="fa-solid fa-triangle-exclamation"></i>

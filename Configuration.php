@@ -6,10 +6,11 @@ include_once('helpers/Router.php');
 include_once("model/LobbyModel.php");
 include_once("model/FormRegistroModel.php");
 include_once("model/UsuarioModel.php");
+include_once("model/PreguntaModel.php");
 
 include_once('controller/HomeController.php');
 include_once('controller/RankingController.php');
-include_once('controller/CrearPartidaController.php');
+include_once('controller/PreguntaController.php');
 include_once('controller/CrearPreguntaController.php');
 include_once('controller/LobbyController.php');
 include_once('controller/PerfilJugadorController.php');
@@ -69,9 +70,10 @@ class Configuration
         return new RankingController($this->getRenderer());
     }
 
-    public function getCrearPartidaController()
+    public function getPreguntaController()
     {
-        return new CrearPartidaController($this->getRenderer());
+        return new PreguntaController($this->getRenderer(),
+            new PreguntaModel($this->getDatabase()));
     }
 
     public function getCrearPreguntaController()
