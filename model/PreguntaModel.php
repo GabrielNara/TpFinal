@@ -26,7 +26,7 @@ class PreguntaModel
     }
 
     public function obtenerRespuestas($id_pregunta) {
-        $query = "SELECT respuesta FROM respuestas WHERE id_pregunta = '1'";
+        $query = "SELECT respuesta FROM respuestas WHERE id_pregunta = '$id_pregunta'";
         $respuestas = $this->database->query($query);
         shuffle($respuestas);
         $respuestas_desordenadas = array_slice($respuestas, 0, 4);

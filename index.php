@@ -17,4 +17,3 @@ $module = str_replace('/TpFinal', '', $module); // Remueve el prefijo '/TpFinal'
 $_GET['module'] = $module !== 'home' ? '/TpFinal/' . $module : 'home';
 
 $router->route($module, $method);
-

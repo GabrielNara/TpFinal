@@ -2,7 +2,15 @@
 <div class="flex flex-col justify-center items-center w-full h-screen">
     <h1 class="font-bold text-5xl text-center text-indigo-700">Pregunta 1</h1>
     <div class="bg-white p-12 rounded-lg shadow-lg w-[90%] sm:w-[500px] mt-8">
-        <div class="w-full text-center text-xl text-blue-800 font-bold p-4 bg-blue-300">{{categoria.categoria}}</div>
+            {{#deporte}}
+                <div class="w-full text-center text-xl text-orange-800 font-bold p-4 bg-orange-300">Deporte</div>
+            {{/deporte}}
+            {{#geografia}}
+                <div class="w-full text-center text-xl text-blue-800 font-bold p-4 bg-blue-300">Geografía</div>
+            {{/geografia}}
+            {{#musica}}
+                <div class="w-full text-center text-xl text-pink-800 font-bold p-4 bg-pink-300">Música</div>
+            {{/musica}}
         <p class="text-xl text-indigo-600 my-2">0 puntos</p>
         <p class="text-2xl font-bold my-2">{{pregunta.pregunta}}</p>
         <label for="a"

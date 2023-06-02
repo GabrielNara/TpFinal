@@ -21,7 +21,7 @@ class LoginController
     {
         $datos = array (
             'username' => $_POST['username'],
-            'password' => $_POST['password']
+            'password' => md5($_POST['password'])
         );
 
         $usuario = $this->usuarioModel->getUsuario($datos);
