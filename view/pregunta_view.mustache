@@ -13,16 +13,16 @@
             {{/musica}}
         <p class="text-xl text-indigo-600 my-2">0 puntos</p>
         <p class="text-2xl font-bold my-2">{{pregunta.pregunta}}</p>
-        <label for="a"
+        <label for="a" id="opcion-a"
                class="block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:bg-gray-200 cursor-pointer">
             <input id="a" type="radio" class="hidden">{{respuestas.a}}</label>
-        <label for="b"
+        <label for="b" id="opcion-b"
                class="block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:bg-gray-200 cursor-pointer">
             <input id="b" type="radio" class="hidden">{{respuestas.b}}</label>
-        <label for="c"
+        <label for="c" id="opcion-c"
                class="block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:bg-gray-200 cursor-pointer">
             <input id="c" type="radio" class="hidden">{{respuestas.c}}</label>
-        <label for="d"
+        <label for="d" id="opcion-d"
                class="block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:bg-gray-200 cursor-pointer">
             <input id="d" type="radio" class="hidden">{{respuestas.d}}</label>
         <div class="w-full flex justify-between mt-6">
@@ -36,3 +36,34 @@
         </div>
     </div>
 </div>
+<script>
+    let opcionA = $('#opcion-a');
+    let opcionB = $('#opcion-b');
+    let opcionC = $('#opcion-c');
+    let opcionD = $('#opcion-d');
+
+    opcionA.click(function () {
+        $(this).addClass('bg-gray-200');
+        opcionB.removeClass('bg-gray-200');
+        opcionC.removeClass('bg-gray-200');
+        opcionD.removeClass('bg-gray-200');
+    });
+    opcionB.click(function () {
+        $(this).addClass('bg-gray-200');
+        opcionA.removeClass('bg-gray-200');
+        opcionC.removeClass('bg-gray-200');
+        opcionD.removeClass('bg-gray-200');
+    });
+    opcionC.click(function () {
+        $(this).addClass('bg-gray-200');
+        opcionA.removeClass('bg-gray-200');
+        opcionB.removeClass('bg-gray-200');
+        opcionD.removeClass('bg-gray-200');
+    });
+    opcionD.click(function () {
+        $(this).addClass('bg-gray-200');
+        opcionA.removeClass('bg-gray-200');
+        opcionB.removeClass('bg-gray-200');
+        opcionC.removeClass('bg-gray-200');
+    });
+</script>
