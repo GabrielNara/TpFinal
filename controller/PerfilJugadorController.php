@@ -1,10 +1,8 @@
 <?php
 include_once('./model/UsuarioModel.php');
 
-class PerfilJugadorController
-{
+class PerfilJugadorController {
     private $renderer;
-
     private $usuarioModel;
 
     public function __construct($renderer, $usuarioModel)
@@ -13,30 +11,9 @@ class PerfilJugadorController
         $this->usuarioModel = $usuarioModel;
     }
 
-    public function list()
-    {
-        $this->renderer->render("perfilJugador");
-    }
-
-    public function getPerfil()
-    {
-
-
-        if (!isset($_SESSION['usuario'])) {
-            header('Location: /tpfinal/');
-            exit();
-        } else {
-            if (isset($_GET['idUsuario'])) {
-                $idUsuario = $_GET['idUsuario'];
-
-                $data["usuario"] = $this->usuarioModel->getUsuarioById($_SESSION['usuario']);
-
-
-                $this->renderer->render("perfilJugador", $data);
-
-            }
-            
-        }
-
+    public function list() {
+        $id = $_GET['id'];
+        $usuario = $this->usuarioModel->getUsuarioPorId($id);
+        $this->renderer->render("perfilJugador", $usuario[0]);
     }
 }

@@ -6,10 +6,11 @@ include_once('helpers/Router.php');
 include_once("model/LobbyModel.php");
 include_once("model/FormRegistroModel.php");
 include_once("model/UsuarioModel.php");
+include_once("model/PreguntaModel.php");
 
 include_once('controller/HomeController.php');
 include_once('controller/RankingController.php');
-include_once('controller/CrearPartidaController.php');
+include_once('controller/PreguntaController.php');
 include_once('controller/CrearPreguntaController.php');
 include_once('controller/LobbyController.php');
 include_once('controller/PerfilJugadorController.php');
@@ -17,7 +18,11 @@ include_once('controller/FormRegistroController.php');
 include_once('controller/LoginController.php');
 
 
+
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
+require 'third-party/PHPMailer/src/Exception.php';
+require 'third-party/PHPMailer/src/PHPMailer.php';
+require 'third-party/PHPMailer/src/SMTP.php';
 
 class Configuration
 {
@@ -65,9 +70,10 @@ class Configuration
         return new RankingController($this->getRenderer());
     }
 
-    public function getCrearPartidaController()
+    public function getPreguntaController()
     {
-        return new CrearPartidaController($this->getRenderer());
+        return new PreguntaController($this->getRenderer(),
+            new PreguntaModel($this->getDatabase()));
     }
 
     public function getCrearPreguntaController()
@@ -77,7 +83,8 @@ class Configuration
 
     public function getLobbyController()
     {
-        return new LobbyController($this->getRenderer(), new UsuarioModel($this->getDatabase()));
+        return new LobbyController($this->getRenderer(),
+            new LobbyModel($this->getDatabase()));
     }
 
     private function getArrayConfig()
@@ -106,7 +113,7 @@ class Configuration
             $this,
             "getHomeController",
             "list",
-            "/tpfinal"
+            "/TpFinal"
         );
     }
 

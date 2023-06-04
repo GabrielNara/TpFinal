@@ -9,8 +9,9 @@ class LobbyModel
         $this->database = $database;
     }
 
-    public function get()
-    {
-        return $this->database->query('');
+    public function estaValidadoElCorreoUsuario($email) {
+        $query = "SELECT validado FROM usuarios WHERE email = '$email'";
+        $result = $this->database->query($query);
+        return $result[0]['validado'];
     }
 }

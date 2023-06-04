@@ -19,26 +19,40 @@ class FormRegistroController
 
     public function registrar()
     {
-        $nombre = $_POST['nombre'];
-        $apellido = $_POST['apellido'];
-        $username = $_POST['username'];
-        $localidad = $_POST['localidad'];
-        $sexo = $_POST['sexo'];
-        $fnacimiento = $_POST['fnacimiento'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $cpassword = $_POST['cpassword'];
-        $foto_perfil = $_FILES['fotoPerfil']['name'];
-        $datos = array($nombre, $apellido, $username, $localidad, $sexo, $fnacimiento, $email, $password, $cpassword, $foto_perfil);
-        $this->formRegistroModel->registrarUsuario($datos);
+        $datos = array(
+            'nombre' => $_POST['nombre'],
+            'apellido' => $_POST['apellido'],
+            'username' => $_POST['username'],
+            'localidad' => $_POST['localidad'],
+            'sexo' => $_POST['sexo'],
+            'fnacimiento' => $_POST['fnacimiento'],
+            'email' => $_POST['email'],
+            'password' => $_POST['password'],
+            'cpassword' => $_POST['cpassword'],
+            'foto_perfil' => $_FILES['fotoPerfil']['name']
+        );
 
+        $errores = $this->formRegistroModel->validarDatosUsuario($datos);
 
+        $contexto = array(
+            'datos' => $datos,
+            'errores' => $errores
+        );
 
+        if (!empty($errores)) $this->renderer->render("formRegistro", $contexto); else $this->renderer->render("confirmarMail", $datos['email']);
     }
 
-    public function validar(){
-
+    public function validar() {
         $this->formRegistroModel->validarCorreo();
+        $this->renderer->render("bienvenida");
+    }
+
+    public function confirmarValidacion(){
+        $this->formRegistroModel->confirmarValidacion();
+    }
+
+    public function confirmarMail(){
+        $this->renderer->render("confirmarMail");
     }
 
 }
