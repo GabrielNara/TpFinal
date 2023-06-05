@@ -1,17 +1,26 @@
 {{> header}}
+<style>
+    body {
+        background-image: url("/TpFinal/public/img/quiz_time.jpg");
+        background-size: cover;
+        background-position: center;
+    }
+</style>
 <div class="flex flex-col justify-center items-center w-full h-screen">
-    <h1 class="font-bold text-5xl text-center text-indigo-700">Pregunta {{nroPregunta}}</h1>
+    <div class="bg-purple-500 p-4 rounded-lg shadow-lg">
+        <h1 class="font-bold text-5xl text-center text-white">Pregunta {{nroPregunta}}</h1>
+    </div>
     <div class="bg-white p-12 rounded-lg shadow-lg w-[90%] sm:w-[500px] mt-8">
-            {{#deporte}}
-                <div class="w-full text-center text-xl text-orange-800 font-bold p-4 bg-orange-300">Deporte</div>
-            {{/deporte}}
-            {{#geografia}}
-                <div class="w-full text-center text-xl text-blue-800 font-bold p-4 bg-blue-300">Geografía</div>
-            {{/geografia}}
-            {{#musica}}
-                <div class="w-full text-center text-xl text-pink-800 font-bold p-4 bg-pink-300">Música</div>
-            {{/musica}}
-        <p class="text-xl text-indigo-600 my-2">Puntaje: {{puntos}}</p>
+        {{#deporte}}
+            <div class="w-full text-center text-xl text-orange-800 font-bold p-4 bg-orange-300">Deporte</div>
+        {{/deporte}}
+        {{#geografia}}
+            <div class="w-full text-center text-xl text-purple-400 font-bold p-4 bg-purple-200">Geografía</div>
+        {{/geografia}}
+        {{#musica}}
+            <div class="w-full text-center text-xl text-pink-800 font-bold p-4 bg-pink-300">Música</div>
+        {{/musica}}
+        <p class="text-xl text-purple-500 my-2">Puntaje: {{puntos}}</p>
         <p class="text-2xl font-bold my-2">{{pregunta.pregunta}}</p>
         <form method="POST" action="/tpFinal/partida/responder">
             <label for="a" id="opcion-a"
@@ -27,20 +36,21 @@
                    class="block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:text-gray-100 hover:bg-gray-500 cursor-pointer">
                 <input id="d" type="radio" class="hidden">{{respuestas.d.respuesta}}</label>
             <div class="w-full flex justify-between mt-6">
-                <button class="text-indigo-600 text-md font-bold tracking-wide px-5 py-2">
+                <button class="text-purple-500 text-md font-bold tracking-wide px-5 py-2">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     Reportar
                 </button>
                 <input type="hidden" name="pregunta" id="pregunta" value="{{pregunta.id}}">
                 <input type="hidden" name="respuesta_seleccionada" id="respuesta_seleccionada" value="">
-                <button type="submit" class="bg-indigo-600 text-white text-sm font-bold tracking-wide rounded-full px-5 py-2">
+                <button type="submit"
+                        class="bg-purple-500 text-white text-sm font-bold tracking-wide rounded-full px-5 py-2">
                     Responder
                 </button>
             </div>
         </form>
     </div>
 </div>
-<script>
+        <script>
     let opcionA = $('#opcion-a');
     let opcionB = $('#opcion-b');
     let opcionC = $('#opcion-c');
@@ -76,3 +86,4 @@
         respuestaSeleccionadaInput.val('{{respuestas.d.id}}');
     });
 </script>
+

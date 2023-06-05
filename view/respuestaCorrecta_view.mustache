@@ -1,5 +1,20 @@
 {{> header}}
-<a href="/tpFinal/partida/mostrarPregunta?partida={{idPartida}}"
-   class="flex justify-center lg:justify-start items-center hover:text-white text-center lg:text-start focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full lg:w-52">
-    <p class="mx-2 sm:mx-1 lg:w-4/5 text-base">Siguiente pregunta</p>
-</a>
+
+<div class="relative">
+    <div class="absolute inset-0 bg-gray-100">>
+    </div>
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://static.vecteezy.com/system/resources/previews/018/753/061/non_2x/question-mark-icon-in-flat-style-faq-illustration-on-isolated-background-ask-help-sign-business-concept-vector.jpg')">
+    </div>
+    <div class="flex flex-col items-center justify-center min-h-screen relative">
+        <div class="bg-white shadow-lg rounded-lg p-8">
+            <h1 class="text-5xl font-bold text-center text-green-500 mb-8">¡Respuesta Correcta!</h1>
+            <a href="/tpFinal/partida/mostrarPregunta?partida={{idPartida}}">
+            <div class="flex items-center group hover:bg-green-500 transition duration-300 rounded-lg p-4">
+                <img src="/TpFinal/public/img/carafeliz.png" class="w-16 h-16 mr-4" alt="Cara Feliz" />
+                <p class="text-xl font-bold text-black-300">Siguiente Pregunta</p>
+            </div>
+            </a>
+        </div>
+    </div>
+</div>
+
