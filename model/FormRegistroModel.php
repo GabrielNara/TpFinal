@@ -89,7 +89,7 @@ class FormRegistroModel
         $contrasena = md5($datos['password']);
         $fotoperfil = $datos['foto_perfil'];
         $token = uniqid();
-        $this->moverImagen($fotoperfil);
+        $this->moverImagen();
         $this->enviarEmail($token,$email);
 
         $query = "INSERT INTO `usuarios`(`nombre`, `apellido`, `email`, `contrasena`, `ano_nacimiento`, `sexo`, `pais_ciudad`, `nombre_usuario`, `foto_perfil`,`token`) 
@@ -139,11 +139,8 @@ VALUES ('$nombre','$apellido','$email','$contrasena','$anionacimiento','$sexo','
         }
     }
 
-    public function moverImagen($fotoperfil){
+    public function moverImagen(){
         $fotoperfil = $_FILES['fotoPerfil']['tmp_name'];
-        $rutaImg = 'public/' . $fotoperfil; /*defino la ruta completa del archivo*/
-        $infoImg = pathinfo($rutaImg); /*obtengo toda la infromacion de la imaten*/
-        $extension = strtolower($infoImg['extension']); /*obtengo la extension*/
-        move_uploaded_file($fotoperfil, "./public/" .  $_FILES['fotoPerfil']['name']);
+        move_uploaded_file($fotoperfil, "./public/img/" .  $_FILES['fotoPerfil']['name']);
     }
 }
