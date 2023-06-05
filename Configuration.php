@@ -3,20 +3,19 @@ include_once('helpers/MySqlDatabase.php');
 include_once("helpers/MustacheRender.php");
 include_once('helpers/Router.php');
 
+include_once("model/PartidaModel.php");
 include_once("model/LobbyModel.php");
 include_once("model/FormRegistroModel.php");
 include_once("model/UsuarioModel.php");
 
 include_once('controller/HomeController.php');
-include_once('controller/RankingController.php');
-include_once('controller/CrearPartidaController.php');
+include_once('controller/PreguntaController.php');
 include_once('controller/CrearPreguntaController.php');
 include_once('controller/LobbyController.php');
 include_once('controller/PerfilJugadorController.php');
 include_once('controller/FormRegistroController.php');
 include_once('controller/LoginController.php');
-
-
+include_once('controller/PartidaController.php');
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 require 'third-party/PHPMailer/src/Exception.php';
@@ -59,6 +58,14 @@ class Configuration
         );
     }
 
+    public function getPartidaController()
+    {
+        return new PartidaController(
+            $this->getRenderer(),
+            new PartidaModel($this->getDatabase())
+        );
+    }
+
     public function getHomeController()
     {
         return new HomeController($this->getRenderer());
@@ -67,11 +74,6 @@ class Configuration
     public function getRankingController()
     {
         return new RankingController($this->getRenderer());
-    }
-
-    public function getCrearPartidaController()
-    {
-        return new CrearPartidaController($this->getRenderer());
     }
 
     public function getCrearPreguntaController()
