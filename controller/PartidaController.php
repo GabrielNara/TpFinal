@@ -63,16 +63,19 @@ class PartidaController
         );
 
         $respuestaCorrecta = $this->partidaModel->consultarRespuesta($datos);
-
+        $respuesta = $this->partidaModel->obtenerRespuestaCorrecta($datos);
         $contexto = array(
             'idPartida' => $idPartida,
-            'respuestaCorrecta' => $respuestaCorrecta
+            'respuestaCorrecta' => $respuestaCorrecta,
+            'puntos' => $_SESSION['puntaje'],
+            'respuesta' => $respuesta
         );
 
         if ($contexto['respuestaCorrecta']) {
             $this->renderer->render("respuestaCorrecta", $contexto);
             $_SESSION['puntaje']++;
         } else {
+
             $this->renderer->render("respuestaIncorrecta", $contexto);
             $this->partidaModel->actualizarPuntaje($_SESSION['puntaje'], $idPartida);
             unset($_SESSION['lista_preguntas']);

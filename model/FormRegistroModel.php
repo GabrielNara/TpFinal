@@ -143,6 +143,6 @@ VALUES ('$nombre','$apellido','$email','$contrasena','$anionacimiento','$sexo','
         $rutaImg = 'public/' . $fotoperfil; /*defino la ruta completa del archivo*/
         $infoImg = pathinfo($rutaImg); /*obtengo toda la infromacion de la imaten*/
         $extension = strtolower($infoImg['extension']); /*obtengo la extension*/
-        move_uploaded_file($fotoperfil, "./public/" .  $_FILES['fotoPerfil']['name']);
+        move_uploaded_file($fotoperfil, "./public/img" .  $_FILES['fotoPerfil']['name']);
     }
 }
