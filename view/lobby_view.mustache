@@ -1,4 +1,8 @@
 {{> header}}
+
+<ul>
+
+</ul>
 <div class="flex w-full h-screen justify-center items-center">
     <div class="w-[90%] lg:w-[95%] xl:w-4/5 p-3">
         <div class="bg-white rounded-lg shadow-lg w-full mt-8 flex flex-col-reverse lg:flex-row">
@@ -26,7 +30,9 @@
                 </div>
                 <div class="w-full flex items-center p-6 space-x-4">
                     <a href="/tpFinal/perfilJugador/list?id={{usuario.id}}"
-                    class="flex justify-center lg:justify-start items-center hover:text-white text-center lg:text-start focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full lg:w-52">
+                    class="flex justify-center lg:justify-start items-center hover:text-white text-center lg:text-start
+                    focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full
+                    lg:w-52">
                     <img class="mx-4 w-14 h-14 rounded-full" src="/tpfinal/public/{{usuario.foto_perfil}}" alt="avatar">
                     <p class="cursor-pointer text-lg leading-5 text-white">{{usuario.nombre}} {{usuario.apellido}}</p>
                     </a>
@@ -34,14 +40,15 @@
             </div>
             <div class="flex flex-col w-full lg:w-3/4 xl:w-4/5 justify-center">
                 <div class="w-full xl:w-1/4">
-                    <button type="button" class="m-6 lg:mx-6 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
+                    <button type="button"
+                            class="m-6 lg:mx-6 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
                         <a href="cerrarSesion">Cerrar sesión</a>
                     </button>
                 </div>
                 <h1 class="font-bold text-4xl lg:text-5xl text-center text-indigo-700 my-4">
                     Hola, {{usuario.nombre}}!
                 </h1>
-                <p class="text-2xl lg:text-3xl mx-12 my-4">Récord: 25 preguntas</p>
+                <p class="text-2xl lg:text-3xl mx-12 my-4">Récord: {{puntajeMayor}} Puntaje</p>
                 <div class="w-[95%] sm:w-4/5 my-4 mx-auto border-b border-gray-200 shadow">
                     <table class="w-full divide-y divide-indigo-700 ">
                         <thead class="bg-gray-50">
@@ -51,10 +58,13 @@
                         </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-300">
-                        <tr class="whitespace-nowrap">
-                            <td class="px-6 py-4 text-center text-md text-gray-900">21/05/2023 18:06 hs</td>
-                            <td class="px-6 py-4 text-center text-md text-gray-500">15</td>
-                        </tr>
+                        {{#historial}}
+                            <tr class="whitespace-nowrap">
+                                <td class="px-6 py-4 text-center text-md text-gray-900">{{fecha}}</td>
+                                <td class="px-6 py-4 text-center text-md text-gray-500">{{puntaje}}</td>
+                            </tr>
+                        {{/historial}}
+
                         </tbody>
                     </table>
                 </div>

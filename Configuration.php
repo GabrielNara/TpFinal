@@ -7,6 +7,7 @@ include_once("model/PartidaModel.php");
 include_once("model/LobbyModel.php");
 include_once("model/FormRegistroModel.php");
 include_once("model/UsuarioModel.php");
+include_once("model/RolModel.php");
 
 include_once('controller/HomeController.php');
 include_once('controller/CrearPreguntaController.php');
@@ -73,7 +74,10 @@ class Configuration
 
     public function getRankingController()
     {
-        return new RankingController($this->getRenderer());
+        return new RankingController($this->getRenderer(),
+            new RolModel($this->getDatabase()),
+            new PartidaModel($this->getDatabase()),
+            new UsuarioModel($this->getDatabase()));
     }
 
     public function getCrearPreguntaController()
@@ -84,7 +88,8 @@ class Configuration
     public function getLobbyController()
     {
         return new LobbyController($this->getRenderer(),
-            new LobbyModel($this->getDatabase()));
+            new LobbyModel($this->getDatabase()),
+            new PartidaModel($this->getDatabase()));
     }
 
     private function getArrayConfig()

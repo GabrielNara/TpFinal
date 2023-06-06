@@ -14,6 +14,7 @@ class PartidaController
 
     public function crearPartida()
     {
+
         $this->partidaModel->crearPartida();
         $lista_preguntas = $this->partidaModel->obtenerPreguntas();
         $_SESSION['lista_preguntas'] = $lista_preguntas;
@@ -25,6 +26,7 @@ class PartidaController
 
     public function mostrarPregunta()
     {
+
         $lista_preguntas = $_SESSION['lista_preguntas'] ?? '';
         $pregunta = $lista_preguntas[array_rand($lista_preguntas)];
         $categoria = $this->partidaModel->obtenerCategoria($pregunta['id_categoria']);
@@ -41,7 +43,7 @@ class PartidaController
         $geografia = ($categoria['categoria'] === 'Geografía');
         $musica = ($categoria['categoria'] === 'Música');
 
-        $contexto = array (
+        $contexto = array(
             'nroPregunta' => ($_SESSION['puntaje'] + 1),
             'deporte' => $deporte,
             'geografia' => $geografia,
@@ -54,7 +56,8 @@ class PartidaController
         $this->renderer->render("pregunta", $contexto);
     }
 
-    public function responder() {
+    public function responder()
+    {
         $idPartida = $this->partidaModel->getIdPartida();
 
         $datos = array(

@@ -11,7 +11,12 @@ class PartidaModel
 
     public function crearPartida()
     {
-        $query = "INSERT INTO `partidas`(`puntaje`, `fecha`) VALUES (0, NOW())";
+        if (isset($_SESSION['usuario'])) {
+            $usuario = $_SESSION['usuario'];
+            $idUsuario = $usuario["id"];
+        }
+        $query = "INSERT INTO `partidas`(`puntaje`, `fecha`, `idUsuario`) VALUES (0, NOW(), $idUsuario)";
+
         return $this->database->queryInsertar($query);
     }
 
@@ -73,4 +78,21 @@ class PartidaModel
         return $respuestas[0]['respuesta'];
     }
 
+    public function obtenerPuntajeTotalDeUnJugador($idJugador)
+    {
+        $query = "SELECT SUM(puntaje) as puntajeTotal FROM `partidas` WHERE idUsuario = $idJugador";
+        return $this->database->query($query);
+    }
+
+    public function obtenerMayorPuntaje($idJugador)
+    {
+        $query = "SELECT MAX(puntaje) as puntajeTotal FROM `partidas` WHERE idUsuario = $idJugador";
+        return $this->database->query($query);
+    }
+
+    public function obtenerHistorial($idJugador)
+    {
+        $query = "SELECT fecha, puntaje FROM `partidas` WHERE idUsuario = $idJugador ORDER BY fecha DESC LIMIT 3";
+        return $this->database->query($query);
+    }
 }

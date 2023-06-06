@@ -5,14 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="500f7f56-7c0b-4a89-9880-2421ecee61d5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/.htaccess" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Configuration.php" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/LobbyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/LobbyController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/PerfilJugadorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/PerfilJugadorController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/UsuarioModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/model/UsuarioModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/PartidaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/PartidaController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/RankingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/RankingController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/PartidaModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/model/PartidaModel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/lobby_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/lobby_view.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/perfilJugador_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/perfilJugador_view.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/ranking_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/ranking_view.mustache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +49,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/xampp/htdocs/tpfinal",
+    "last_opened_file_path": "C:/xampp/htdocs/TpFinal",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -78,6 +78,9 @@
       <workItem from="1684879914343" duration="5712000" />
       <workItem from="1685312693096" duration="9136000" />
       <workItem from="1685327247196" duration="3294000" />
+      <workItem from="1685927006370" duration="8660000" />
+      <workItem from="1685977735411" duration="14768000" />
+      <workItem from="1686067262912" duration="53000" />
     </task>
     <servers />
   </component>
