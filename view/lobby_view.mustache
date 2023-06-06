@@ -1,10 +1,5 @@
 {{> header}}
-<<<<<<< HEAD
 
-<ul>
-
-</ul>
-=======
 <style>
     body {
         background-image: url("/TpFinal/public/img/quiz_time.jpg");
@@ -12,7 +7,7 @@
         background-position: center;
     }
 </style>
->>>>>>> tomas
+
 <div class="flex w-full h-screen justify-center items-center">
     <div class="w-[90%] lg:w-[95%] xl:w-4/5 p-3">
         <div class="bg-white rounded-lg shadow-lg w-full mt-8 flex flex-col-reverse lg:flex-row">
@@ -38,13 +33,14 @@
                         <p class="mx-2 sm:mx-1 lg:w-4/5 text-base">Ranking</p>
                     </a>
                 </div>
-                <div class="w-full flex items-center p-6 space-x-4">
+                <div class="w-full flex justify-center items-center p-6 space-x-4">
                     <a href="/tpFinal/perfilJugador/list?id={{usuario.id}}"
                        class="flex justify-center lg:justify-start items-center hover:text-white text-center lg:text-start focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full lg:w-52">
                         <img class="mx-4 w-14 h-14 rounded-full" src="/tpfinal/public/img/{{usuario.foto_perfil}}" alt="avatar">
                         <p class="cursor-pointer text-lg leading-5 text-white">{{usuario.nombre}} {{usuario.apellido}}</p>
                     </a>
                 </div>
+
             </div>
             <div class="flex flex-col w-full lg:w-3/4 xl:w-4/5 justify-center">
                 <div class="w-full xl:w-1/4">

@@ -5,20 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="500f7f56-7c0b-4a89-9880-2421ecee61d5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/public/img/carafeliz1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/caratriste1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/view/finPartida_view.mustache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/PartidaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/PartidaController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configuration.php" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/PerfilJugadorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/PerfilJugadorController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/RankingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/RankingController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/PartidaModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/model/PartidaModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/img/carafeliz.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/img/caratriste.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/crearPregunta_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/crearPregunta_view.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/Cuando.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/Cuando.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/lobby_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/lobby_view.mustache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/perfilJugador_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/perfilJugador_view.mustache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/ranking_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/ranking_view.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/respuestaCorrecta_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/respuestaCorrecta_view.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/respuestaIncorrecta_view.mustache" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,6 +63,9 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\view" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\TpFinal\public\img" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -87,7 +85,7 @@
       <workItem from="1685927006370" duration="8660000" />
       <workItem from="1685977735411" duration="14768000" />
       <workItem from="1686067262912" duration="53000" />
-      <workItem from="1686067317528" duration="430000" />
+      <workItem from="1686067317528" duration="7804000" />
     </task>
     <servers />
   </component>

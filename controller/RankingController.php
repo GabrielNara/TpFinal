@@ -20,38 +20,13 @@ class RankingController
 
     public function list()
     {
-        $listaDeRanking = array();
+        $ranking = $this->partidaModel->obtenerElRanking();
 
-        $jugadores = $this->rolModel->obtenerUsuariosJugadores();
-
-
-        foreach ($jugadores as $item) {
-
-            if (isset($item['idUsuario'])) {
-                $puntaje = $this->partidaModel->obtenerPuntajeTotalDeUnJugador($item['idUsuario']);
-
-                $usuario = $this->usuarioModel->getUsuarioPorId($item['idUsuario']);
-                $nombreApellido = $usuario[0]["nombre"] . " " . $usuario[0]["apellido"];
-                $datosJugador = array(
-                    "nombreApellido" => $nombreApellido,
-                    "puntaje" => $puntaje[0]["puntajeTotal"]
-                );
-                $listaDeRanking[] = $datosJugador;
-
-            }
-        }
-        usort($listaDeRanking, function ($a, $b) {
-            return $b["puntaje"] - $a["puntaje"];
-        });
-        $posicion = 1;
-        foreach ($listaDeRanking as &$jugador) {
-            $jugador["posicion"] = $posicion;
-            $posicion++;
-        }
         $datos = array(
-            'jugadores' => $listaDeRanking
+            'jugadores' => $ranking
         );
-
         $this->renderer->render("ranking", $datos);
+
+
     }
 }

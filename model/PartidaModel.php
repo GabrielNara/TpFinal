@@ -105,4 +105,21 @@ class PartidaModel
         $query = "SELECT fecha, puntaje FROM `partidas` WHERE idUsuario = $idJugador ORDER BY fecha DESC LIMIT 3";
         return $this->database->query($query);
     }
+
+    public function obtenerElRanking(){
+        $query = "SELECT u.id, u.nombre, u.apellido, SUM(p.puntaje) AS puntajeTotal, COUNT(*) AS cantidadPartidas,
+       (SELECT COUNT(*) FROM (SELECT SUM(puntaje) AS total_puntaje
+                              FROM usuarios u
+                              INNER JOIN partidas p ON u.id = p.idUsuario
+                              GROUP BY u.id) AS puntajes
+        WHERE puntajes.total_puntaje >= SUM(p.puntaje)) AS posicion
+FROM usuarios u
+INNER JOIN partidas p ON u.id = p.idUsuario
+GROUP BY u.id
+ORDER BY puntajeTotal DESC;
+";
+
+        return $this->database->query($query);
+    }
+
 }
