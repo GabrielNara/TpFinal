@@ -9,13 +9,13 @@
 
 <div class="flex items-center justify-center min-h-screen bg-cover" style="background-image: url('/TpFinal/public/img/quiz_time.jpg');">
     <div class="max-w-xl p-12 bg-white rounded-lg shadow-lg neon-border">
-        <h2 class="text-4xl font-bold text-center text-purple-700 mb-8">¡Partida finalizada!</h2>
-
-        <div class="mb-10 text-center">
+        <h2 class="text-4xl font-bold text-center text-purple-700 mb-10">¡Partida finalizada!</h2>
+        <p class="text-xl mb-4">Respuesta correcta:</p>
+        <span class="text-xl mb-8 font-semibold text-red-500">{{respuesta}}</span>
+        <div class="my-10 text-center">
             <p class="text-2xl text-purple-700">Puntaje final:</p>
             <p class="text-6xl font-bold text-purple-500">{{ puntos }}</p>
         </div>
-
         <div class="flex justify-center space-x-4">
             <a href="/tpFinal/partida/crearPartida" class="bg-purple-500 neon-border hover:bg-purple-600 text-white px-6 py-3 rounded-md font-medium">Jugar de nuevo</a>
             <a href="/tpfinal/lobby" class="bg-white border neon-border hover:bg-purple-600 text-black hover:text-white px-6 py-3 rounded-md font-medium">Volver al lobby</a>
