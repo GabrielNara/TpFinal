@@ -1,10 +1,17 @@
 {{> header}}
+<style>
+    body {
+        background-image: url("/TpFinal/public/img/quiz_time.jpg");
+        background-size: cover;
+        background-position: center;
+    }
+</style>
 <div class="flex w-full h-screen justify-center items-center">
     <div class="w-full md:w-4/5 p-3">
-        <div class="bg-white rounded-lg shadow-lg p-4 w-full flex flex-col items-center">
+        <div class="bg-gray-100 rounded-lg shadow-lg p-4 w-full flex flex-col items-center">
             <div class="w-full md:w-4/5 flex flex-col md:flex-row items-center justify-center mb-6">
                 <div class="w-full md:w-1/3 flex justify-center">
-                    <img src="/tpfinal/public/{{foto_perfil}}" alt="Foto de perfil" class="w-40 h-40 rounded-full">
+                    <img src="/tpfinal/public/img/{{foto_perfil}}" alt="Foto de perfil" class="w-40 h-40 rounded-full">
                 </div>
                 <div class="w-full md:w-1/3 flex flex-col items-center">
                     <h2 class="text-5xl font-semibold text-gray-800 mb-2">{{nombre_usuario}}</h2>
