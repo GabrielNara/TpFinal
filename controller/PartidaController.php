@@ -16,6 +16,7 @@ class PartidaController
     {
         $this->partidaModel->crearPartida();
         $lista_preguntas = $this->partidaModel->obtenerPreguntas();
+        shuffle($lista_preguntas);
         $_SESSION['lista_preguntas'] = $lista_preguntas;
         $_SESSION['puntaje'] = 0;
         $idPartida = $this->partidaModel->getIdPartida();
@@ -25,8 +26,17 @@ class PartidaController
 
     public function mostrarPregunta()
     {
+        $idPartida = $_GET['partida'];
         $lista_preguntas = $_SESSION['lista_preguntas'] ?? '';
-        $pregunta = $lista_preguntas[array_rand($lista_preguntas)];
+        if (empty($lista_preguntas)) {
+            $this->partidaModel->reiniciarPreguntas($idPartida);
+            $lista_preguntas = $this->partidaModel->obtenerPreguntas();
+            shuffle($lista_preguntas);
+            $_SESSION['lista_preguntas'] = $lista_preguntas;
+        }
+        $pregunta = array_shift($lista_preguntas); // Obtiene la primera pregunta de la lista y la retira
+        $this->partidaModel->almacenarPregunta($idPartida, $pregunta['id']);
+        $_SESSION['lista_preguntas'] = $lista_preguntas;
         $categoria = $this->partidaModel->obtenerCategoria($pregunta['id_categoria']);
         $respuestas = $this->partidaModel->obtenerRespuestas($pregunta['id']);
 
@@ -75,8 +85,7 @@ class PartidaController
             $this->renderer->render("respuestaCorrecta", $contexto);
             $_SESSION['puntaje']++;
         } else {
-
-            $this->renderer->render("respuestaIncorrecta", $contexto);
+            $this->renderer->render("finPartida", $contexto);
             $this->partidaModel->actualizarPuntaje($_SESSION['puntaje'], $idPartida);
             unset($_SESSION['lista_preguntas']);
             unset($_SESSION['puntaje']);
