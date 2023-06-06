@@ -33,6 +33,16 @@ class PartidaModel
         return $this->database->query($query);
     }
 
+    public function almacenarPregunta($id_partida, $id_pregunta) {
+        $query = "INSERT INTO `partidas_preguntas`(`id_partida`, `id_pregunta`) VALUES ('$id_partida', '$id_pregunta')";
+        return $this->database->queryInsertar($query);
+    }
+
+    public function reiniciarPreguntas($id_partida) {
+        $query = "DELETE FROM `partidas_preguntas` WHERE id_partida = '$id_partida'";
+        return $this->database->queryInsertar($query);
+    }
+
     public function obtenerCategoria($id_categoria)
     {
         $query = "SELECT categoria FROM categorias WHERE id = '$id_categoria'";
