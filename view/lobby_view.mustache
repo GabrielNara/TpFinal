@@ -33,9 +33,9 @@
                 </div>
                 <div class="h-1/2 lg:h-1/3 w-full flex justify-center items-center p-6 space-x-4">
                     <a href="/tpFinal/perfilJugador/list?id={{usuario.id}}"
-                       class="flex justify-center lg:justify-start items-center hover:text-white text-center lg:text-start focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full lg:w-52">
-                        <img class="mx-4 w-14 h-14 rounded-full" src="/tpfinal/public/img/{{usuario.foto_perfil}}" alt="avatar">
-                        <p class="cursor-pointer text-lg leading-5 text-white">{{usuario.nombre}} {{usuario.apellido}}</p>
+                    class="flex justify-center lg:justify-start items-center hover:text-white text-center lg:text-start focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full lg:w-52">
+                    <img class="mx-4 w-14 h-14 rounded-full" src="/tpfinal/public/img/{{usuario.foto_perfil}}" alt="avatar">
+                    <p class="cursor-pointer text-lg leading-5 text-white">{{usuario.nombre}} {{usuario.apellido}}</p>
                     </a>
                 </div>
             </div>
@@ -59,12 +59,12 @@
                         </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-300">
-                            {{#historial}}
-                                <tr class="whitespace-nowrap">
-                                    <td class="px-6 py-4 text-center text-md text-gray-900">{{fecha}}</td>
-                                    <td class="px-6 py-4 text-center text-md text-gray-500">{{puntaje}}</td>
-                                </tr>
-                            {{/historial}}
+                        {{#historial}}
+                            <tr class="whitespace-nowrap">
+                                <td class="px-6 py-4 text-center text-md text-gray-900">{{fecha}}</td>
+                                <td class="px-6 py-4 text-center text-md text-gray-500">{{puntaje}}</td>
+                            </tr>
+                        {{/historial}}
                         </tbody>
                     </table>
                 </div>
