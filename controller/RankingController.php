@@ -15,6 +15,7 @@ class RankingController
     public function list()
     {
         $ranking = $this->rankingModel->obtenerElRanking();
+
         $datos = array(
             'jugadores' => $ranking
         );

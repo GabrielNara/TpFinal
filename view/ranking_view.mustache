@@ -19,11 +19,26 @@
                 </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-300">
+
                     {{#jugadores}}
-                        <tr class="whitespace-nowrap">
-                            <td class="px-2 sm:px-6 py-4 text-center text-md text-gray-900">{{posicion}}</td>
-                            <td class="px-2 sm:px-6 py-4 text-center text-md text-gray-500">{{nombre}} {{apellido}}</td>
-                            <td class="px-2 sm:px-6 py-4 text-center text-md text-gray-500">{{puntajeTotal}}</td>
+                        <style>
+                            .tr-animation {
+                                transition: background-color 0.3s ease;
+                            }
+
+                            .tr-animation:hover {
+                                background-color: #f5f5f5; /* Color de fondo al poner el puntero encima */
+                                cursor: pointer;
+                            }
+
+                            .tr-animation:active {
+                                background-color: #dcdcdc; /* Color de fondo al hacer clic */
+                            }
+                        </style>
+                        <tr class="whitespace-nowrap tr-animation" onclick="window.location='/tpFinal/perfilJugador/list?id={{id}}';">
+                        <td class="px-2 sm:px-6 py-4 text-center text-md text-gray-900">{{posicion}}</td>
+                        <td class="px-2 sm:px-6 py-4 text-center text-md text-gray-500">{{nombre}} {{apellido}}</td>
+                        <td class="px-2 sm:px-6 py-4 text-center text-md text-gray-500">{{puntajeTotal}}</td>
                         </tr>
                     {{/jugadores}}
                 </tbody>
