@@ -1,32 +1,23 @@
 <?php
-include_once('./model/PartidaModel.php');
-include_once('./model/UsuarioModel.php');
-include_once('./model/RolModel.php');
+include_once('./model/RankingModel.php');
 
 class RankingController
 {
     private $renderer;
-    private $rolModel;
-    private $partidaModel;
-    private $usuarioModel;
+    private $rankingModel;
 
-    public function __construct($renderer, $rolModel, $partidaModel, $usuarioModel)
+    public function __construct($renderer, $rankingModel)
     {
         $this->renderer = $renderer;
-        $this->rolModel = $rolModel;
-        $this->partidaModel = $partidaModel;
-        $this->usuarioModel = $usuarioModel;
+        $this->rankingModel = $rankingModel;
     }
 
     public function list()
     {
-        $ranking = $this->partidaModel->obtenerElRanking();
-
+        $ranking = $this->rankingModel->obtenerElRanking();
         $datos = array(
             'jugadores' => $ranking
         );
         $this->renderer->render("ranking", $datos);
-
-
     }
 }

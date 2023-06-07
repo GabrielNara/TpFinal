@@ -16,7 +16,6 @@ class PartidaModel
             $idUsuario = $usuario["id"];
         }
         $query = "INSERT INTO `partidas`(`puntaje`, `fecha`, `idUsuario`) VALUES (0, NOW(), $idUsuario)";
-
         return $this->database->queryInsertar($query);
     }
 
@@ -80,46 +79,11 @@ class PartidaModel
         $this->database->queryInsertar($query);
     }
 
-
     public function obtenerRespuestaCorrecta($datos)
     {
         $query = "SELECT respuesta FROM respuestas WHERE id_pregunta = '{$datos['idPregunta']}' AND respuesta_correcta = 1";
         $respuestas = $this->database->query($query);
         return $respuestas[0]['respuesta'];
-    }
-
-    public function obtenerPuntajeTotalDeUnJugador($idJugador)
-    {
-        $query = "SELECT SUM(puntaje) as puntajeTotal FROM `partidas` WHERE idUsuario = $idJugador";
-        return $this->database->query($query);
-    }
-
-    public function obtenerMayorPuntaje($idJugador)
-    {
-        $query = "SELECT MAX(puntaje) as puntajeTotal FROM `partidas` WHERE idUsuario = $idJugador";
-        return $this->database->query($query);
-    }
-
-    public function obtenerHistorial($idJugador)
-    {
-        $query = "SELECT fecha, puntaje FROM `partidas` WHERE idUsuario = $idJugador ORDER BY fecha DESC LIMIT 3";
-        return $this->database->query($query);
-    }
-
-    public function obtenerElRanking(){
-        $query = "SELECT u.id, u.nombre, u.apellido, SUM(p.puntaje) AS puntajeTotal, COUNT(*) AS cantidadPartidas,
-       (SELECT COUNT(*) FROM (SELECT SUM(puntaje) AS total_puntaje
-                              FROM usuarios u
-                              INNER JOIN partidas p ON u.id = p.idUsuario
-                              GROUP BY u.id) AS puntajes
-        WHERE puntajes.total_puntaje >= SUM(p.puntaje)) AS posicion
-FROM usuarios u
-INNER JOIN partidas p ON u.id = p.idUsuario
-GROUP BY u.id
-ORDER BY puntajeTotal DESC;
-";
-
-        return $this->database->query($query);
     }
 
 }

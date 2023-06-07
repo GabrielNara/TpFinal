@@ -14,7 +14,6 @@ class PartidaController
 
     public function crearPartida()
     {
-
         $this->partidaModel->crearPartida();
         $lista_preguntas = $this->partidaModel->obtenerPreguntas();
         shuffle($lista_preguntas);
@@ -27,7 +26,6 @@ class PartidaController
 
     public function mostrarPregunta()
     {
-
         $idPartida = $_GET['partida'];
         $lista_preguntas = $_SESSION['lista_preguntas'] ?? '';
         if (empty($lista_preguntas)) {

@@ -11,7 +11,7 @@ class RolModel
 
     public function obtenerUsuariosJugadores()
     {
-        $query = "SELECT * FROM usuarios_roles WHERE idRol=3";
+        $query = "SELECT * FROM usuarios_roles WHERE idRol = 3";
         return $this->database->query($query);
     }
 }
