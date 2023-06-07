@@ -11,7 +11,11 @@ class PartidaModel
 
     public function crearPartida()
     {
-        $query = "INSERT INTO `partidas`(`puntaje`, `fecha`) VALUES (0, NOW())";
+        if (isset($_SESSION['usuario'])) {
+            $usuario = $_SESSION['usuario'];
+            $idUsuario = $usuario["id"];
+        }
+        $query = "INSERT INTO `partidas`(`puntaje`, `fecha`, `idUsuario`) VALUES (0, NOW(), $idUsuario)";
         return $this->database->queryInsertar($query);
     }
 
@@ -74,7 +78,6 @@ class PartidaModel
         $query = "UPDATE partidas SET puntaje = '$puntaje' WHERE id = '$idPartida'";
         $this->database->queryInsertar($query);
     }
-
 
     public function obtenerRespuestaCorrecta($datos)
     {

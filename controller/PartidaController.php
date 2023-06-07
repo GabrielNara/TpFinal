@@ -51,7 +51,7 @@ class PartidaController
         $geografia = ($categoria['categoria'] === 'Geografía');
         $musica = ($categoria['categoria'] === 'Música');
 
-        $contexto = array (
+        $contexto = array(
             'nroPregunta' => ($_SESSION['puntaje'] + 1),
             'deporte' => $deporte,
             'geografia' => $geografia,
@@ -64,7 +64,8 @@ class PartidaController
         $this->renderer->render("pregunta", $contexto);
     }
 
-    public function responder() {
+    public function responder()
+    {
         $idPartida = $this->partidaModel->getIdPartida();
 
         $datos = array(
