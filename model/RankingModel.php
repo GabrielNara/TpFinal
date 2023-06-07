@@ -40,4 +40,14 @@ class RankingModel
                     ORDER BY puntajeTotal DESC;";
         return $this->database->query($query);
     }
+    public function obtenerElRankingPorIdUsuario($idUsuario)
+    {
+        $ranking = $this->obtenerElRanking();
+
+        $resultado = array_values(array_filter($ranking, function ($item) use ($idUsuario) {
+            return $item["id"] == $idUsuario;
+        }));
+
+        return $resultado;
+    }
 }
