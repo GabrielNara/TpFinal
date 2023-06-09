@@ -12,85 +12,64 @@ class PartidaController
         $this->partidaModel = $partidaModel;
     }
 
-    public function crearPartida()
+    public function pregunta()
     {
         $this->partidaModel->crearPartida();
-        $lista_preguntas = $this->partidaModel->obtenerPreguntas();
-        shuffle($lista_preguntas);
+        $lista_preguntas = $this->partidaModel->obtenerListaPreguntas();
         $_SESSION['lista_preguntas'] = $lista_preguntas;
         $_SESSION['puntaje'] = 0;
-        $idPartida = $this->partidaModel->getIdPartida();
-        $redirectUrl = '/tpFinal/partida/mostrarPregunta?partida=' . $idPartida;
-        header('Location: ' . $redirectUrl);
-    }
-
-    public function mostrarPregunta()
-    {
-        $idPartida = $_GET['partida'];
-        $lista_preguntas = $_SESSION['lista_preguntas'] ?? '';
-        if (empty($lista_preguntas)) {
-            $this->partidaModel->reiniciarPreguntas($idPartida);
-            $lista_preguntas = $this->partidaModel->obtenerPreguntas();
-            shuffle($lista_preguntas);
-            $_SESSION['lista_preguntas'] = $lista_preguntas;
-        }
-        $pregunta = array_shift($lista_preguntas); // Obtiene la primera pregunta de la lista y la retira
-        $this->partidaModel->almacenarPregunta($idPartida, $pregunta['id']);
-        $_SESSION['lista_preguntas'] = $lista_preguntas;
-        $categoria = $this->partidaModel->obtenerCategoria($pregunta['id_categoria']);
-        $respuestas = $this->partidaModel->obtenerRespuestas($pregunta['id']);
-
-        $respuestas_ordenadas = array(
-            'a' => $respuestas[0],
-            'b' => $respuestas[1],
-            'c' => $respuestas[2],
-            'd' => $respuestas[3],
-        );
-
-        $deporte = ($categoria['categoria'] === 'Deporte');
-        $geografia = ($categoria['categoria'] === 'Geografía');
-        $musica = ($categoria['categoria'] === 'Música');
-
+        $_SESSION['idPartida'] = $this->partidaModel->getIdPartida();
         $contexto = array(
             'nroPregunta' => ($_SESSION['puntaje'] + 1),
-            'deporte' => $deporte,
-            'geografia' => $geografia,
-            'musica' => $musica,
-            'pregunta' => $pregunta,
-            'puntos' => $_SESSION['puntaje'],
-            'respuestas' => $respuestas_ordenadas
+            'puntos' => $_SESSION['puntaje']
         );
-
         $this->renderer->render("pregunta", $contexto);
+    }
+
+    public function siguientePregunta()
+    {
+        $idPartida = $_SESSION['idPartida'];
+        $lista_preguntas = $_SESSION['lista_preguntas'];
+        if (empty($lista_preguntas)) {
+            $this->partidaModel->reiniciarPreguntas($idPartida);
+            $lista_preguntas = $this->partidaModel->obtenerListaPreguntas();
+        }
+        $pregunta = $this->partidaModel->obtenerPreguntaAleatoria($lista_preguntas);
+        $this->partidaModel->almacenarPregunta($idPartida, $pregunta['id']);
+        $indice = array_search($pregunta, $lista_preguntas);
+        array_splice($lista_preguntas, $indice, 1);
+        $_SESSION['lista_preguntas'] = $lista_preguntas;
+        echo json_encode($pregunta);
     }
 
     public function responder()
     {
-        $idPartida = $this->partidaModel->getIdPartida();
+        $idPartida = $_SESSION['idPartida'];
 
         $datos = array(
-            'idPregunta' => $_POST['pregunta'],
-            'idRespuesta' => $_POST['respuesta_seleccionada']
+            'idPregunta' => $_POST['id_pregunta'],
+            'respuesta_seleccionada' => $_POST['respuesta_seleccionada']
         );
 
-        $respuestaCorrecta = $this->partidaModel->consultarRespuesta($datos);
-        $respuesta = $this->partidaModel->obtenerRespuestaCorrecta($datos);
+        $esLaRespuestaCorrecta = $this->partidaModel->consultarSiLaRespuestaEsCorrecta($datos);
+
         $contexto = array(
-            'idPartida' => $idPartida,
-            'respuestaCorrecta' => $respuestaCorrecta,
-            'puntos' => $_SESSION['puntaje'],
-            'respuesta' => $respuesta
+            'esLaRespuestaCorrecta' => $esLaRespuestaCorrecta,
+            'respuesta' => $datos['respuesta_seleccionada']
         );
 
-        if ($contexto['respuestaCorrecta']) {
-            $this->renderer->render("respuestaCorrecta", $contexto);
+        if ($esLaRespuestaCorrecta) {
             $_SESSION['puntaje']++;
+            $contexto['puntos'] = $_SESSION['puntaje'];
         } else {
-            $this->renderer->render("finPartida", $contexto);
+            $contexto['respuesta_correcta'] = $this->partidaModel->obtenerRespuestaCorrecta($datos['idPregunta']);
+            $contexto['puntos'] = $_SESSION['puntaje'];
             $this->partidaModel->actualizarPuntaje($_SESSION['puntaje'], $idPartida);
             unset($_SESSION['lista_preguntas']);
             unset($_SESSION['puntaje']);
         }
+
+        echo json_encode($contexto);
     }
 
 }

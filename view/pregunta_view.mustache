@@ -5,42 +5,50 @@
         background-size: cover;
         background-position: center;
     }
+    .neon-border {
+        position: relative;
+        box-shadow: 0 0 10px #6ee7f5, 0 0 10px #6ee7f5, 0 0 10px #6ee7f5;
+    }
+    .loading .line-box .line {
+        animation: loading 1.8s forwards cubic-bezier(0, 0, 0, 0);
+    }
+    @keyframes loading {
+        0% {
+            width: 0;
+        }
+        100% {
+            width: 100%;
+        }
+    }
 </style>
-<div class="flex flex-col justify-center items-center w-full h-screen">
-    <div class="bg-purple-500 p-4 rounded-lg shadow-lg">
-        <h1 class="font-bold text-5xl text-center text-white">Pregunta {{nroPregunta}}</h1>
+<div id="container" class="flex flex-col justify-center items-center w-full h-screen">
+    <div id="contenedor-numero-pregunta" class="bg-purple-500 p-4 rounded-lg shadow-lg">
+        <h1 class="font-bold text-5xl text-center text-white">Pregunta <span id="nroPregunta" class="font-bold text-5xl text-center text-white">1</span></h1>
     </div>
-    <div class="bg-white p-12 rounded-lg shadow-lg w-[90%] sm:w-[500px] mt-8">
-        {{#deporte}}
-            <div class="w-full text-center text-xl text-orange-800 font-bold p-4 bg-orange-300">Deporte</div>
-        {{/deporte}}
-        {{#geografia}}
-            <div class="w-full text-center text-xl text-purple-400 font-bold p-4 bg-purple-200">Geografía</div>
-        {{/geografia}}
-        {{#musica}}
-            <div class="w-full text-center text-xl text-pink-800 font-bold p-4 bg-pink-300">Música</div>
-        {{/musica}}
-        <p class="text-xl text-purple-500 my-2">Puntaje: {{puntos}}</p>
-        <p class="text-2xl font-bold my-2">{{pregunta.pregunta}}</p>
-        <form method="POST" action="/tpFinal/partida/responder">
+    <div id="contenedor-pregunta" class="bg-white p-12 rounded-lg shadow-lg w-[90%] sm:w-[500px] mt-8 neon-border">
+        <div id="categoria"></div>
+        <p class="text-xl text-purple-500 my-2">Puntaje: <span id="puntaje">0</span></p>
+        <p id="pregunta" class="text-2xl font-bold my-2"></p>
+        <form method="POST" id="form-pregunta">
             <label for="a" id="opcion-a"
-                   class="block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:text-gray-100 hover:bg-gray-500 cursor-pointer">
-                <input id="a" type="radio" class="hidden">{{respuestas.a.respuesta}}</label>
+                   class="opcion block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:text-gray-100 hover:bg-gray-500 cursor-pointer">
+                <input id="a" type="radio" class="hidden"></label>
             <label for="b" id="opcion-b"
-                   class="block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:text-gray-100 hover:bg-gray-500 cursor-pointer">
-                <input id="b" type="radio" class="hidden">{{respuestas.b.respuesta}}</label>
+                   class="opcion block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:text-gray-100 hover:bg-gray-500 cursor-pointer">
+                <input id="b" type="radio" class="hidden"></label>
             <label for="c" id="opcion-c"
-                   class="block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:text-gray-100 hover:bg-gray-500 cursor-pointer">
-                <input id="c" type="radio" class="hidden">{{respuestas.c.respuesta}}</label>
+                   class="opcion block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:text-gray-100 hover:bg-gray-500 cursor-pointer">
+                <input id="c" type="radio" class="hidden"></label>
             <label for="d" id="opcion-d"
-                   class="block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:text-gray-100 hover:bg-gray-500 cursor-pointer">
-                <input id="d" type="radio" class="hidden">{{respuestas.d.respuesta}}</label>
+                   class="opcion block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:text-gray-100 hover:bg-gray-500 cursor-pointer">
+                <input id="d" type="radio" class="hidden"></label>
+            <div id="mensaje-seleccionar-respuesta" class="hidden w-4/5 text-center text-lg bg-red-200 rounded my-4 text-red-800 font-bold">¡Debe seleccionar una respuesta!</div>
             <div class="w-full flex justify-between mt-6">
                 <button class="text-purple-500 text-md font-bold tracking-wide px-5 py-2">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     Reportar
                 </button>
-                <input type="hidden" name="pregunta" id="pregunta" value="{{pregunta.id}}">
+                <input type="hidden" name="id_pregunta" id="id_pregunta" value="">
                 <input type="hidden" name="respuesta_seleccionada" id="respuesta_seleccionada" value="">
                 <button type="submit"
                         class="bg-purple-500 text-white text-sm font-bold tracking-wide rounded-full px-5 py-2">
@@ -50,40 +58,162 @@
         </form>
     </div>
 </div>
-        <script>
-    let opcionA = $('#opcion-a');
-    let opcionB = $('#opcion-b');
-    let opcionC = $('#opcion-c');
-    let opcionD = $('#opcion-d');
-    let respuestaSeleccionadaInput = $('#respuesta_seleccionada');
+<script>
+    function cargarPregunta() {
+        $.ajax({
+            url: 'http://localhost/tpFinal/partida/siguientePregunta',
+            method: 'GET',
+            success: function (preguntatxt) {
+                let pregunta = JSON.parse(preguntatxt);
+                $('#id_pregunta').val(pregunta.id);
+                let respuestaA = pregunta.respuesta_a;
+                let respuestaB = pregunta.respuesta_b;
+                let respuestaC = pregunta.respuesta_c;
+                let respuestaD = pregunta.respuesta_d;
+                let opcionA = $('#opcion-a');
+                let opcionB = $('#opcion-b');
+                let opcionC = $('#opcion-c');
+                let opcionD = $('#opcion-d');
 
-    opcionA.click(function () {
-        $(this).addClass('bg-gray-500 text-gray-100');
-        opcionB.removeClass('bg-gray-500 text-gray-100');
-        opcionC.removeClass('bg-gray-500 text-gray-100');
-        opcionD.removeClass('bg-gray-500 text-gray-100');
-        respuestaSeleccionadaInput.val('{{respuestas.a.id}}');
-    });
-    opcionB.click(function () {
-        $(this).addClass('bg-gray-500 text-gray-100');
-        opcionA.removeClass('bg-gray-500 text-gray-100');
-        opcionC.removeClass('bg-gray-500 text-gray-100');
-        opcionD.removeClass('bg-gray-500 text-gray-100');
-        respuestaSeleccionadaInput.val('{{respuestas.b.id}}');
-    });
-    opcionC.click(function () {
-        $(this).addClass('bg-gray-500 text-gray-100');
-        opcionA.removeClass('bg-gray-500 text-gray-100');
-        opcionB.removeClass('bg-gray-500 text-gray-100');
-        opcionD.removeClass('bg-gray-500 text-gray-100');
-        respuestaSeleccionadaInput.val('{{respuestas.c.id}}');
-    });
-    opcionD.click(function () {
-        $(this).addClass('bg-gray-500 text-gray-100');
-        opcionA.removeClass('bg-gray-500 text-gray-100');
-        opcionB.removeClass('bg-gray-500 text-gray-100');
-        opcionC.removeClass('bg-gray-500 text-gray-100');
-        respuestaSeleccionadaInput.val('{{respuestas.d.id}}');
+                switch (pregunta.id_categoria) {
+                    case '1':
+                        $('#categoria').html('<div class="w-full text-center text-xl text-orange-800 font-bold p-4 bg-orange-300">Deporte</div>');
+                        break;
+                    case '2':
+                        $('#categoria').html('<div class="w-full text-center text-xl text-purple-400 font-bold p-4 bg-purple-200">Geografía</div>');
+                        break;
+                    case '3':
+                        $('#categoria').html('<div class="w-full text-center text-xl text-pink-800 font-bold p-4 bg-pink-300">Música</div>');
+                        break;
+                }
+
+                $('#pregunta').text(pregunta.pregunta);
+                $('#opcion-a').text(respuestaA);
+                $('#opcion-b').text(respuestaB);
+                $('#opcion-c').text(respuestaC);
+                $('#opcion-d').text(respuestaD);
+
+                opcionA.click(function () {
+                    $(this).addClass('bg-gray-500 text-gray-100');
+                    opcionB.removeClass('bg-gray-500 text-gray-100');
+                    opcionC.removeClass('bg-gray-500 text-gray-100');
+                    opcionD.removeClass('bg-gray-500 text-gray-100');
+                    $('#respuesta_seleccionada').val(respuestaA);
+                });
+                opcionB.click(function () {
+                    $(this).addClass('bg-gray-500 text-gray-100');
+                    opcionA.removeClass('bg-gray-500 text-gray-100');
+                    opcionC.removeClass('bg-gray-500 text-gray-100');
+                    opcionD.removeClass('bg-gray-500 text-gray-100');
+                    $('#respuesta_seleccionada').val(respuestaB);
+                });
+                opcionC.click(function () {
+                    $(this).addClass('bg-gray-500 text-gray-100');
+                    opcionA.removeClass('bg-gray-500 text-gray-100');
+                    opcionB.removeClass('bg-gray-500 text-gray-100');
+                    opcionD.removeClass('bg-gray-500 text-gray-100');
+                    $('#respuesta_seleccionada').val(respuestaC);
+                });
+                opcionD.click(function () {
+                    $(this).addClass('bg-gray-500 text-gray-100');
+                    opcionA.removeClass('bg-gray-500 text-gray-100');
+                    opcionB.removeClass('bg-gray-500 text-gray-100');
+                    opcionC.removeClass('bg-gray-500 text-gray-100');
+                    $('#respuesta_seleccionada').val(respuestaD);
+                });
+
+            },
+            error: function (xhr, status, error) {
+                alert('error');
+            }
+        });
+    }
+
+    $(document).ready(function(){
+        cargarPregunta();
+        $('#form-pregunta').submit(function(e) {
+            e.preventDefault();
+            if ($('#respuesta_seleccionada').val() === '') {
+                $('#mensaje-seleccionar-respuesta').removeClass('hidden');
+                $('#mensaje-seleccionar-respuesta').addClass('block');
+            } else {
+                $('#mensaje-seleccionar-respuesta').addClass('hidden');
+                $('#mensaje-seleccionar-respuesta').removeClass('block');
+                $.ajax({
+                url: 'http://localhost/tpFinal/partida/responder',
+                type: 'POST',
+                data: {
+                    id_pregunta: $('#id_pregunta').val(),
+                    respuesta_seleccionada: $('#respuesta_seleccionada').val()
+                },
+                success: function(response) {
+                    let data = JSON.parse(response);
+
+                    if (data.esLaRespuestaCorrecta) {
+                        $('#opcion-a').addClass('bg-green-500 text-white hover:bg-green-600');
+                        $('#puntaje').text(data.puntos);
+
+                        setTimeout(function() {
+                            $('#contenedor-numero-pregunta').hide();
+                            $('#contenedor-pregunta').hide();
+                            cargarPregunta();
+                            $('#container').hide().append('<div id="resultado" class="bg-white shadow-lg rounded-lg p-8 neon-border">' +
+                                    '<h1 class="text-5xl font-bold text-center text-blue-700 my-8">¡Respuesta Correcta!</h1>' +
+                                    '<div class="flex justify-center items-center">' +
+                                    '<img src="/TpFinal/public/img/carafeliz1.png" class="h-32" alt="Cara Feliz" />' +
+                                    '</div>' +
+                                    '<div class="my-8 loading w-full h-auto flex justify-center items-center">' +
+                                    '<div class="line-box w-4/5 border border-2 border-gray-200 rounded-2xl">' +
+                                    '<div class="line h-5 rounded-2xl bg-[#67D295]">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>'
+                            ).show();
+                            setTimeout(function() {
+                                $('#nroPregunta').text(data.puntos + 1);
+                                $('#respuesta_seleccionada').val('');
+                                $('.opcion').each(function() {
+                                    if ($(this).hasClass('bg-gray-500 text-gray-100 bg-green-500 text-white hover:bg-green-600')) {
+                                        $(this).removeClass('bg-gray-500 text-gray-100 bg-green-500 text-white hover:bg-green-600');
+                                    }
+                                });
+                                $('#contenedor-numero-pregunta').show();
+                                $('#contenedor-pregunta').show();
+                                $('#resultado').remove();
+                            }, 2000);
+                        }, 2000);
+                    } else {
+                        let opcion_seleccionada = $('.opcion').filter(function() {
+                            return $(this).text() === data.respuesta;
+                        });
+                        opcion_seleccionada.addClass('bg-red-500 text-white hover:bg-red-600');
+                        setTimeout(function () {
+                            $('#contenedor-numero-pregunta').remove();
+                            $('#contenedor-pregunta').remove();
+                            $('#container').hide().append('<div class="max-w-xl p-12 bg-white rounded-lg shadow-lg neon-border">' +
+                                    '<h2 class="text-4xl font-bold text-center text-purple-700 mb-10">¡Partida finalizada!</h2>' +
+                                    '<p class="text-xl mb-4">Respuesta correcta: <span class="font-bold text-xl text-red-700">' + data.respuesta_correcta + '</span></p>' +
+                                    '<span class="text-xl mb-8 font-semibold text-red-500"></span>' +
+                                    '<div class="my-10 text-center">' +
+                                    '<p class="text-2xl text-purple-700">Puntaje final:</p>' +
+                                    '<p class="text-6xl font-bold text-purple-500">'+ data.puntos + '</p>' +
+                                    '</div>' +
+                                    '<div class="flex justify-center space-x-4">' +
+                                    '<a href="/tpFinal/partida/pregunta" class="bg-purple-500 neon-border hover:bg-purple-600 text-white px-6 py-3 rounded-md font-medium">Jugar de nuevo</a>' +
+                                    '<a href="/tpfinal/lobby" class="bg-white border neon-border hover:bg-purple-600 text-black hover:text-white px-6 py-3 rounded-md font-medium">Volver al lobby</a>' +
+                                    '</div>' +
+                                    '</div>'
+                            ).show();
+                        }, 2000);
+                    }
+                },
+                error: function(xhr, status, error) {
+
+                }
+            });
+            }
+        });
     });
 </script>
 
