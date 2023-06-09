@@ -23,6 +23,12 @@ class MySqlDatabase {
         $result = mysqli_query($this->connection, $sql);
         return mysqli_fetch_all($result, MYSQLI_BOTH);
     }
+
+    public function querySelectFetchAssoc($sql) {
+        $result = mysqli_query($this->connection, $sql);
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+
     public function queryInsertar($sql) {
         $result = mysqli_query($this->connection, $sql);
     }
