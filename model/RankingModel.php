@@ -23,11 +23,12 @@ class RankingModel
 
     public function obtenerHistorial($idJugador)
     {
-        $query = "SELECT fecha, puntaje FROM `partidas` WHERE idUsuario = $idJugador ORDER BY fecha";
+        $query = "SELECT fecha, puntaje FROM `partidas` WHERE idUsuario = $idJugador ORDER BY fecha desc";
         return $this->database->query($query);
     }
 
-    public function obtenerElRanking(){
+    public function obtenerElRanking()
+    {
         $query = "SELECT u.id, u.nombre, u.apellido, SUM(p.puntaje) AS puntajeTotal, COUNT(*) AS cantidadPartidas,
                     (SELECT COUNT(*) FROM (SELECT SUM(puntaje) AS total_puntaje
                     FROM usuarios u
@@ -40,6 +41,7 @@ class RankingModel
                     ORDER BY puntajeTotal DESC;";
         return $this->database->query($query);
     }
+
     public function obtenerElRankingPorIdUsuario($idUsuario)
     {
         $ranking = $this->obtenerElRanking();
