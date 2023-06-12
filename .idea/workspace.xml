@@ -5,21 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="500f7f56-7c0b-4a89-9880-2421ecee61d5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/model/RankingModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/TpFinal.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TpFinal.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Configuration.php" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/LobbyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/LobbyController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/PartidaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/PartidaController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/PerfilJugadorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/PerfilJugadorController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/RankingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/RankingController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/PartidaModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/model/PartidaModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/RolModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/model/RolModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/Chikorita.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/Te invito a mi cumpleaños.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/lobby_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/lobby_view.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/perfilJugador_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/perfilJugador_view.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/ranking_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/ranking_view.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/preguntaPrueba_view.mustache" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,6 +81,7 @@
       <workItem from="1686067262912" duration="53000" />
       <workItem from="1686067317528" duration="11193000" />
       <workItem from="1686158574069" duration="772000" />
+      <workItem from="1686529709501" duration="827000" />
     </task>
     <servers />
   </component>
