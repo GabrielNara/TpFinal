@@ -1,7 +1,6 @@
 <?php
 include_once('./model/UsuarioModel.php');
 include_once('./model/RankingModel.php');
-require_once('./phpqrcode/qrlib.php');
 
 class PerfilJugadorController
 {

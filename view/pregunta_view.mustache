@@ -24,7 +24,7 @@
         }
     }
 </style>
-<div id="container" class="flex flex-col justify-center items-center w-full h-screen">
+<div id="container" class="flex flex-col justify-center items-center w-full my-8 2xl:my-0 2xl:h-screen">
     <div id="contenedor-numero-pregunta" class="bg-purple-500 p-4 rounded-lg shadow-lg">
         <h1 class="font-bold text-5xl text-center text-white">Pregunta <span id="nroPregunta"
                                                                              class="font-bold text-5xl text-center text-white">1</span>
@@ -210,8 +210,6 @@
                         let data = JSON.parse(response);
 
                         if (data.esLaRespuestaCorrecta && respondio) {
-                            $('#opcion-a').addClass('bg-green-500 text-white hover:bg-green-600');
-                            $('#puntaje').text(data.puntos);
 
                             setTimeout(function () {
                                 $('#contenedor-numero-pregunta').hide();
@@ -236,8 +234,8 @@
                                     $('#nroPregunta').text(data.puntos + 1);
                                     $('#respuesta_seleccionada').val('');
                                     $('.opcion').each(function () {
-                                        if ($(this).hasClass('bg-gray-500 text-gray-100 bg-green-500 text-white hover:bg-green-600')) {
-                                            $(this).removeClass('bg-gray-500 text-gray-100 bg-green-500 text-white hover:bg-green-600');
+                                        if ($(this).hasClass('bg-gray-500 text-gray-100')) {
+                                            $(this).removeClass('bg-gray-500 text-gray-100');
                                         }
                                     });
                                     $('#contenedor-numero-pregunta').show();

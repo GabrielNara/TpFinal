@@ -53,11 +53,11 @@ class UsuarioModel
         $archivoImagen = './public/img/qrcode.png';
 
 // Tamaño y nivel de corrección del código QR (0 = bajo, 1 = medio, 2 = alto, 3 = mejor)
-        $tamaño = 10;
+        $tamano = 10;
         $nivelCorreccion = 'L';
 
 // Generar el código QR
-        QRcode::png($url, $archivoImagen, $nivelCorreccion, $tamaño);
+        QRcode::png($url, $archivoImagen, $nivelCorreccion, $tamano);
         return $archivoImagen;
     }
 }

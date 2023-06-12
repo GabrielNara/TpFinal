@@ -19,6 +19,7 @@ include_once('controller/LoginController.php');
 include_once('controller/PartidaController.php');
 include_once('controller/RankingController.php');
 
+include_once('third-party/phpqrcode/qrlib.php');
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 require 'third-party/PHPMailer/src/Exception.php';
 require 'third-party/PHPMailer/src/PHPMailer.php';
