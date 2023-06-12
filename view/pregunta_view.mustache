@@ -210,7 +210,7 @@
                         let data = JSON.parse(response);
 
                         if (data.esLaRespuestaCorrecta && respondio) {
-
+                            $('#puntaje').text(data.puntos);
                             setTimeout(function () {
                                 $('#contenedor-numero-pregunta').hide();
                                 $('#contenedor-pregunta').hide();

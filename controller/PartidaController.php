@@ -40,6 +40,8 @@ class PartidaController
         $indice = array_search($pregunta, $lista_preguntas);
         array_splice($lista_preguntas, $indice, 1);
         $_SESSION['lista_preguntas'] = $lista_preguntas;
+        $this->partidaModel->sumarPreguntaALaEstadistica($pregunta['id']);
+        $this->partidaModel->sumarPreguntaAlJugador($idPartida);
         echo json_encode($pregunta);
     }
 
@@ -62,6 +64,8 @@ class PartidaController
         if ($esLaRespuestaCorrecta) {
             $_SESSION['puntaje']++;
             $contexto['puntos'] = $_SESSION['puntaje'];
+            $this->partidaModel->sumarPreguntaCorrectaALaEstadistica($datos['idPregunta']);
+            $this->partidaModel->sumarPreguntaCorrectaAlJugador($idPartida);
         } else {
             $contexto['respuesta_correcta'] = $this->partidaModel->obtenerRespuestaCorrecta($datos['idPregunta']);
             $contexto['puntos'] = $_SESSION['puntaje'];
@@ -69,7 +73,7 @@ class PartidaController
             unset($_SESSION['lista_preguntas']);
             unset($_SESSION['puntaje']);
         }
-
+        $this->partidaModel->actualizarPorcentajeAciertoPregunta($datos['idPregunta']);
         echo json_encode($contexto);
     }
 
