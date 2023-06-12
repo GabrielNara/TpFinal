@@ -42,7 +42,7 @@ class PartidaModel
 
     public function obtenerPreguntaAleatoria($lista_preguntas)
     {
-        $indiceAleatorio = rand(0, sizeof($lista_preguntas)-1);
+        $indiceAleatorio = rand(0, sizeof($lista_preguntas) - 1);
         return $lista_preguntas[$indiceAleatorio];
     }
 
@@ -91,7 +91,11 @@ class PartidaModel
 
     public function actualizarPuntaje($puntaje, $idPartida)
     {
-        $query = "UPDATE partidas SET puntaje = '$puntaje' WHERE id = '$idPartida'";
+        if (isset($_SESSION['usuario'])) {
+            $usuario = $_SESSION['usuario'];
+            $idUsuario = $usuario["id"];
+        }
+        $query = "UPDATE partidas SET puntaje = '$puntaje' WHERE id = '$idPartida' and idUsuario= '$idUsuario' ";
         $this->database->queryInsertar($query);
     }
 

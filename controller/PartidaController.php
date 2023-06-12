@@ -40,7 +40,8 @@ class PartidaController
         $_SESSION['idPartida'] = $this->partidaModel->getIdPartida();
         $contexto = array(
             'nroPregunta' => ($_SESSION['puntaje'] + 1),
-            'puntos' => $_SESSION['puntaje']
+            'puntos' => $_SESSION['puntaje'],
+            'tiempoLimite' => 10
         );
         $this->renderer->render("pregunta", $contexto);
     }
@@ -90,5 +91,15 @@ class PartidaController
 
         echo json_encode($contexto);
     }
+
+    public function totalPuntaje()
+    {
+        $idPartida = $_SESSION['idPartida'];
+        $contexto['total'] = $_SESSION['puntaje'];
+
+        $this->partidaModel->actualizarPuntaje($_SESSION['puntaje'], $idPartida);
+        echo json_encode($contexto);
+    }
+
 
 }

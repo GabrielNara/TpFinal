@@ -9,22 +9,26 @@ class UsuarioModel
         $this->database = $database;
     }
 
-    public function getUsuario($datos) {
+    public function getUsuario($datos)
+    {
         $query = "SELECT * FROM usuarios WHERE nombre_usuario='" . $datos['username'] . "' AND contrasena='" . $datos['password'] . "'";
         return $this->database->query($query);
     }
 
-    public function getUsuarioPorId($id) {
+    public function getUsuarioPorId($id)
+    {
         $query = "SELECT * FROM usuarios WHERE id='" . $id . "'";
         return $this->database->query($query);
     }
 
-    public function getUsuarioPorNombreUsuario($nombre_usuario) {
+    public function getUsuarioPorNombreUsuario($nombre_usuario)
+    {
         $query = "SELECT * FROM usuarios WHERE nombre_usuario='" . $nombre_usuario . "'";
         return $this->database->query($query);
     }
 
-    public function getErrores($datos) {
+    public function getErrores($datos)
+    {
         $errores = [];
         if (empty($datos['username'])) {
             $errores['errorUsername'] = 'El usuario no puede estar vacío.';
@@ -39,5 +43,21 @@ class UsuarioModel
             $errores['errorCredenciales'] = 'La contraseña es incorrecta.';
         }
         return $errores;
+    }
+
+    public function generarQr($id)
+    {
+        $url = 'http://localhost/tpFinal/perfilJugador/list?id=' . $id;
+
+// Ruta y nombre del archivo de imagen del código QR (puede ser un archivo PNG, JPG, etc.)
+        $archivoImagen = './public/img/qrcode.png';
+
+// Tamaño y nivel de corrección del código QR (0 = bajo, 1 = medio, 2 = alto, 3 = mejor)
+        $tamaño = 10;
+        $nivelCorreccion = 'L';
+
+// Generar el código QR
+        QRcode::png($url, $archivoImagen, $nivelCorreccion, $tamaño);
+        return $archivoImagen;
     }
 }

@@ -5,13 +5,16 @@
         background-size: cover;
         background-position: center;
     }
+
     .neon-border {
         position: relative;
         box-shadow: 0 0 10px #6ee7f5, 0 0 10px #6ee7f5, 0 0 10px #6ee7f5;
     }
+
     .loading .line-box .line {
         animation: loading 1.8s forwards cubic-bezier(0, 0, 0, 0);
     }
+
     @keyframes loading {
         0% {
             width: 0;
@@ -23,11 +26,15 @@
 </style>
 <div id="container" class="flex flex-col justify-center items-center w-full h-screen">
     <div id="contenedor-numero-pregunta" class="bg-purple-500 p-4 rounded-lg shadow-lg">
-        <h1 class="font-bold text-5xl text-center text-white">Pregunta <span id="nroPregunta" class="font-bold text-5xl text-center text-white">1</span></h1>
+        <h1 class="font-bold text-5xl text-center text-white">Pregunta <span id="nroPregunta"
+                                                                             class="font-bold text-5xl text-center text-white">1</span>
+        </h1>
     </div>
     <div id="contenedor-pregunta" class="bg-white p-12 rounded-lg shadow-lg w-[90%] sm:w-[500px] mt-8 neon-border">
         <div id="categoria"></div>
         <p class="text-xl text-purple-500 my-2">Puntaje: <span id="puntaje">0</span></p>
+        <div>Tiempo restante: <span id="temporizador">{{tiempoLimite}}</span> segundos</div>
+
         <p id="pregunta" class="text-2xl font-bold my-2"></p>
         <form method="POST" id="form-pregunta">
             <label for="a" id="opcion-a"
@@ -42,7 +49,10 @@
             <label for="d" id="opcion-d"
                    class="opcion block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:text-gray-100 hover:bg-gray-500 cursor-pointer">
                 <input id="d" type="radio" class="hidden"></label>
-            <div id="mensaje-seleccionar-respuesta" class="hidden w-4/5 text-center text-lg bg-red-200 rounded my-4 text-red-800 font-bold">¡Debe seleccionar una respuesta!</div>
+            <div id="mensaje-seleccionar-respuesta"
+                 class="hidden w-4/5 text-center text-lg bg-red-200 rounded my-4 text-red-800 font-bold">¡Debe
+                seleccionar una respuesta!
+            </div>
             <div class="w-full flex justify-between mt-6">
                 <button class="text-purple-500 text-md font-bold tracking-wide px-5 py-2">
                     <i class="fa-solid fa-triangle-exclamation"></i>
@@ -58,8 +68,56 @@
         </form>
     </div>
 </div>
+
 <script>
+    var tiempoRestante = 10; // Inicializar el tiempo restante a 10 segundos
+    var temporizador; // Variable para almacenar el temporizador
+    var respondio = false;
+
+    function iniciarTemporizador() {
+        temporizador = setInterval(function () {
+            if (tiempoRestante > 0) {
+                tiempoRestante--;
+                $('#temporizador').text(tiempoRestante); // Actualizar el elemento en la vista con el tiempo restante
+            } else {
+                clearInterval(temporizador); // Detener el temporizador
+                terminarPartida();
+            }
+        }, 1000); // Actualizar el temporizador cada segundo (1000 ms)
+    }
+
+    async function terminarPartida() {
+        try {
+
+            const response = await fetch('http://localhost/tpFinal/partida/totalPuntaje');
+            const totalJson = await response.json();
+
+            if (respondio == false) {
+                $('#contenedor-numero-pregunta').remove();
+                $('#contenedor-pregunta').remove();
+                $('#container').hide().append('<div class="max-w-xl p-12 bg-white rounded-lg shadow-lg neon-border">' +
+                        '<h2 class="text-4xl font-bold text-center text-purple-700 mb-10">¡Partida finalizada!</h2>' +
+                        '<p class="text-xl mb-4">Tiempo agotado.</p>' +
+                        '<div class="my-10 text-center">' +
+                        '<p class="text-2xl text-purple-700">Puntaje final:</p>' +
+                        '<p class="text-6xl font-bold text-purple-500">' + totalJson.total + '</p>' +
+                        '</div>' +
+                        '<div class="flex justify-center space-x-4">' +
+                        '<a href="/tpFinal/partida/pregunta" class="bg-purple-500 neon-border hover:bg-purple-600 text-white px-6 py-3 rounded-md font-medium">Jugar de nuevo</a>' +
+                        '<a href="/tpfinal/lobby" class="bg-white border neon-border hover:bg-purple-600 text-black hover:text-white px-6 py-3 rounded-md font-medium">Volver al lobby</a>' +
+                        '</div>' +
+                        '</div>'
+                ).show();
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     function cargarPregunta() {
+        tiempoRestante = 10; // Reiniciar el tiempo restante a 10 segundos al cargar una nueva pregunta
+        $('#temporizador').text(tiempoRestante);
+
         $.ajax({
             url: 'http://localhost/tpFinal/partida/siguientePregunta',
             method: 'GET',
@@ -129,9 +187,11 @@
         });
     }
 
-    $(document).ready(function(){
+    $(document).ready(function () {
         cargarPregunta();
-        $('#form-pregunta').submit(function(e) {
+        iniciarTemporizador();
+        $('#form-pregunta').submit(function (e) {
+            respondio = true;
             e.preventDefault();
             if ($('#respuesta_seleccionada').val() === '') {
                 $('#mensaje-seleccionar-respuesta').removeClass('hidden');
@@ -140,80 +200,84 @@
                 $('#mensaje-seleccionar-respuesta').addClass('hidden');
                 $('#mensaje-seleccionar-respuesta').removeClass('block');
                 $.ajax({
-                url: 'http://localhost/tpFinal/partida/responder',
-                type: 'POST',
-                data: {
-                    id_pregunta: $('#id_pregunta').val(),
-                    respuesta_seleccionada: $('#respuesta_seleccionada').val()
-                },
-                success: function(response) {
-                    let data = JSON.parse(response);
+                    url: 'http://localhost/tpFinal/partida/responder',
+                    type: 'POST',
+                    data: {
+                        id_pregunta: $('#id_pregunta').val(),
+                        respuesta_seleccionada: $('#respuesta_seleccionada').val()
+                    },
+                    success: function (response) {
+                        let data = JSON.parse(response);
 
-                    if (data.esLaRespuestaCorrecta) {
-                        $('#opcion-a').addClass('bg-green-500 text-white hover:bg-green-600');
-                        $('#puntaje').text(data.puntos);
+                        if (data.esLaRespuestaCorrecta && respondio) {
+                            $('#opcion-a').addClass('bg-green-500 text-white hover:bg-green-600');
+                            $('#puntaje').text(data.puntos);
 
-                        setTimeout(function() {
-                            $('#contenedor-numero-pregunta').hide();
-                            $('#contenedor-pregunta').hide();
-                            cargarPregunta();
-                            $('#container').hide().append('<div id="resultado" class="bg-white shadow-lg rounded-lg p-8 neon-border">' +
-                                    '<h1 class="text-5xl font-bold text-center text-blue-700 my-8">¡Respuesta Correcta!</h1>' +
-                                    '<div class="flex justify-center items-center">' +
-                                    '<img src="/TpFinal/public/img/carafeliz1.png" class="h-32" alt="Cara Feliz" />' +
-                                    '</div>' +
-                                    '<div class="my-8 loading w-full h-auto flex justify-center items-center">' +
-                                    '<div class="line-box w-4/5 border border-2 border-gray-200 rounded-2xl">' +
-                                    '<div class="line h-5 rounded-2xl bg-[#67D295]">' +
-                                    '</div>' +
-                                    '</div>' +
-                                    '</div>' +
-                                    '</div>'
-                            ).show();
-                            setTimeout(function() {
-                                $('#nroPregunta').text(data.puntos + 1);
-                                $('#respuesta_seleccionada').val('');
-                                $('.opcion').each(function() {
-                                    if ($(this).hasClass('bg-gray-500 text-gray-100 bg-green-500 text-white hover:bg-green-600')) {
-                                        $(this).removeClass('bg-gray-500 text-gray-100 bg-green-500 text-white hover:bg-green-600');
-                                    }
-                                });
-                                $('#contenedor-numero-pregunta').show();
-                                $('#contenedor-pregunta').show();
-                                $('#resultado').remove();
+                            setTimeout(function () {
+                                $('#contenedor-numero-pregunta').hide();
+                                $('#contenedor-pregunta').hide();
+                                cargarPregunta();
+                                respondio = false;
+                                tiempoRestante += 2
+                                $('#container').hide().append('<div id="resultado" class="bg-white shadow-lg rounded-lg p-8 neon-border">' +
+                                        '<h1 class="text-5xl font-bold text-center text-blue-700 my-8">¡Respuesta Correcta!</h1>' +
+                                        '<div class="flex justify-center items-center">' +
+                                        '<img src="/TpFinal/public/img/carafeliz1.png" class="h-32" alt="Cara Feliz" />' +
+                                        '</div>' +
+                                        '<div class="my-8 loading w-full h-auto flex justify-center items-center">' +
+                                        '<div class="line-box w-4/5 border border-2 border-gray-200 rounded-2xl">' +
+                                        '<div class="line h-5 rounded-2xl bg-[#67D295]">' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>'
+                                ).show();
+                                setTimeout(function () {
+                                    $('#nroPregunta').text(data.puntos + 1);
+                                    $('#respuesta_seleccionada').val('');
+                                    $('.opcion').each(function () {
+                                        if ($(this).hasClass('bg-gray-500 text-gray-100 bg-green-500 text-white hover:bg-green-600')) {
+                                            $(this).removeClass('bg-gray-500 text-gray-100 bg-green-500 text-white hover:bg-green-600');
+                                        }
+                                    });
+                                    $('#contenedor-numero-pregunta').show();
+                                    $('#contenedor-pregunta').show();
+                                    $('#resultado').remove();
+                                }, 2000);
+                            },);
+                        } else {
+                            let opcion_seleccionada = $('.opcion').filter(function () {
+                                return $(this).text() === data.respuesta;
+                            });
+                            opcion_seleccionada.addClass('bg-red-500 text-white hover:bg-red-600');
+                            setTimeout(function () {
+                                $('#contenedor-numero-pregunta').remove();
+                                $('#contenedor-pregunta').remove();
+                                $('#container').hide().append('<div class="max-w-xl p-12 bg-white rounded-lg shadow-lg neon-border">' +
+                                        '<h2 class="text-4xl font-bold text-center text-purple-700 mb-10">¡Partida finalizada!</h2>' +
+                                        '<p class="text-xl mb-4">Respuesta correcta: <span class="font-bold text-xl text-red-700">' + data.respuesta_correcta + '</span></p>' +
+                                        '<span class="text-xl mb-8 font-semibold text-red-500"></span>' +
+                                        '<div class="my-10 text-center">' +
+                                        '<p class="text-2xl text-purple-700">Puntaje final:</p>' +
+                                        '<p class="text-6xl font-bold text-purple-500">' + data.puntos + '</p>' +
+                                        '</div>' +
+                                        '<div class="flex justify-center space-x-4">' +
+                                        '<a href="/tpFinal/partida/pregunta" class="bg-purple-500 neon-border hover:bg-purple-600 text-white px-6 py-3 rounded-md font-medium">Jugar de nuevo</a>' +
+                                        '<a href="/tpfinal/lobby" class="bg-white border neon-border hover:bg-purple-600 text-black hover:text-white px-6 py-3 rounded-md font-medium">Volver al lobby</a>' +
+                                        '</div>' +
+                                        '</div>'
+                                ).show();
                             }, 2000);
-                        }, 2000);
-                    } else {
-                        let opcion_seleccionada = $('.opcion').filter(function() {
-                            return $(this).text() === data.respuesta;
-                        });
-                        opcion_seleccionada.addClass('bg-red-500 text-white hover:bg-red-600');
-                        setTimeout(function () {
-                            $('#contenedor-numero-pregunta').remove();
-                            $('#contenedor-pregunta').remove();
-                            $('#container').hide().append('<div class="max-w-xl p-12 bg-white rounded-lg shadow-lg neon-border">' +
-                                    '<h2 class="text-4xl font-bold text-center text-purple-700 mb-10">¡Partida finalizada!</h2>' +
-                                    '<p class="text-xl mb-4">Respuesta correcta: <span class="font-bold text-xl text-red-700">' + data.respuesta_correcta + '</span></p>' +
-                                    '<span class="text-xl mb-8 font-semibold text-red-500"></span>' +
-                                    '<div class="my-10 text-center">' +
-                                    '<p class="text-2xl text-purple-700">Puntaje final:</p>' +
-                                    '<p class="text-6xl font-bold text-purple-500">'+ data.puntos + '</p>' +
-                                    '</div>' +
-                                    '<div class="flex justify-center space-x-4">' +
-                                    '<a href="/tpFinal/partida/pregunta" class="bg-purple-500 neon-border hover:bg-purple-600 text-white px-6 py-3 rounded-md font-medium">Jugar de nuevo</a>' +
-                                    '<a href="/tpfinal/lobby" class="bg-white border neon-border hover:bg-purple-600 text-black hover:text-white px-6 py-3 rounded-md font-medium">Volver al lobby</a>' +
-                                    '</div>' +
-                                    '</div>'
-                            ).show();
-                        }, 2000);
-                    }
-                },
-                error: function(xhr, status, error) {
+                        }
+                    },
+                    error: function (xhr, status, error) {
 
-                }
-            });
+                    }
+                });
             }
         });
+
+
     });
 </script>
 
