@@ -11,26 +11,7 @@ class PartidaController
         $this->renderer = $renderer;
         $this->partidaModel = $partidaModel;
     }
-
-    public function list()
-    {
-        $this->renderer->render('preguntaPrueba');
-    }
-
-    public function nuevaPregunta()
-    {
-
-        $pregunta = $this->partidaModel->getRandomQuestion();
-
-
-        echo json_encode($pregunta);
-
-
-    }
-
-    public function crearPartida()
-    {
-    }
+    
 
     public function pregunta()
     {
