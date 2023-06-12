@@ -9,13 +9,7 @@ class PartidaModel
         $this->database = $database;
     }
 
-    public function getRandomQuestion()
-    {
-        $sql = "Select * from preguntas";
-        $preguntas = $this->database->query($sql);
-        $randomNumber = rand(0, sizeof($preguntas));
-        return $preguntas[$randomNumber];
-    }
+
 
     public function crearPartida()
     {

@@ -11,7 +11,7 @@ class PartidaController
         $this->renderer = $renderer;
         $this->partidaModel = $partidaModel;
     }
-    
+
 
     public function pregunta()
     {
