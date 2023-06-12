@@ -6,9 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="500f7f56-7c0b-4a89-9880-2421ecee61d5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/PartidaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/PartidaController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/PartidaModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/model/PartidaModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/pregunta_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/pregunta_view.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/PerfilJugadorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/PerfilJugadorController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/qrcode.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/qrcode.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/perfilJugador_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/perfilJugador_view.mustache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,6 +84,7 @@
       <workItem from="1686158574069" duration="772000" />
       <workItem from="1686534823238" duration="3492000" />
       <workItem from="1686571937776" duration="1429000" />
+      <workItem from="1686598158747" duration="1015000" />
     </task>
     <servers />
   </component>
