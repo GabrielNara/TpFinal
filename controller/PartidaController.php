@@ -16,8 +16,6 @@ class PartidaController
     public function pregunta()
     {
         {
-
-
             {
                 $this->partidaModel->crearPartida();
                 $lista_preguntas = $this->partidaModel->obtenerListaPreguntas();
