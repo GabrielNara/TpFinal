@@ -9,6 +9,7 @@ include_once("model/FormRegistroModel.php");
 include_once("model/UsuarioModel.php");
 include_once("model/RolModel.php");
 include_once("model/RankingModel.php");
+include_once("model/CrearPreguntaModel.php");
 
 include_once('controller/HomeController.php');
 include_once('controller/CrearPreguntaController.php');
@@ -19,6 +20,7 @@ include_once('controller/LoginController.php');
 include_once('controller/PartidaController.php');
 include_once('controller/RankingController.php');
 
+include_once('third-party/phpqrcode/qrlib.php');
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 require 'third-party/PHPMailer/src/Exception.php';
 require 'third-party/PHPMailer/src/PHPMailer.php';
@@ -83,7 +85,8 @@ class Configuration
 
     public function getCrearPreguntaController()
     {
-        return new CrearPreguntaController($this->getRenderer());
+        return new CrearPreguntaController($this->getRenderer(),
+            new CrearPreguntaModel($this->getDatabase()));
     }
 
     public function getLobbyController()
