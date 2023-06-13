@@ -24,7 +24,6 @@ class PerfilJugadorController
 
         $qr = $this->usuarioModel->generarQr($id);
 
-// Mostrar la imagen del código QR
         $datos = array(
             'ranking' => $resultado[0],
             'usuario' => $usuario[0],

@@ -44,7 +44,8 @@
             </div>
             <div class="w-full md:w-4/5 lg:w-1/2 flex flex-col items-center justify-center mt-6">
                 <div id="map"
-                     class="w-[350px] md:w-[500px] lg:w-[600px] h-[350px] rounded-lg border border-[2px] border-gray-700 shadow-lg"></div>
+                     class="w-[350px] md:w-[500px] lg:w-[600px] h-[350px] rounded-lg border border-[2px] border-gray-700 shadow-lg">
+                </div>
             </div>
         </div>
     </div>
@@ -52,22 +53,32 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvZj61EiOcl1RlGGo3dt9u2OpyqqYkohk"></script>
 <script>
     function initMap() {
-        var myLatLng = {lat: 40.7128, lng: -74.0060};
+        var geocoder = new google.maps.Geocoder();
 
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 15,
-            center: myLatLng,
-            disableDefaultUI: true,
-            zoomControl: true,
-            gestureHandling: 'cooperative'
-        });
+        geocoder.geocode({address: '{{ usuario.pais_ciudad }}'}, function (results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+                var myLatLng = {
+                    lat: results[0].geometry.location.lat(),
+                    lng: results[0].geometry.location.lng()
+                };
 
-        var marker = new google.maps.Marker({
-            position: myLatLng,
-            map: map,
-            title: 'Marcador'
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 15,
+                    center: myLatLng,
+                    disableDefaultUI: true,
+                    zoomControl: true,
+                    gestureHandling: 'cooperative'
+                });
+
+                var marker = new google.maps.Marker({
+                    position: myLatLng,
+                    map: map,
+                    title: 'Marcador'
+                });
+            }
         });
     }
+
 
     // Inicializar el mapa cuando la página haya cargado
     window.onload = function () {
