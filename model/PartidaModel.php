@@ -26,7 +26,28 @@ class PartidaModel
         return $idPartida[0]['id'];
     }
 
-    public function obtenerListaPreguntas()
+
+    public function obtenerListaPreguntas($id_usuario)
+    {
+        $porcentajeAcierto = $this->obtenerPorcentajeAciertoJugador($id_usuario);
+        $query = "";
+
+        switch (true) {
+            case ($porcentajeAcierto >= 70):
+                $query = "SELECT * FROM preguntas WHERE porcentaje_acierto <= 30";
+                break;
+            case ($porcentajeAcierto <= 30):
+                $query = "SELECT * FROM preguntas WHERE porcentaje_acierto >= 70";
+                break;
+            default:
+                $query = "SELECT * FROM preguntas WHERE porcentaje_acierto BETWEEN 30 AND 70";
+                break;
+        }
+
+        return $this->database->querySelectFetchAssoc($query);
+    }
+
+    public function obtenerListaPreguntasCompleta()
     {
         $query = "SELECT * FROM preguntas";
         return $this->database->querySelectFetchAssoc($query);
@@ -154,6 +175,18 @@ class PartidaModel
 
         $query = "UPDATE usuarios SET `porcentaje_acierto` = '$porcentaje_acierto' WHERE id = '$id_usuario'";
         return $this->database->queryInsertar($query);
+    }
+
+    public function obtenerPorcentajeAciertoJugador($id_usuario){
+        $query = "SELECT porcentaje_acierto FROM usuarios WHERE id = '$id_usuario'";
+         $porcentaje_acierto= $this->database->querySelectFetchAssoc($query);
+            return $porcentaje_acierto[0]['porcentaje_acierto'];
+    }
+
+    public function obtenerPorcentajeAciertoPregunta($id_pregunta){
+        $query = "SELECT porcentaje_acierto FROM preguntas WHERE id = '$id_pregunta'";
+        return $this->database->querySelectFetchAssoc($query);
+
     }
 
 }

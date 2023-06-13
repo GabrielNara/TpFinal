@@ -9,6 +9,7 @@ include_once("model/FormRegistroModel.php");
 include_once("model/UsuarioModel.php");
 include_once("model/RolModel.php");
 include_once("model/RankingModel.php");
+include_once("model/CrearPreguntaModel.php");
 
 include_once('controller/HomeController.php');
 include_once('controller/CrearPreguntaController.php');
@@ -84,7 +85,8 @@ class Configuration
 
     public function getCrearPreguntaController()
     {
-        return new CrearPreguntaController($this->getRenderer());
+        return new CrearPreguntaController($this->getRenderer(),
+            new CrearPreguntaModel($this->getDatabase()));
     }
 
     public function getLobbyController()

@@ -14,8 +14,9 @@ class PartidaController
 
     public function pregunta()
     {
+        $idusuario = $_SESSION['usuario']['id'];
         $this->partidaModel->crearPartida();
-        $lista_preguntas = $this->partidaModel->obtenerListaPreguntas();
+        $lista_preguntas = $this->partidaModel->obtenerListaPreguntas($idusuario);
         $_SESSION['lista_preguntas'] = $lista_preguntas;
         $_SESSION['puntaje'] = 0;
         $_SESSION['idPartida'] = $this->partidaModel->getIdPartida();
@@ -25,15 +26,17 @@ class PartidaController
             'tiempoLimite' => 10
         );
         $this->renderer->render("pregunta", $contexto);
+
     }
 
     public function siguientePregunta()
     {
+        $idusuario = $_SESSION['usuario']['id'];
         $idPartida = $_SESSION['idPartida'];
         $lista_preguntas = $_SESSION['lista_preguntas'];
         if (empty($lista_preguntas)) {
             $this->partidaModel->reiniciarPreguntas($idPartida);
-            $lista_preguntas = $this->partidaModel->obtenerListaPreguntas();
+            $lista_preguntas = $this->partidaModel->obtenerListaPreguntasCompleta();
         }
         $pregunta = $this->partidaModel->obtenerPreguntaAleatoria($lista_preguntas);
         $this->partidaModel->almacenarPregunta($idPartida, $pregunta['id']);
@@ -42,6 +45,7 @@ class PartidaController
         $_SESSION['lista_preguntas'] = $lista_preguntas;
         $this->partidaModel->sumarPreguntaALaEstadistica($pregunta['id']);
         $this->partidaModel->sumarPreguntaAlJugador($idPartida);
+
         echo json_encode($pregunta);
     }
 
