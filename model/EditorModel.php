@@ -25,13 +25,13 @@ class EditorModel
     public function obtenerPregunta($id)
     {
         $query = "SELECT * FROM `preguntas` WHERE  id = '$id'";
-
         return $this->database->query($query);
     }
 
     public function validarPreguntaAprobada($datos)
     {
         $errores = [];
+
         if (empty($datos['pregunta'])) {
             $errores['errorPregunta'] = 'La pregunta no puede estar vacia';
         }
@@ -47,8 +47,6 @@ class EditorModel
         if (empty($datos['opcionD'])) {
             $errores['errorOpcionD'] = 'Debe ingresar una opcion D';
         }
-
-
         if (count($errores) == 0) {
             $this->aprobarPregunta($datos);
         }
@@ -66,14 +64,13 @@ class EditorModel
         $opcionD = $datos['opcionD'];
         $categoria = $datos['categoria'];
 
-
         $query = "UPDATE `preguntas` SET `pregunta`='$pregunta',`id_estado_pregunta`=1,`id_categoria`='$categoria',`respuesta_a`='$opcionA',`respuesta_b`='$opcionB',`respuesta_c`='$opcionC',`respuesta_d`='$opcionD',`respuesta_correcta`='$opcionA' WHERE id='$id'";
-
 
         return $this->database->queryInsertar($query);
     }
 
-    public function eliminarPregunta($idPregunta){
+    public function eliminarPregunta($idPregunta)
+    {
         $query = "DELETE FROM `preguntas` WHERE id = '$idPregunta'";
         $this->database->queryInsertar($query);
     }

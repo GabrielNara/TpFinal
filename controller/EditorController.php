@@ -15,11 +15,6 @@ class EditorController
 
     }
 
-    public function list()
-    {
-
-    }
-
     public function revisionPreguntas()
     {
         $preguntas = $this->editorModel->obtenerPreguntas();
@@ -29,7 +24,6 @@ class EditorController
         );
 
         $this->renderer->render("revisionPreguntas", $contexto);
-
     }
 
     public function revisarPregunta()
@@ -43,8 +37,6 @@ class EditorController
         );
 
         $this->renderer->render('revisarPregunta', $datos);
-
-
     }
 
     public function aprobarPregunta()
@@ -75,16 +67,10 @@ class EditorController
 
     public function rechazarPregunta()
     {
-
-            $idPregunta = $_GET['id'];
-            $this->editorModel->eliminarPregunta($idPregunta);
-
-       $this->revisionPreguntas();
-
-
-
+        $idPregunta = $_GET['id'];
+        $this->editorModel->eliminarPregunta($idPregunta);
+        $this->revisionPreguntas();
     }
-
 
 }
 
