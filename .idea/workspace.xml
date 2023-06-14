@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c5d56bc3-109a-4db0-b510-15dc8266e616" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 <<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/controller/PartidaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/PartidaController.php" afterDir="false" />
@@ -15,6 +16,15 @@
 >>>>>>> Ivan
 =======
 >>>>>>> Stashed changes
+=======
+      <change beforePath="$PROJECT_DIR$/controller/EditorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/EditorController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/EditorModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/model/EditorModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/estilos/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/estilos/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/qrcode.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/qrcode.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/lobby_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/lobby_view.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/revisarPregunta_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/revisarPregunta_view.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/revisionPreguntas_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/revisionPreguntas_view.mustache" afterDir="false" />
+>>>>>>> tomas
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +58,10 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+<<<<<<< HEAD
+=======
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+>>>>>>> tomas
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
@@ -97,7 +111,13 @@
       <workItem from="1686599344599" duration="33000" />
       <workItem from="1686601332397" duration="56000" />
       <workItem from="1686608413986" duration="1305000" />
+<<<<<<< HEAD
 >>>>>>> Ivan
+=======
+      <workItem from="1686694707759" duration="2462000" />
+      <workItem from="1686749238581" duration="5608000" />
+      <workItem from="1686763739830" duration="399000" />
+>>>>>>> tomas
     </task>
     <servers />
   </component>
