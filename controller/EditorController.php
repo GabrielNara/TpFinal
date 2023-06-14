@@ -22,13 +22,13 @@ class EditorController
 
     public function revisionPreguntas()
     {
-        $preguntas = $this->editorModel->obtenerPreguntasEnRevision();
+        $preguntas = $this->editorModel->obtenerPreguntas();
 
-        $datos = array(
+        $contexto = array(
             'preguntas' => $preguntas
         );
 
-        $this->renderer->render("revisionPreguntas", $datos);
+        $this->renderer->render("revisionPreguntas", $contexto);
 
     }
 
@@ -57,8 +57,8 @@ class EditorController
             'opcionC' => $_POST['opcionC'],
             'opcionD' => $_POST['opcionD'],
             'categoria' => $_POST['categoria']
-
         );
+
         $errores = $this->editorModel->validarPreguntaAprobada($datos);
 
         $contexto = array(
@@ -66,15 +66,26 @@ class EditorController
             'errores' => $errores
         );
 
-        if (!empty($errores)) $this->renderer->render("crearPregunta", $contexto);
-
-
+        if (!empty($errores)) {
+            $this->renderer->render("crearPregunta", $contexto);
+        } else {
+            $this->revisionPreguntas();
+        }
     }
 
     public function rechazarPregunta()
     {
 
+            $idPregunta = $_GET['id'];
+            $this->editorModel->eliminarPregunta($idPregunta);
+
+       $this->revisionPreguntas();
+
+
 
     }
 
+
 }
+
+

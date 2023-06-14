@@ -15,6 +15,13 @@ class EditorModel
         return $this->database->query($query);
     }
 
+    public function obtenerPreguntas()
+    {
+        $query = "SELECT * FROM `preguntas`";
+        return $this->database->query($query);
+    }
+
+
     public function obtenerPregunta($id)
     {
         $query = "SELECT * FROM `preguntas` WHERE  id = '$id'";
@@ -64,6 +71,11 @@ class EditorModel
 
 
         return $this->database->queryInsertar($query);
+    }
+
+    public function eliminarPregunta($idPregunta){
+        $query = "DELETE FROM `preguntas` WHERE id = '$idPregunta'";
+        $this->database->queryInsertar($query);
     }
 
 }
