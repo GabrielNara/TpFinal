@@ -10,16 +10,12 @@
         position: relative;
         box-shadow: 0 0 10px #6ee7f5, 0 0 10px #6ee7f5, 0 0 10px #6ee7f5;
     }
-
 </style>
 <div id="container" class="flex flex-col justify-center items-center w-full my-8 2xl:my-0 2xl:h-screen">
-
     <div id="contenedor-pregunta" class="bg-white p-12 rounded-lg shadow-lg w-[90%] sm:w-[500px] mt-8 neon-border">
         <div id="categoria"></div>
-
         {{#pregunta}}
             <form action="aprobarPregunta" method="post">
-
                 <input id="pregunta" name="pregunta" type="text" placeholder="Insertar pregunta" value="{{pregunta}}"
                        class="w-full mt-4 py-2 text-xl focus:outline-none border-b border-gray-300"/>
                 <span class="text-sm bg-red-200 text-red-800">{{errores.errorPregunta}}</span>
@@ -44,30 +40,23 @@
                 <div class="mt-4">
                     <label for="categoria" class="text-lg">Categoría:</label>
                     <select id="categoria" name="categoria"
-                            class="w-full mt-2 py-2 px-4 border border-gray-300 rounded-lg focus:outline-gray-400">
-
+                            class="w-full m-2 py-2 px-4 border border-gray-300 rounded-lg focus:outline-gray-400">
                         <option value="1">Deporte</option>
                         <option value="2">Geografía</option>
                         <option value="3">Música</option>
                     </select>
                 </div>
                 <input type="hidden" name="id_pregunta" id="id_pregunta" value="{{id}}">
-
                 <button type="submit"
-                        class="bg-green-500 text-white text-sm font-bold tracking-wide rounded-full px-5 py-2">
+                        class="w-full bg-green-500 text-white text-sm font-bold tracking-wide rounded-full my-2 px-5 py-2">
                     Aprobar
                 </button>
-
-
             </form>
-
-            <a href="/tpFinal/editor/rechazarPregunta?id={{id}}"
-            class="bg-red-500 text-white text-sm font-bold tracking-wide rounded-full px-5 py-2">
-            Rechazar
-            </a>
-
+            <button class="w-full bg-red-500 text-white text-sm font-bold tracking-wide rounded-full my-2 px-5 py-2">
+                <a href="/tpFinal/editor/rechazarPregunta?id={{id}}">
+                Rechazar
+                </a>
+            </button>
         {{/pregunta}}
-
-
     </div>
 </div>
