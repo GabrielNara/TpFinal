@@ -12,39 +12,21 @@ class PartidaController
         $this->partidaModel = $partidaModel;
     }
 
-
     public function pregunta()
     {
-        {
-            {
-                $this->partidaModel->crearPartida();
-                $lista_preguntas = $this->partidaModel->obtenerListaPreguntas();
-                $_SESSION['lista_preguntas'] = $lista_preguntas;
-                $_SESSION['puntaje'] = 0;
-                $_SESSION['idPartida'] = $this->partidaModel->getIdPartida();
-                $contexto = array(
-                    'nroPregunta' => ($_SESSION['puntaje'] + 1),
-                    'puntos' => $_SESSION['puntaje'],
-                    'tiempoLimite' => 10
-                );
-                $this->renderer->render("pregunta", $contexto);
-            }
+        $idusuario = $_SESSION['usuario']['id'];
+        $this->partidaModel->crearPartida();
+        $lista_preguntas = $this->partidaModel->obtenerListaPreguntas($idusuario);
+        $_SESSION['lista_preguntas'] = $lista_preguntas;
+        $_SESSION['puntaje'] = 0;
+        $_SESSION['idPartida'] = $this->partidaModel->getIdPartida();
+        $contexto = array(
+            'nroPregunta' => ($_SESSION['puntaje'] + 1),
+            'puntos' => $_SESSION['puntaje'],
+            'tiempoLimite' => 10
+        );
+        $this->renderer->render("pregunta", $contexto);
 
-            $idusuario = $_SESSION['usuario']['id'];
-            $this->partidaModel->crearPartida();
-            $lista_preguntas = $this->partidaModel->obtenerListaPreguntas($idusuario);
-            $_SESSION['lista_preguntas'] = $lista_preguntas;
-            $_SESSION['puntaje'] = 0;
-            $_SESSION['idPartida'] = $this->partidaModel->getIdPartida();
-            $contexto = array(
-                'nroPregunta' => ($_SESSION['puntaje'] + 1),
-                'puntos' => $_SESSION['puntaje'],
-                'tiempoLimite' => 10
-            );
-            $this->renderer->render("pregunta", $contexto);
-
-
-        }
     }
 
     public function siguientePregunta()
