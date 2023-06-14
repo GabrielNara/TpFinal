@@ -60,4 +60,6 @@ class UsuarioModel
         QRcode::png($url, $archivoImagen, $nivelCorreccion, $tamano);
         return $archivoImagen;
     }
+
+
 }

@@ -17,9 +17,10 @@ class LoginController
         $this->renderer->render("login");
     }
 
+
     public function loguearse()
     {
-        $datos = array (
+        $datos = array(
             'username' => $_POST['username'],
             'password' => md5($_POST['password'])
         );
@@ -44,5 +45,6 @@ class LoginController
             }
         }
     }
-
 }
+
+
