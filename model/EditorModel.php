@@ -1,6 +1,6 @@
 <?php
 
-class CrearPreguntaModel
+class EditorModel
 {
     private $database;
 
@@ -9,7 +9,20 @@ class CrearPreguntaModel
         $this->database = $database;
     }
 
-    public function validarCreacionPregunta($datos)
+    public function obtenerPreguntasEnRevision()
+    {
+        $query = "SELECT * FROM `preguntas` WHERE id_estado_pregunta = 3 or id_estado_pregunta = 4";
+        return $this->database->query($query);
+    }
+
+    public function obtenerPregunta($id)
+    {
+        $query = "SELECT * FROM `preguntas` WHERE  id = '$id'";
+
+        return $this->database->query($query);
+    }
+
+    public function validarPreguntaAprobada($datos)
     {
         $errores = [];
         if (empty($datos['pregunta'])) {
@@ -30,14 +43,15 @@ class CrearPreguntaModel
 
 
         if (count($errores) == 0) {
-            $this->cargarPregunta($datos);
+            $this->aprobarPregunta($datos);
         }
 
         return $errores;
     }
 
-    public function cargarPregunta($datos)
+    public function aprobarPregunta($datos)
     {
+        $id = $datos['id'];
         $pregunta = $datos['pregunta'];
         $opcionA = $datos['opcionA'];
         $opcionB = $datos['opcionB'];
@@ -46,9 +60,11 @@ class CrearPreguntaModel
         $categoria = $datos['categoria'];
 
 
-        $query = "INSERT INTO `preguntas`(`pregunta`, `id_estado_pregunta`,`id_categoria`, `respuesta_a`, `respuesta_b`, `respuesta_c`, `respuesta_d`, `respuesta_correcta`)
-VALUES ('$pregunta',4,'$categoria','$opcionA','$opcionB','$opcionC','$opcionD','$opcionA')";
+        $query = "UPDATE `preguntas` SET `pregunta`='$pregunta',`id_estado_pregunta`=1,`id_categoria`='$categoria',`respuesta_a`='$opcionA',`respuesta_b`='$opcionB',`respuesta_c`='$opcionC',`respuesta_d`='$opcionD',`respuesta_correcta`='$opcionA' WHERE id='$id'";
+
+
         return $this->database->queryInsertar($query);
     }
 
 }
+

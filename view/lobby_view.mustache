@@ -30,6 +30,13 @@
                         <i class="mx-2 sm:mx-1 lg:w-1/5 text-center fa-solid fa-ranking-star"></i>
                         <p class="mx-2 sm:mx-1 lg:w-4/5 text-base">Ranking</p>
                     </a>
+                    {{#rol}}
+                        <a href="/tpFinal/editor/revisionPreguntas"
+                           class="flex justify-center lg:justify-start items-center hover:text-white text-center lg:text-start focus:bg-gray-700 focus:text-white text-gray-400 rounded px-3 py-2 w-full lg:w-52">
+                            <i class="mx-2 sm:mx-1 lg:w-1/5 text-center fa-solid fa-ranking-star"></i>
+                            <p class="mx-2 sm:mx-1 lg:w-4/5 text-base">Revision de preguntas</p>
+                        </a>
+                    {{/rol}}
                 </div>
                 <div class="h-1/2 lg:h-1/3 w-full flex justify-center items-center p-6 space-x-4">
                     <a href="/tpFinal/perfilJugador/list?id={{usuario.id}}"

@@ -56,7 +56,24 @@ class PartidaModel
     public function obtenerPreguntaAleatoria($lista_preguntas)
     {
         $indiceAleatorio = rand(0, sizeof($lista_preguntas) - 1);
-        return $lista_preguntas[$indiceAleatorio];
+
+        $pregunta = $lista_preguntas[$indiceAleatorio];
+
+        $respuestasDesordenadas = ['respuesta_a', 'respuesta_b', 'respuesta_c', 'respuesta_d'];
+
+        $respuestasOriginales = [];
+        foreach ($respuestasDesordenadas as $indice) {
+            $respuestasOriginales[$indice] = $pregunta[$indice];
+        }
+        shuffle($respuestasOriginales);
+
+        foreach ($respuestasDesordenadas as $indice => $valor) {
+            $pregunta[$valor] = $respuestasOriginales[$indice];
+        }
+
+        return $pregunta;
+
+
     }
 
     public function almacenarPregunta($id_partida, $id_pregunta)
@@ -177,13 +194,15 @@ class PartidaModel
         return $this->database->queryInsertar($query);
     }
 
-    public function obtenerPorcentajeAciertoJugador($id_usuario){
+    public function obtenerPorcentajeAciertoJugador($id_usuario)
+    {
         $query = "SELECT porcentaje_acierto FROM usuarios WHERE id = '$id_usuario'";
-         $porcentaje_acierto= $this->database->querySelectFetchAssoc($query);
-            return $porcentaje_acierto[0]['porcentaje_acierto'];
+        $porcentaje_acierto = $this->database->querySelectFetchAssoc($query);
+        return $porcentaje_acierto[0]['porcentaje_acierto'];
     }
 
-    public function obtenerPorcentajeAciertoPregunta($id_pregunta){
+    public function obtenerPorcentajeAciertoPregunta($id_pregunta)
+    {
         $query = "SELECT porcentaje_acierto FROM preguntas WHERE id = '$id_pregunta'";
         return $this->database->querySelectFetchAssoc($query);
 
