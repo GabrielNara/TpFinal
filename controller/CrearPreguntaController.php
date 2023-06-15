@@ -1,18 +1,26 @@
 <?php
 
-class CrearPreguntaController {
+class CrearPreguntaController
+{
     private $renderer;
 
-    public function __construct($renderer,$crearPreguntaModel) {
+
+
+
+    public function __construct($renderer, $crearPreguntaModel)
+    {
+
         $this->renderer = $renderer;
         $this->crearPreguntaModel = $crearPreguntaModel;
     }
 
-    public function list() {
+    public function list()
+    {
         $this->renderer->render("crearPregunta");
     }
 
-    public function crearPregunta(){
+    public function crearPregunta()
+    {
         $datos = array(
             'pregunta' => $_POST['pregunta'],
             'opcionA' => $_POST['opcionA'],

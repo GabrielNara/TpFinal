@@ -10,7 +10,9 @@ include_once("model/UsuarioModel.php");
 include_once("model/RolModel.php");
 include_once("model/RankingModel.php");
 include_once("model/CrearPreguntaModel.php");
+
 include_once("model/EditorModel.php");
+
 
 
 include_once('controller/HomeController.php');
@@ -22,6 +24,7 @@ include_once('controller/LoginController.php');
 include_once('controller/PartidaController.php');
 include_once('controller/RankingController.php');
 include_once('controller/EditorController.php');
+
 
 
 include_once('third-party/phpqrcode/qrlib.php');
