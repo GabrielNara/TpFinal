@@ -47,7 +47,8 @@ class CrearPreguntaModel
 
 
         $query = "INSERT INTO `preguntas`(`pregunta`, `id_estado_pregunta`,`id_categoria`, `respuesta_a`, `respuesta_b`, `respuesta_c`, `respuesta_d`, `respuesta_correcta`)
-VALUES ('$pregunta',1,'$categoria','$opcionA','$opcionB','$opcionC','$opcionD','$opcionA')";
+
+VALUES ('$pregunta',4,'$categoria','$opcionA','$opcionB','$opcionC','$opcionD','$opcionA')";
         return $this->database->queryInsertar($query);
     }
 

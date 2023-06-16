@@ -4,6 +4,7 @@ class CrearPreguntaController
 {
     private $renderer;
 
+
     public function __construct($renderer, $crearPreguntaModel)
     {
         $this->renderer = $renderer;
@@ -15,8 +16,10 @@ class CrearPreguntaController
         $this->renderer->render("crearPregunta");
     }
 
+
     public function crearPregunta()
     {
+
         $datos = array(
             'pregunta' => $_POST['pregunta'],
             'opcionA' => $_POST['opcionA'],

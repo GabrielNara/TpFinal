@@ -5,32 +5,47 @@
         background-size: cover;
         background-position: center;
     }
+
     .neon-border {
         position: relative;
         box-shadow: 0 0 20px #6ee7f5, 0 0 40px #6ee7f5, 0 0 60px #6ee7f5;
     }
 </style>
-<div class="flex w-full h-screen justify-center items-center">
+<div class="my-8 2xl:my-0 2xl:h-screen flex w-full justify-center items-center">
     <div class="w-full md:w-4/5 p-2 neon-border">
         <div class="bg-gray-100 rounded-lg shadow-lg p-4 w-full flex flex-col items-center">
             <div class="w-full md:w-4/5 flex flex-col md:flex-row items-center justify-center mb-6">
                 <div class="w-full md:w-1/3 flex justify-center">
-                    <img src="/tpfinal/public/img/{{usuario.foto_perfil}}" alt="Foto de perfil" class="w-40 h-40 rounded-full border border-[2px] border-gray-700 shadow-lg">
+                    <img src="/tpfinal/public/img/{{usuario.foto_perfil}}" alt="Foto de perfil"
+                         class="w-40 h-40 rounded-full border border-[2px] border-gray-700 shadow-lg">
                 </div>
                 <div class="w-full md:w-1/3 flex flex-col items-center">
                     <h2 class="text-5xl font-semibold text-gray-800 mb-2">{{usuario.nombre}} {{usuario.apellido}}</h2>
                 </div>
                 <div class="w-full md:w-1/3 flex justify-center">
-                    <img src="{{qr}}" alt="Foto del código QR" class="w-24 h-24 border border-[2px] border-gray-700 shadow-lg">
+                    <img src="{{qr}}" alt="Foto del código QR"
+                         class="w-24 h-24 border border-[2px] border-gray-700 shadow-lg">
                 </div>
             </div>
             <div class="w-full md:w-4/5 lg:w-1/2 flex flex-col items-center justify-center my-6">
-                <div class="flex justify-center"><p class="text-2xl text-gray-600 underline underline-offset-4 mb-2 mr-4">Posición en el ranking:</p><div class="ml-4 text-2xl text-gray-700 font-bold no-underline">{{ranking.posicion}}°</div></div>
-                <div class="flex justify-center"><p class="text-2xl text-gray-600 underline underline-offset-4 mb-2 mr-4">Puntaje:</p><div class="ml-4 text-2xl text-gray-700 font-bold no-underline">{{ranking.puntajeTotal}}</div></div>
-                <div class="flex justify-center"><p class="text-2xl text-gray-600 underline underline-offset-4 mb-2 mr-4">Partidas:</p><div class="ml-4 text-2xl text-gray-700 font-bold no-underline">{{ranking.cantidadPartidas}}</div></div>
+                <div class="flex justify-center"><p
+                        class="text-2xl text-gray-600 underline underline-offset-4 mb-2 mr-4">Posición en el
+                    ranking:</p>
+                    <div class="ml-4 text-2xl text-gray-700 font-bold no-underline">{{ranking.posicion}}°</div>
+                </div>
+                <div class="flex justify-center"><p
+                        class="text-2xl text-gray-600 underline underline-offset-4 mb-2 mr-4">Puntaje:</p>
+                    <div class="ml-4 text-2xl text-gray-700 font-bold no-underline">{{ranking.puntajeTotal}}</div>
+                </div>
+                <div class="flex justify-center"><p
+                        class="text-2xl text-gray-600 underline underline-offset-4 mb-2 mr-4">Partidas:</p>
+                    <div class="ml-4 text-2xl text-gray-700 font-bold no-underline">{{ranking.cantidadPartidas}}</div>
+                </div>
             </div>
             <div class="w-full md:w-4/5 lg:w-1/2 flex flex-col items-center justify-center mt-6">
-                <div id="map" class="w-[350px] md:w-[500px] lg:w-[600px] h-[350px] rounded-lg border border-[2px] border-gray-700 shadow-lg"></div>
+                <div id="map"
+                     class="w-[350px] md:w-[500px] lg:w-[600px] h-[350px] rounded-lg border border-[2px] border-gray-700 shadow-lg">
+                </div>
             </div>
         </div>
     </div>
@@ -38,22 +53,32 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvZj61EiOcl1RlGGo3dt9u2OpyqqYkohk"></script>
 <script>
     function initMap() {
-        var myLatLng = {lat: 40.7128, lng: -74.0060};
+        var geocoder = new google.maps.Geocoder();
 
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 15,
-            center: myLatLng,
-            disableDefaultUI: true,
-            zoomControl: true,
-            gestureHandling: 'cooperative'
-        });
+        geocoder.geocode({address: '{{ usuario.pais_ciudad }}'}, function (results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+                var myLatLng = {
+                    lat: results[0].geometry.location.lat(),
+                    lng: results[0].geometry.location.lng()
+                };
 
-        var marker = new google.maps.Marker({
-            position: myLatLng,
-            map: map,
-            title: 'Marcador'
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 15,
+                    center: myLatLng,
+                    disableDefaultUI: true,
+                    zoomControl: true,
+                    gestureHandling: 'cooperative'
+                });
+
+                var marker = new google.maps.Marker({
+                    position: myLatLng,
+                    map: map,
+                    title: 'Marcador'
+                });
+            }
         });
     }
+
 
     // Inicializar el mapa cuando la página haya cargado
     window.onload = function () {

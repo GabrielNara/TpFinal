@@ -21,11 +21,17 @@ class LobbyController
         if ($this->lobbyModel->estaValidadoElCorreoUsuario($usuario['email']) == 1) {
             $mayorPuntaje = $this->rankingModel->obtenerMayorPuntaje($usuario["id"]);
             $historial = $this->rankingModel->obtenerHistorial($usuario["id"]);
+            $rol = $this->lobbyModel->getRol($usuario["id"]);
             $data = array(
                 'usuario' => $usuario,
                 'puntajeMayor' => $mayorPuntaje[0]["puntajeTotal"],
                 'historial' => $historial
             );
+
+            if ($rol[0]['idRol'] == 2) {
+                $data['rol'] = 'editor';
+            }
+
             $this->renderer->render('lobby', $data);
         } else {
             $data = array(
