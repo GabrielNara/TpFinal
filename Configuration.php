@@ -12,6 +12,7 @@ include_once("model/RankingModel.php");
 include_once("model/CrearPreguntaModel.php");
 
 include_once("model/EditorModel.php");
+include_once("model/AdministradorModel.php");
 
 
 
@@ -24,6 +25,7 @@ include_once('controller/LoginController.php');
 include_once('controller/PartidaController.php');
 include_once('controller/RankingController.php');
 include_once('controller/EditorController.php');
+include_once('controller/AdministradorController.php');
 
 
 
@@ -94,6 +96,12 @@ class Configuration
     {
         return new EditorController($this->getRenderer(),
             new EditorModel($this->getDatabase()));
+    }
+
+    public function getAdministradorController()
+    {
+        return new AdministradorController($this->getRenderer(),
+            new AdministradorModel($this->getDatabase()));
     }
 
     public function getCrearPreguntaController()
