@@ -68,7 +68,7 @@ class EditorController
     public function rechazarPregunta()
     {
         $idPregunta = $_GET['id'];
-        $this->editorModel->eliminarPregunta($idPregunta);
+        $this->editorModel->suspenderPregunta($idPregunta);
         $this->revisionPreguntas();
     }
 

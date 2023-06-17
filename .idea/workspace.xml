@@ -33,6 +33,8 @@
       <change beforePath="$PROJECT_DIR$/view/perfilJugador_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/perfilJugador_view.mustache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/ranking_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/ranking_view.mustache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/respuestaCorrecta_view.mustache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/pregunta_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/pregunta_view.mustache" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,6 +118,8 @@
       <workItem from="1686694707759" duration="2462000" />
       <workItem from="1686749238581" duration="5608000" />
       <workItem from="1686763739830" duration="399000" />
+      <workItem from="1686955985184" duration="5702000" />
+      <workItem from="1687010028967" duration="979000" />
     </task>
     <servers />
   </component>
