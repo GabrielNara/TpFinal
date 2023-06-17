@@ -31,6 +31,10 @@ class AdministradorController
         $this->redireccionamiento();
 
 
+
+
+
+
         $this->renderer->render("estadisticas");
 
     }
