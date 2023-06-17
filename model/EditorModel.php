@@ -69,9 +69,9 @@ class EditorModel
         return $this->database->queryInsertar($query);
     }
 
-    public function eliminarPregunta($idPregunta)
+    public function suspenderPregunta($idPregunta)
     {
-        $query = "DELETE FROM `preguntas` WHERE id = '$idPregunta'";
+        $query = "UPDATE `preguntas` SET `id_estado_pregunta`=2 WHERE id = '$idPregunta'";
         $this->database->queryInsertar($query);
     }
 
