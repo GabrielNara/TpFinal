@@ -29,7 +29,7 @@ class AdministradorController
     public function estadisticas(){
 
         $this->redireccionamiento();
-        
+
         $this->renderer->render("estadisticas");
 
 
