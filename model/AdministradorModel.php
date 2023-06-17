@@ -16,6 +16,18 @@ class AdministradorModel
         return $this->database->querySelectFetchAssoc($query);
     }
 
+    public function obtenerCantidadJugadores(){
+
+        $query = "SELECT u.*
+               FROM usuarios u
+               INNER JOIN usuarios_roles ur ON u.id = ur.idUsuario
+               INNER JOIN roles r ON ur.idRol = r.id
+               WHERE r.id = 3";
+
+        return $this->database->querySelectFetchAssoc($query);
+
+    }
+
 
 
 }
