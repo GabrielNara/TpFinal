@@ -1,1 +1,46 @@
-<h1>hola mundo</h1>
+{{> header}}
+
+<body>
+<h1>JUGADORES</h1>
+
+<!-- Opciones de filtro -->
+<form action="/ruta-al-controlador" method="GET">
+    <select name="filtro">
+        <option value="todos" {{#filtroTodos}}selected{{/filtroTodos}}>Todos</option>
+        <option value="dia" {{#filtroDia}}selected{{/filtroDia}}>Día</option>
+        <option value="semana" {{#filtroSemana}}selected{{/filtroSemana}}>Semana</option>
+        <option value="mes" {{#filtroMes}}selected{{/filtroMes}}>Mes</option>
+        <option value="anio" {{#filtroAnio}}selected{{/filtroAnio}}>Año</option>
+    </select>
+    <button type="submit">Filtrar</button>
+</form>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+            ['Jugadores', {{jugadores}}],
+            ['No Jugadores', 10 - {{jugadores}}]
+        ]);
+
+        var options = {
+            'title': 'Cantidad de Jugadores',
+            'width': 400,
+            'height': 300
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    }
+</script>
+
+<div id="chart_div"></div>
+</body>
+</html>
