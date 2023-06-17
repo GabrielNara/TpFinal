@@ -15,8 +15,21 @@ class EditorController
 
     }
 
+    public function redireccionamiento() {
+        $usuario = $_SESSION['usuario'];
+        $rol = $this->editorModel->getRol($usuario["id"]);
+        // Verificar si el usuario tiene el rol de "jugador"
+        if ($rol[0]['idRol'] == 3) {
+            // Redirigir al usuario al lobby o a la página predeterminada
+            header('Location: /tpfinal/lobby/list');
+            exit();
+        }
+    }
+
     public function revisionPreguntas()
     {
+        $this->redireccionamiento();
+
         $preguntas = $this->editorModel->obtenerPreguntas();
 
         $contexto = array(
@@ -28,6 +41,8 @@ class EditorController
 
     public function revisarPregunta()
     {
+        $this->redireccionamiento();
+
         $idPregunta = $_GET["id"];
 
         $preguntaObtenida = $this->editorModel->obtenerPregunta($idPregunta);
