@@ -29,18 +29,16 @@ class AdministradorController
     public function estadisticas(){
 
         $this->redireccionamiento();
-
+        
         $this->renderer->render("estadisticas");
+
 
     }
 
     public function cantJugadores(){
         $this->redireccionamiento();
 
-
         $cantidadJugadores = $this->administradorModel->obtenerCantidadJugadores();
-
-
 
         $contexto = array(
             'jugadores' => $cantidadJugadores
