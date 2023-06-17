@@ -9,16 +9,8 @@ class PartidaModel
 		$this->database = $database;
 	}
 
-    
-    public function crearPartida()
-    {
-        if (isset($_SESSION['usuario'])) {
-            $usuario = $_SESSION['usuario'];
-            $idUsuario = $usuario["id"];
-        }
-        $query = "INSERT INTO `partidas`(`puntaje`, `fecha`, `idUsuario`) VALUES (0, NOW(), $idUsuario)";
-        return $this->database->queryInsertar($query);
-    }
+
+
 
 	public function crearPartida()
 	{
