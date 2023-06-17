@@ -10,6 +10,7 @@
     <list default="true" id="500f7f56-7c0b-4a89-9880-2421ecee61d5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
 
+
       <change beforePath="$PROJECT_DIR$/Configuration.php" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/CrearPreguntaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/CrearPreguntaController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/PartidaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/PartidaController.php" afterDir="false" />
@@ -447,6 +448,9 @@
       <change beforePath="$PROJECT_DIR$/controller/PartidaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/PartidaController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/PartidaModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/model/PartidaModel.php" afterDir="false" />
 
+
+      <change beforePath="$PROJECT_DIR$/view/pregunta_view.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/pregunta_view.mustache" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -550,6 +554,7 @@
       <workItem from="1686749238581" duration="5608000" />
       <workItem from="1686763739830" duration="399000" />
       <workItem from="1686955985184" duration="5702000" />
+      <workItem from="1687010028967" duration="979000" />
     </task>
     <servers />
   </component>

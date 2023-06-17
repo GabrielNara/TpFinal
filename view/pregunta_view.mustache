@@ -127,7 +127,7 @@
     function cargarPregunta() {
         tiempoRestante = 10; // Reiniciar el tiempo restante a 10 segundos al cargar una nueva pregunta
         $('#temporizador').text(tiempoRestante);
-
+        $('#cartel-reporte-enviado').remove();
         $.ajax({
             url: 'http://localhost/tpFinal/partida/siguientePregunta',
             method: 'GET',
@@ -215,6 +215,7 @@
                 },
                 success: function (response) {
                     $recuadro.remove();
+                    $('#contenedor-pregunta').append('<div id="cartel-reporte-enviado" class="w-[90%] bg-yellow-300 text-yellow-800 font-bold mx-auto mt-6 p-3 rounded">Se reportó la pregunta.</div>');
                     reanudarTemporizador();
                 },
                 error: function (xhr, status, error) {
