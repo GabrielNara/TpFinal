@@ -944,6 +944,9 @@ INSERT INTO `usuarios` (`id`, `nombre`, `apellido`, `email`, `contrasena`, `ano_
 (5, 'pepe', 'argento', 'fasdsad@asfad.com', '202cb962ac59075b964b07152d234b70', 3423, 'm', 'argentina', 'admin2', 'Chikorita.png', '647d589c749fe', 1, 0, 0, 0),
 (6, 'Tomás', 'Ayerbe', 'tomayerbe@gmail.com', '202cb962ac59075b964b07152d234b70', 2002, 'M', 'Argentina', 'tomas', 'user-photo.png', '647fea03c212b', 1, 3, 2, 66.6667);
 
+ALTER TABLE usuarios
+ADD COLUMN fecha_registro TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
 -- --------------------------------------------------------
 
 --
