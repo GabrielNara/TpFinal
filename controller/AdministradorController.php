@@ -34,7 +34,7 @@ class AdministradorController
 
 
     }
-    
+
     public function cantJugadores()
     {
         $this->redireccionamiento();
