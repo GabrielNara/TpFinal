@@ -52,9 +52,11 @@ class AdministradorController
         $this->renderer->render("cantidadJugadores", $contexto);
     }
  */
-    public function cantJugadores($filtro = 'todos')
+    public function cantJugadores()
     {
         $this->redireccionamiento();
+
+        $filtro = $_GET['filtro'] ?? 'todos'; // Obtener el valor del filtro desde la URL
 
         $filtroPeriodo = '';
 
@@ -63,7 +65,7 @@ class AdministradorController
                 $filtroPeriodo = 'DATE(u.fecha_registro) = CURDATE()';
                 break;
             case 'semana':
-                $filtroPeriodo = 'WEEK(u.fecha_registro) = WEEK(CURDATE())';
+                $filtroPeriodo = 'DATE_FORMAT(u.fecha_registro, "%x-%v") = DATE_FORMAT(CURDATE(), "%x-%v")';
                 break;
             case 'mes':
                 $filtroPeriodo = 'MONTH(u.fecha_registro) = MONTH(CURDATE())';
@@ -79,7 +81,12 @@ class AdministradorController
         $cantidadJugadores = $this->administradorModel->obtenerCantidadJugadores($filtroPeriodo);
 
         $contexto = array(
-            'jugadores' => $cantidadJugadores
+            'jugadores' => $cantidadJugadores[0]['cantidad'], // Obtener el valor correcto de la cantidad de jugadores
+            'filtroTodos' => ($filtro === 'todos') ? true : false,
+            'filtroDia' => ($filtro === 'dia') ? true : false,
+            'filtroSemana' => ($filtro === 'semana') ? true : false,
+            'filtroMes' => ($filtro === 'mes') ? true : false,
+            'filtroAnio' => ($filtro === 'anio') ? true : false
         );
 
         $this->renderer->render("cantidadJugadores", $contexto);

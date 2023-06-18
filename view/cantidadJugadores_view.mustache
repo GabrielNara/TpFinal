@@ -1,10 +1,11 @@
 {{> header}}
 
 <body>
+
 <h1>JUGADORES</h1>
 
 <!-- Opciones de filtro -->
-<form action="/ruta-al-controlador" method="GET">
+<form action="/tpFinal/administrador/cantJugadores" method="GET">
     <select name="filtro">
         <option value="todos" {{#filtroTodos}}selected{{/filtroTodos}}>Todos</option>
         <option value="dia" {{#filtroDia}}selected{{/filtroDia}}>Día</option>
@@ -29,6 +30,7 @@
             ['Jugadores', {{jugadores}}],
             ['No Jugadores', 10 - {{jugadores}}]
         ]);
+
 
         var options = {
             'title': 'Cantidad de Jugadores',
