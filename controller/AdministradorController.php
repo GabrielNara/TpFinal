@@ -34,32 +34,14 @@ class AdministradorController
 
 
     }
-
+    
     public function cantJugadores()
     {
         $this->redireccionamiento();
 
         $filtro = $_GET['filtro'] ?? 'todos'; // Obtener el valor del filtro desde la URL
 
-        $filtroPeriodo = '';
-
-        switch ($filtro) {
-            case 'dia':
-                $filtroPeriodo = 'DATE(u.fecha_registro) = CURDATE()';
-                break;
-            case 'semana':
-                $filtroPeriodo = 'DATE_FORMAT(u.fecha_registro, "%x-%v") = DATE_FORMAT(CURDATE(), "%x-%v")';
-                break;
-            case 'mes':
-                $filtroPeriodo = 'MONTH(u.fecha_registro) = MONTH(CURDATE())';
-                break;
-            case 'anio':
-                $filtroPeriodo = 'YEAR(u.fecha_registro) = YEAR(CURDATE())';
-                break;
-            default:
-                // Filtro "todos" (sin restricciones)
-                break;
-        }
+        $filtroPeriodo = $this->filtroPeriodo($filtro);
 
         $cantidadJugadores = $this->administradorModel->obtenerCantidadJugadores($filtroPeriodo);
 
@@ -75,6 +57,28 @@ class AdministradorController
         $this->renderer->render("cantidadJugadores", $contexto);
     }
 
+    public function filtroPeriodo($filtro){
+
+        switch ($filtro) {
+            case 'dia':
+                $filtroPeriodo = 'DATE(u.fecha_registro) = CURDATE()';
+                break;
+            case 'semana':
+                $filtroPeriodo = 'DATE_FORMAT(u.fecha_registro, "%x-%v") = DATE_FORMAT(CURDATE(), "%x-%v")';
+                break;
+            case 'mes':
+                $filtroPeriodo = 'MONTH(u.fecha_registro) = MONTH(CURDATE())';
+                break;
+            case 'anio':
+                $filtroPeriodo = 'YEAR(u.fecha_registro) = YEAR(CURDATE())';
+                break;
+            default:
+                $filtroPeriodo = '';
+                break;
+        }
+
+        return $filtroPeriodo;
+    }
 
 
 
