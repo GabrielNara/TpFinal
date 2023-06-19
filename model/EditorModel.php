@@ -15,7 +15,7 @@ class EditorModel
         where idUsuario = '$id'";
         return $this->database->querySelectFetchAssoc($query);
     }
-    
+
     public function obtenerPreguntas()
     {
         $query = "SELECT * FROM `preguntas`";
