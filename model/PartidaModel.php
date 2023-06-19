@@ -9,9 +9,6 @@ class PartidaModel
 		$this->database = $database;
 	}
 
-
-
-
 	public function crearPartida()
 	{
 		if (isset($_SESSION['usuario'])) {
@@ -22,14 +19,12 @@ class PartidaModel
 		return $this->database->queryInsertar($query);
 	}
 
-
 	public function getIdPartida()
 	{
 		$query = "SELECT id FROM partidas ORDER BY id DESC LIMIT 1";
 		$idPartida = $this->database->query($query);
 		return $idPartida[0]['id'];
 	}
-
 
 	public function obtenerListaPreguntas($id_usuario)
 	{
@@ -69,18 +64,6 @@ class PartidaModel
 		}
 
 		return $pregunta;
-	}
-
-	public function almacenarPregunta($id_partida, $id_pregunta)
-	{
-		$query = "INSERT INTO `partidas_preguntas`(`id_partida`, `id_pregunta`) VALUES ('$id_partida', '$id_pregunta')";
-		return $this->database->queryInsertar($query);
-	}
-
-	public function reiniciarPreguntas($id_partida)
-	{
-		$query = "DELETE FROM `partidas_preguntas` WHERE id_partida = '$id_partida'";
-		return $this->database->queryInsertar($query);
 	}
 
 	public function obtenerCategoria($id_categoria)

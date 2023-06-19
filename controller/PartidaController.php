@@ -34,11 +34,9 @@ class PartidaController
 		$idPartida = $_SESSION['idPartida'];
 		$lista_preguntas = $_SESSION['lista_preguntas'];
 		if (empty($lista_preguntas)) {
-			$this->partidaModel->reiniciarPreguntas($idPartida);
 			$lista_preguntas = $this->partidaModel->obtenerListaPreguntas($idusuario);
 		}
 		$pregunta = $this->partidaModel->obtenerPreguntaAleatoria($lista_preguntas);
-		$this->partidaModel->almacenarPregunta($idPartida, $pregunta['id']);
 		$indice = array_search($pregunta, $lista_preguntas);
 		array_splice($lista_preguntas, $indice, 1);
 		$_SESSION['lista_preguntas'] = $lista_preguntas;

@@ -12,7 +12,6 @@ class EditorController
 	{
 		$this->renderer = $renderer;
 		$this->editorModel = $editorModel;
-
 	}
 
 	public function redireccionamiento()
@@ -90,9 +89,7 @@ class EditorController
 
 	public function list()
 	{
-		$this->redireccionamiento();
+		header('Location: /tpfinal/lobby/list');
+		exit();
 	}
-
 }
-
-
