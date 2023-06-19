@@ -185,7 +185,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (4,'Gabriel','Enrriquez','gaenrriquez@gmail.com','202cb962ac59075b964b07152d234b70',2000,'M','San Justo','admin','Cuando.jpg','647cff2c13f9c',1,17,15,88.2353,'2023-06-19 17:38:30'),(5,'pepe','argento','fasdsad@asfad.com','202cb962ac59075b964b07152d234b70',3423,'m','Ituzaingó','admin2','user-photo.png','647d589c749fe',1,10,6,60,'2023-06-19 17:39:07'),(6,'Tomás','Ayerbe','tomayerbe@gmail.com','202cb962ac59075b964b07152d234b70',2002,'M','Morón','tomas','user-photo.png','647fea03c212b',1,17,8,47.0588,'2023-06-19 17:37:55');
+INSERT INTO `usuarios` VALUES (4,'Gabriel','Enrriquez','gaenrriquez@gmail.com','202cb962ac59075b964b07152d234b70',2000,'M','San Justo','admin','Cuando.jpg','647cff2c13f9c',1,17,15,88.2353,'2023-06-19 17:38:30'),(5,'pepe','argento','fasdsad@asfad.com','202cb962ac59075b964b07152d234b70',3423,'m','Ituzaingó','admin2','user-photo.png','647d589c749fe',1,10,6,60,'2023-06-19 17:39:07'),(6,'Tomás','Ayerbe','tomayerbe@gmail.com','202cb962ac59075b964b07152d234b70',2002,'M','Morón','tomas','user-photo.png','647fea03c212b',1,10,1,10,'2023-06-19 20:29:49');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -227,4 +227,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-19 14:41:24
+-- Dump completed on 2023-06-19 17:30:34
