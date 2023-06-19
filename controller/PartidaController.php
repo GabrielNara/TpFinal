@@ -14,10 +14,8 @@ class PartidaController
 
 	public function pregunta()
 	{
-		$idusuario = $_SESSION['usuario']['id'];
 		$this->partidaModel->crearPartida();
-		$lista_preguntas = $this->partidaModel->obtenerListaPreguntas($idusuario);
-		$_SESSION['lista_preguntas'] = $lista_preguntas;
+		$_SESSION['lista_preguntas'] = $this->partidaModel->obtenerListaPreguntas($_SESSION['usuario']['id']);
 		$_SESSION['puntaje'] = 0;
 		$_SESSION['idPartida'] = $this->partidaModel->getIdPartida();
 		$contexto = array(
@@ -30,26 +28,20 @@ class PartidaController
 
 	public function siguientePregunta()
 	{
-		$idusuario = $_SESSION['usuario']['id'];
-		$idPartida = $_SESSION['idPartida'];
-		$lista_preguntas = $_SESSION['lista_preguntas'];
-		if (empty($lista_preguntas)) {
-			$lista_preguntas = $this->partidaModel->obtenerListaPreguntas($idusuario);
+		if (!isset($_SESSION['lista_preguntas'])) {
+			$_SESSION['lista_preguntas'] = $this->partidaModel->obtenerListaPreguntas($_SESSION['usuario']['id']);
 		}
-		$pregunta = $this->partidaModel->obtenerPreguntaAleatoria($lista_preguntas);
-		$indice = array_search($pregunta, $lista_preguntas);
-		array_splice($lista_preguntas, $indice, 1);
-		$_SESSION['lista_preguntas'] = $lista_preguntas;
+		$pregunta = $this->partidaModel->obtenerPreguntaAleatoria($_SESSION['lista_preguntas']);
+		$indice = array_search($pregunta, $_SESSION['lista_preguntas']);
+		unset($_SESSION['lista_preguntas'][$indice]);
 		$this->partidaModel->sumarPreguntaALaEstadistica($pregunta['id']);
-		$this->partidaModel->sumarPreguntaAlJugador($idPartida);
+		$this->partidaModel->sumarPreguntaAlJugador($_SESSION['idPartida']);
 
 		echo json_encode($pregunta);
 	}
 
 	public function responder()
 	{
-		$idPartida = $_SESSION['idPartida'];
-
 		$datos = array(
 			'idPregunta' => $_POST['id_pregunta'],
 			'respuesta_seleccionada' => $_POST['respuesta_seleccionada']
@@ -66,13 +58,11 @@ class PartidaController
 			$_SESSION['puntaje']++;
 			$contexto['puntos'] = $_SESSION['puntaje'];
 			$this->partidaModel->sumarPreguntaCorrectaALaEstadistica($datos['idPregunta']);
-			$this->partidaModel->sumarPreguntaCorrectaAlJugador($idPartida);
+			$this->partidaModel->sumarPreguntaCorrectaAlJugador($_SESSION['idPartida']);
 		} else {
 			$contexto['respuesta_correcta'] = $this->partidaModel->obtenerRespuestaCorrecta($datos['idPregunta']);
 			$contexto['puntos'] = $_SESSION['puntaje'];
-			$this->partidaModel->actualizarPuntaje($_SESSION['puntaje'], $idPartida);
-			unset($_SESSION['lista_preguntas']);
-			unset($_SESSION['puntaje']);
+			$this->partidaModel->actualizarPuntaje($_SESSION['puntaje'], $_SESSION['idPartida']);
 		}
 		$this->partidaModel->actualizarPorcentajeAciertoPregunta($datos['idPregunta']);
 		echo json_encode($contexto);
@@ -80,17 +70,15 @@ class PartidaController
 
 	public function totalPuntaje()
 	{
-		$idPartida = $_SESSION['idPartida'];
-		$contexto['total'] = $_SESSION['puntaje'];
-
-		$this->partidaModel->actualizarPuntaje($_SESSION['puntaje'], $idPartida);
-		echo json_encode($contexto);
+		$this->partidaModel->actualizarPuntaje($_SESSION['puntaje'], $_SESSION['idPartida']);
+		echo json_encode($_SESSION['puntaje']);
+		unset($_SESSION['lista_preguntas']);
+		unset($_SESSION['puntaje']);
 	}
 
 	public function reportarPregunta()
 	{
-		$id_pregunta = $_POST['id_pregunta'];
-		$this->partidaModel->reportarPregunta($id_pregunta);
+		$this->partidaModel->reportarPregunta($_POST['id_pregunta']);
 	}
 
 }
