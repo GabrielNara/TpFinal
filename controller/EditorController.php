@@ -3,75 +3,93 @@
 
 class EditorController
 {
-    private $renderer;
+	private $renderer;
 
-    private $editorModel;
+	private $editorModel;
 
 
-    public function __construct($renderer, $editorModel)
-    {
-        $this->renderer = $renderer;
-        $this->editorModel = $editorModel;
+	public function __construct($renderer, $editorModel)
+	{
+		$this->renderer = $renderer;
+		$this->editorModel = $editorModel;
+	}
 
-    }
+	public function redireccionamiento()
+	{
+		$usuario = $_SESSION['usuario'];
+		$rol = $this->editorModel->getRol($usuario["id"]);
+		// Verificar si el usuario tiene el rol de "jugador"
+		if ($rol[0]['idRol'] == 3) {
+			// Redirigir al usuario al lobby o a la página predeterminada
+			header('Location: /tpfinal/lobby/list');
+			exit();
+		}
+	}
 
-    public function revisionPreguntas()
-    {
-        $preguntas = $this->editorModel->obtenerPreguntas();
+	public function revisionPreguntas()
+	{
+		$this->redireccionamiento();
 
-        $contexto = array(
-            'preguntas' => $preguntas
-        );
+		$preguntas = $this->editorModel->obtenerPreguntas();
 
-        $this->renderer->render("revisionPreguntas", $contexto);
-    }
+		$contexto = array(
+			'preguntas' => $preguntas
+		);
 
-    public function revisarPregunta()
-    {
-        $idPregunta = $_GET["id"];
+		$this->renderer->render("revisionPreguntas", $contexto);
+	}
 
-        $preguntaObtenida = $this->editorModel->obtenerPregunta($idPregunta);
+	public function revisarPregunta()
+	{
+		$this->redireccionamiento();
 
-        $datos = array(
-            'pregunta' => $preguntaObtenida
-        );
+		$idPregunta = $_GET["id"];
 
-        $this->renderer->render('revisarPregunta', $datos);
-    }
+		$preguntaObtenida = $this->editorModel->obtenerPregunta($idPregunta);
 
-    public function aprobarPregunta()
-    {
-        $datos = array(
-            'id' => $_POST['id_pregunta'],
-            'pregunta' => $_POST['pregunta'],
-            'opcionA' => $_POST['opcionA'],
-            'opcionB' => $_POST['opcionB'],
-            'opcionC' => $_POST['opcionC'],
-            'opcionD' => $_POST['opcionD'],
-            'categoria' => $_POST['categoria']
-        );
+		$datos = array(
+			'pregunta' => $preguntaObtenida
+		);
 
-        $errores = $this->editorModel->validarPreguntaAprobada($datos);
+		$this->renderer->render('revisarPregunta', $datos);
+	}
 
-        $contexto = array(
-            'datos' => $datos,
-            'errores' => $errores
-        );
+	public function aprobarPregunta()
+	{
+		$datos = array(
+			'id' => $_POST['id_pregunta'],
+			'pregunta' => $_POST['pregunta'],
+			'opcionA' => $_POST['opcionA'],
+			'opcionB' => $_POST['opcionB'],
+			'opcionC' => $_POST['opcionC'],
+			'opcionD' => $_POST['opcionD'],
+			'categoria' => $_POST['categoria']
+		);
 
-        if (!empty($errores)) {
-            $this->renderer->render("crearPregunta", $contexto);
-        } else {
-            $this->revisionPreguntas();
-        }
-    }
+		$errores = $this->editorModel->validarPreguntaAprobada($datos);
 
-    public function rechazarPregunta()
-    {
-        $idPregunta = $_GET['id'];
-        $this->editorModel->suspenderPregunta($idPregunta);
-        $this->revisionPreguntas();
-    }
+		$contexto = array(
+			'datos' => $datos,
+			'errores' => $errores
+		);
 
+		if (!empty($errores)) {
+			$this->renderer->render("crearPregunta", $contexto);
+		} else {
+			$this->revisionPreguntas();
+		}
+	}
+
+	public function rechazarPregunta()
+	{
+		$idPregunta = $_GET['id'];
+		$this->editorModel->suspenderPregunta($idPregunta);
+		$this->revisionPreguntas();
+	}
+
+	public function list()
+	{
+		header('Location: /tpfinal/lobby/list');
+		exit();
+	}
 }
-
-

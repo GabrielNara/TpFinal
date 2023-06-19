@@ -15,7 +15,8 @@ class LobbyController
         $this->rankingModel = $rankingModel;
     }
 
-    public function list()
+
+   /* public function list()
     {
         $usuario = $_SESSION['usuario'];
         if ($this->lobbyModel->estaValidadoElCorreoUsuario($usuario['email']) == 1) {
@@ -30,9 +31,46 @@ class LobbyController
 
             if ($rol[0]['idRol'] == 2) {
                 $data['rol'] = 'editor';
+
+            } else if ($rol[0]['idRol'] == 1) {
+                $data['rol'] = 'administrador';
+
             }
 
             $this->renderer->render('lobby', $data);
+
+        } else {
+            $data = array(
+                'usuario' => $usuario
+            );
+            $this->renderer->render('faltaConfirmarMail', $data);
+        }
+    } */
+
+    public function list()
+    {
+        $usuario = $_SESSION['usuario'];
+        if ($this->lobbyModel->estaValidadoElCorreoUsuario($usuario['email']) == 1) {
+            $mayorPuntaje = $this->rankingModel->obtenerMayorPuntaje($usuario["id"]);
+            $historial = $this->rankingModel->obtenerHistorial($usuario["id"]);
+            $rol = $this->lobbyModel->getRol($usuario["id"]);
+
+
+            $data = array(
+                'usuario' => $usuario,
+                'puntajeMayor' => $mayorPuntaje[0]["puntajeTotal"],
+                'historial' => $historial
+            );
+
+            if ($rol[0]['idRol'] == 2) {
+                $data['editor'] = true;
+            } else if ($rol[0]['idRol'] == 1) {
+                $data['editor'] = true;
+                $data['administrador'] = true;
+            }
+
+            $this->renderer->render('lobby', $data);
+
         } else {
             $data = array(
                 'usuario' => $usuario
@@ -40,6 +78,10 @@ class LobbyController
             $this->renderer->render('faltaConfirmarMail', $data);
         }
     }
+
+
+
+
 
     public function cerrarSesion()
     {

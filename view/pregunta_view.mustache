@@ -38,16 +38,16 @@
         <p id="pregunta" class="text-2xl font-bold my-2"></p>
         <form method="POST" id="form-pregunta">
             <label for="a" id="opcion-a"
-                   class="opcion block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:text-gray-100 hover:bg-gray-500 cursor-pointer">
+                   class="opcion whitespace-normal block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:text-gray-100 hover:bg-gray-500 cursor-pointer">
                 <input id="a" type="radio" class="hidden"></label>
             <label for="b" id="opcion-b"
-                   class="opcion block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:text-gray-100 hover:bg-gray-500 cursor-pointer">
+                   class="opcion whitespace-normal block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:text-gray-100 hover:bg-gray-500 cursor-pointer">
                 <input id="b" type="radio" class="hidden"></label>
             <label for="c" id="opcion-c"
-                   class="opcion block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:text-gray-100 hover:bg-gray-500 cursor-pointer">
+                   class="opcion whitespace-normal block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:text-gray-100 hover:bg-gray-500 cursor-pointer">
                 <input id="c" type="radio" class="hidden"></label>
             <label for="d" id="opcion-d"
-                   class="opcion block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:text-gray-100 hover:bg-gray-500 cursor-pointer">
+                   class="opcion whitespace-normal block mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 hover:text-gray-100 hover:bg-gray-500 cursor-pointer">
                 <input id="d" type="radio" class="hidden"></label>
             <div id="mensaje-seleccionar-respuesta"
                  class="hidden w-4/5 text-center text-lg bg-red-200 rounded my-4 text-red-800 font-bold">¡Debe
@@ -98,7 +98,6 @@
 
     async function terminarPartida() {
         try {
-
             const response = await fetch('http://localhost/tpFinal/partida/totalPuntaje');
             const totalJson = await response.json();
 
@@ -152,6 +151,21 @@
                         break;
                     case '3':
                         $('#categoria').html('<div class="w-full text-center text-xl text-pink-800 font-bold p-4 bg-pink-300">Música</div>');
+                        break;
+                    case '4':
+                        $('#categoria').html('<div class="w-full text-center text-xl text-red-800 font-bold p-4 bg-red-300">Entretenimiento</div>');
+                        break;
+                    case '5':
+                        $('#categoria').html('<div class="w-full text-center text-xl text-yellow-800 font-bold p-4 bg-yellow-300">Historia</div>');
+                        break;
+                    case '6':
+                        $('#categoria').html('<div class="w-full text-center text-xl text-green-800 font-bold p-4 bg-green-300">Tecnología</div>');
+                        break;
+                    case '7':
+                        $('#categoria').html('<div class="w-full text-center text-xl text-blue-800 font-bold p-4 bg-blue-300">Literatura</div>');
+                        break;
+                    case '8':
+                        $('#categoria').html('<div class="w-full text-center text-xl text-teal-800 font-bold p-4 bg-teal-300">Matemática</div>');
                         break;
                 }
 

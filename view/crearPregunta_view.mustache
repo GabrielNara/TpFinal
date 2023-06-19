@@ -7,43 +7,47 @@
     }
 </style>
 <div class="flex flex-col justify-center items-center w-full my-8 2xl:my-0 2xl:h-screen">
-    <h1 class="font-bold text-5xl text-center text-indigo-100">Crear pregunta</h1>
-    <div class="bg-white p-12 rounded-lg shadow-lg w-[90%] sm:w-[500px] mt-8">
-        <form action="crearPregunta" method="post">
-            <input id="pregunta" name="pregunta" type="text" placeholder="Insertar pregunta" value="{{datos.pregunta}}"
-                   class="w-full mt-4 py-2 text-xl focus:outline-none border-b border-gray-300"/>
-            <span class="text-sm bg-red-200 text-red-800">{{errores.errorPregunta}}</span>
-            <input id="opcionA" name="opcionA" type="text" placeholder="Opción A (Opcion Correcta)"
-                   value="{{datos.opcionA}}"
-                   class="w-full mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 focus:outline-gray-400"/>
-            <span class="text-sm bg-red-200 text-red-800">{{errores.errorOpcionA}}</span>
 
-            <input id="opcionB" name="opcionB" type="text" placeholder="Opción B" value="{{datos.opcionB}}"
-                   class="w-full mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 focus:outline-gray-400"/>
-            <span class="text-sm bg-red-200 text-red-800">{{errores.errorOpcionB}}</span>
-
-            <input id="opcionC" name="opcionC" type="text" placeholder="Opción C" value="{{datos.opcionC}}"
-                   class="w-full mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 focus:outline-gray-400"/>
-            <span class="text-sm bg-red-200 text-red-800">{{errores.errorOpcionC}}</span>
-
-            <input id="opcionD" name="opcionD" type="text" placeholder="Opción D" value="{{datos.opcionD}}"
-                   class="w-full mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 focus:outline-gray-400"/>
-            <span class="text-sm bg-red-200 text-red-800">{{errores.errorOpcionD}}</span>
-
-            <div class="mt-4">
-                <label for="categoria" class="text-lg">Categoría:</label>
-                <select id="categoria" name="categoria"
-                        class="w-full mt-2 py-2 px-4 border border-gray-300 rounded-lg focus:outline-gray-400">
-                    <option value="1">Deporte</option>
-                    <option value="2">Geografía</option>
-                    <option value="3">Música</option>
-                </select>
-            </div>
-
-            <button type="submit"
-                    class="w-full bg-indigo-600 text-white text-sm font-bold tracking-wide rounded-full my-5 px-5 py-2">
-                Enviar
-            </button>
-        </form>
+    <div class="flex flex-col justify-center items-center w-full my-8 2xl:my-0 2xl:h-screen">
+        <h1 class="font-bold text-5xl text-center text-indigo-100">Crear pregunta</h1>
+        <div class="bg-white p-12 rounded-lg shadow-lg w-[90%] sm:w-[500px] mt-8">
+            <form action="crearPregunta" method="post">
+                <input id="pregunta" name="pregunta" type="text" placeholder="Insertar pregunta"
+                       value="{{datos.pregunta}}"
+                       class="w-full mt-4 py-2 text-xl focus:outline-none border-b border-gray-300"/>
+                <span class="text-sm bg-red-200 text-red-800">{{errores.errorPregunta}}</span>
+                <input id="opcionA" name="opcionA" type="text" placeholder="Opción A (Opcion Correcta)"
+                       value="{{datos.opcionA}}"
+                       class="w-full mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 focus:outline-gray-400"/>
+                <span class="text-sm bg-red-200 text-red-800">{{errores.errorOpcionA}}</span>
+                <input id="opcionB" name="opcionB" type="text" placeholder="Opción B" value="{{datos.opcionB}}"
+                       class="w-full mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 focus:outline-gray-400"/>
+                <span class="text-sm bg-red-200 text-red-800">{{errores.errorOpcionB}}</span>
+                <input id="opcionC" name="opcionC" type="text" placeholder="Opción C" value="{{datos.opcionC}}"
+                       class="w-full mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 focus:outline-gray-400"/>
+                <span class="text-sm bg-red-200 text-red-800">{{errores.errorOpcionC}}</span>
+                <input id="opcionD" name="opcionD" type="text" placeholder="Opción D" value="{{datos.opcionD}}"
+                       class="w-full mt-4 border border-gray-300 rounded-lg py-2 px-6 text-lg duration-100 focus:outline-gray-400"/>
+                <span class="text-sm bg-red-200 text-red-800">{{errores.errorOpcionD}}</span>
+                <div class="mt-4">
+                    <label for="categoria" class="text-lg">Categoría:</label>
+                    <select id="categoria" name="categoria"
+                            class="w-full mt-2 py-2 px-4 border border-gray-300 rounded-lg focus:outline-gray-400">
+                        <option value="1">Deporte</option>
+                        <option value="2">Geografía</option>
+                        <option value="3">Música</option>
+                        <option value="4">Entretenimiento</option>
+                        <option value="5">Historia</option>
+                        <option value="6">Tecnología</option>
+                        <option value="7">Literatura</option>
+                        <option value="8">Matemática</option>
+                    </select>
+                </div>
+                <button type="submit"
+                        class="w-full bg-indigo-600 text-white text-sm font-bold tracking-wide rounded-full my-5 px-5 py-2">
+                    Enviar
+                </button>
+            </form>
+        </div>
     </div>
 </div>
