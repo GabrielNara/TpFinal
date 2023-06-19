@@ -41,6 +41,11 @@ INSERT INTO `categorias` (`id`, `categoria`) VALUES
 (2, 'Geografía'),
 (3, 'Música');
 
+--
+-- Volcado de datos para la tabla `categorias`
+--
+
+INSERT INTO `categorias`(`id`, `categoria`) VALUES (4,'Entretenimiento')
 -- --------------------------------------------------------
 
 --
@@ -58,7 +63,9 @@ CREATE TABLE `estado_pregunta` (
 
 INSERT INTO `estado_pregunta` (`id`, `estado`) VALUES
 (1, 'activa'),
-(2, 'suspendida');
+(2, 'suspendida'),
+(3,'reportada'),
+(4,'sugerida');
 
 -- --------------------------------------------------------
 
@@ -766,7 +773,27 @@ INSERT INTO `preguntas` (`id`, `pregunta`, `id_estado_pregunta`, `id_categoria`,
 (187, '¿Quién es el autor de la famosa canción \"Imagine\"?', 1, 3, 'John Lennon', 'Paul McCartney', 'George Harrison', 'Ringo Starr', 'John Lennon', 1, 1, 100),
 (188, '¿Cuál es el instrumento principal en una orquesta sinfónica?', 1, 3, 'Violín', 'Piano', 'Flauta', 'Trompeta', 'Violín', 0, 0, 0),
 (189, '¿Qué famoso guitarrista fue miembro de las bandas Guns N\' Roses y Velvet Revolver?', 1, 3, 'Slash', 'Jimmy Page', 'Jimi Hendrix', 'Eric Clapton', 'Slash', 0, 0, 0),
-(190, '¿Cuál es el género musical principal en el carnaval de Brasil?', 1, 3, 'Samba', 'Merengue', 'Cumbia', 'Bachata', 'Samba', 0, 0, 0);
+(190, '¿Cuál es el género musical principal en el carnaval de Brasil?', 1, 3, 'Samba', 'Merengue', 'Cumbia', 'Bachata', 'Samba', 0, 0, 0);'
+
+INSERT INTO preguntas(id, pregunta, id_estado_pregunta, id_categoria, respuesta_a, respuesta_b, respuesta_c, respuesta_d, respuesta_correcta) VALUES ('191', '¿Cuál es el actor que interpretó a Iron Man en el Universo Cinematográfico de Marvel?', '1', '4', 'Robert Downey Jr.', 'Chris Evans', 'Chris Hemsworth', 'Tom Hiddleston', 'Robert Downey Jr.')
+
+INSERT INTO preguntas(id, pregunta, id_estado_pregunta, id_categoria, respuesta_a, respuesta_b, respuesta_c, respuesta_d, respuesta_correcta) VALUES ('192', '¿Cuál es la película ganadora del premio Óscar a Mejor Película en 2020?', '1', '4', 'Parasite', 'Joker', '1917', 'Once Upon a Time in Hollywood', 'Parasite')
+
+INSERT INTO preguntas(id, pregunta, id_estado_pregunta, id_categoria, respuesta_a, respuesta_b, respuesta_c, respuesta_d, respuesta_correcta) VALUES ('193', '¿Cuál es el director de la trilogía "El Señor de los Anillos"?', '1', '4', 'Peter Jackson', 'Christopher Nolan', 'Steven Spielberg', 'Martin Scorsese', 'Peter Jackson')
+
+INSERT INTO preguntas(id, pregunta, id_estado_pregunta, id_categoria, respuesta_a, respuesta_b, respuesta_c, respuesta_d, respuesta_correcta) VALUES ('194', '¿Cuál es la película de Pixar que cuenta la historia de Woody y Buzz Lightyear?', '1', '4', 'Toy Story', 'Finding Nemo', 'The Incredibles', 'Up', 'Toy Story')
+
+INSERT INTO preguntas(id, pregunta, id_estado_pregunta, id_categoria, respuesta_a, respuesta_b, respuesta_c, respuesta_d, respuesta_correcta) VALUES ('195', '¿Qué actor interpreta al personaje de Jack Sparrow en la saga "Piratas del Caribe"?', '1', '4', 'Johnny Depp', 'Leonardo DiCaprio', 'Tom Hanks', 'Brad Pitt', 'Johnny Depp')
+
+INSERT INTO preguntas(id, pregunta, id_estado_pregunta, id_categoria, respuesta_a, respuesta_b, respuesta_c, respuesta_d, respuesta_correcta) VALUES ('196', '¿Cuál es la película de Quentin Tarantino que presenta la vida de dos asesinos a sueldo?', '1', '4', 'Pulp Fiction', 'Kill Bill', 'Reservoir Dogs', 'Django Unchained', 'Pulp Fiction')
+
+INSERT INTO preguntas(id, pregunta, id_estado_pregunta, id_categoria, respuesta_a, respuesta_b, respuesta_c, respuesta_d, respuesta_correcta) VALUES ('197', '¿Cuál es la actriz que interpreta a Katniss Everdeen en la saga "Los juegos del hambre"?', '1', '4', 'Jennifer Lawrence', 'Emma Stone', 'Scarlett Johansson', 'Natalie Portman', 'Jennifer Lawrence')
+
+INSERT INTO preguntas(id, pregunta, id_estado_pregunta, id_categoria, respuesta_a, respuesta_b, respuesta_c, respuesta_d, respuesta_correcta) VALUES ('198', '¿Cuál es la película de ciencia ficción dirigida por Christopher Nolan que trata sobre los viajes en el tiempo?', '1', '4', 'Inception', 'Interstellar', 'The Matrix', 'Blade Runner', 'Interstellar')
+
+INSERT INTO preguntas(id, pregunta, id_estado_pregunta, id_categoria, respuesta_a, respuesta_b, respuesta_c, respuesta_d, respuesta_correcta) VALUES ('199', '¿Cuál es la película animada de Disney que presenta a Elsa y Anna como protagonistas?', '1', '4', 'Frozen', 'Moana', 'Coco', 'Zootopia', 'Frozen')
+
+INSERT INTO preguntas(id, pregunta, id_estado_pregunta, id_categoria, respuesta_a, respuesta_b, respuesta_c, respuesta_d, respuesta_correcta) VALUES ('200', '¿Cuál es el director de la trilogía "El Padrino"?', '1', '4', 'Francis Ford Coppola', 'Alfred Hitchcock', 'Stanley Kubrick', 'Martin Scorsese', 'Francis Ford Coppola')
 
 -- --------------------------------------------------------
 
@@ -890,6 +917,47 @@ INSERT INTO `respuestas` (`id`, `respuesta`, `respuesta_correcta`, `id_pregunta`
 (106, 'Merengue', 0, 190),
 (107, 'Cumbia', 0, 190),
 (108, 'Bachata', 0, 190);
+
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (109,'Chris Evans', 0, 191);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (110,'Chris Hemsworth', 0, 191);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (111,'Tom Hiddleston', 0, 191);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (112,'Robert Downey Jr.', 1, 191);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (113,'Parasite', 1, 192);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (114,'Joker', 0, 192);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (115,'1917', 0, 192);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (116,'Once Upon a Time in Hollywood', 0, 192);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (117,'Peter Jackson', 1, 193);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (118,'Christopher Nolan', 0, 193);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (119,'Steven Spielberg', 0, 193);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (120,'Martin Scorsese', 0, 193);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (121,'Toy Story', 1, 194);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (122,'Finding Nemo', 0, 194);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (123,'The Incredibles', 0, 194);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (124,'Up', 0, 194);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (125,'Johnny Depp', 1, 195);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (126,'Leonardo DiCaprio', 0, 195);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (127,'Tom Hanks', 0, 195);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (128,'Brad Pitt', 0, 195);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (129,'Pulp Fiction', 1, 196);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (130,'Kill Bill', 0, 196);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (131,'Reservoir Dogs', 0, 196);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (132,'Django Unchained', 0, 196);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (133,'Jennifer Lawrence', 1, 197);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (134,'Emma Stone', 0, 197);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (135,'Scarlett Johansson', 0, 197);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (136,'Natalie Portman', 0, 197);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (137,'Interstellar', 1, 198);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (138,'Inception', 0, 198);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (139,'The Matrix', 0, 198);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (140,'Blade Runner', 0, 198);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (141,'Frozen', 1, 199);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (142,'Moana', 0, 199);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (143,'Coco', 0, 199);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (144,'Zootopia', 0, 199);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (145,'Francis Ford Coppola', 1, 200);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (146,'Alfred Hitchcock', 0, 200);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (147,'Stanley Kubrick', 0, 200);
+INSERT INTO respuestas(id, respuesta, respuesta_correcta, id_pregunta) VALUES (148,'Martin Scorsese', 0, 200);
 
 -- --------------------------------------------------------
 
