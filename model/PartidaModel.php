@@ -31,11 +31,11 @@ class PartidaModel
 		$porcentajeAcierto = $this->obtenerPorcentajeAciertoJugador($id_usuario);
 
 		switch (true) {
-			case ($porcentajeAcierto >= 70):
-				$query = "SELECT * FROM preguntas WHERE porcentaje_acierto <= 30 AND (id_estado_pregunta = 1 OR id_estado_pregunta = 3)";
+			case ($porcentajeAcierto > 70):
+				$query = "SELECT * FROM preguntas WHERE porcentaje_acierto < 30 AND (id_estado_pregunta = 1 OR id_estado_pregunta = 3)";
 				break;
-			case ($porcentajeAcierto <= 30):
-				$query = "SELECT * FROM preguntas WHERE porcentaje_acierto >= 70 AND (id_estado_pregunta = 1 OR id_estado_pregunta = 3)";
+			case ($porcentajeAcierto < 30):
+				$query = "SELECT * FROM preguntas WHERE porcentaje_acierto > 70 AND (id_estado_pregunta = 1 OR id_estado_pregunta = 3)";
 				break;
 			default:
 				$query = "SELECT * FROM preguntas WHERE porcentaje_acierto BETWEEN 30 AND 70 AND (id_estado_pregunta = 1 OR id_estado_pregunta = 3)";
@@ -190,5 +190,4 @@ class PartidaModel
 		$query = "UPDATE preguntas SET `id_estado_pregunta` = 3 WHERE id = '$id_pregunta'";
 		return $this->database->queryInsertar($query);
 	}
-
 }
