@@ -1,71 +1,169 @@
 {{> header}}
 
 <!-- Breadcrumb -->
-<nav class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700" aria-label="Breadcrumb">
+<nav class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
+     aria-label="Breadcrumb">
     <ol class="inline-flex items-center space-x-1 md:space-x-3">
         <li class="inline-flex items-center">
-            <a href="/tpFinal/lobby/list" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-                <svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+            <a href="/tpFinal/lobby/list"
+               class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                <svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                </svg>
                 Lobby
             </a>
         </li>
-            <div class="flex items-center">
-                <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-                <a href="/tpFinal/administrador/estadisticas" class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Estadisticas</a>
-            </div>
+        <div class="flex items-center">
+            <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"></path>
+            </svg>
+            <a href="/tpFinal/administrador/estadisticas"
+               class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Estadisticas</a>
+        </div>
         </li>
         <li aria-current="page">
             <div class="flex items-center">
-                <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                          clip-rule="evenodd"></path>
+                </svg>
                 <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">...</span>
             </div>
         </li>
     </ol>
 </nav>
-
-<h1>JUGADORES</h1>
-
-
-
-<!-- Opciones de filtro -->
-<form action="/tpFinal/administrador/cantJugadores" method="GET">
-    <select name="filtro">
-        <option value="todos" {{#filtroTodos}}selected{{/filtroTodos}}>Todos</option>
-        <option value="dia" {{#filtroDia}}selected{{/filtroDia}}>Día</option>
-        <option value="semana" {{#filtroSemana}}selected{{/filtroSemana}}>Semana</option>
-        <option value="mes" {{#filtroMes}}selected{{/filtroMes}}>Mes</option>
-        <option value="anio" {{#filtroAnio}}selected{{/filtroAnio}}>Año</option>
-    </select>
-    <button type="submit">Filtrar</button>
-</form>
-
+<div class="mx-8 my-2">
+    <p class="my-2 text-xl font-semi-bold">JUGADORES NUEVOS</p>
+    <form action="/tpFinal/administrador/cantJugadores" method="GET" class="flex items-center">
+        <select name="filtro" class="border border-solid border-gray-500 w-36 p-2 mx-2 focus:outline-none">
+            <option value="dia" {{#filtroDia}}selected{{/filtroDia}}>Día</option>
+            <option value="semana" {{#filtroSemana}}selected{{/filtroSemana}}>Semana</option>
+            <option value="mes" {{#filtroMes}}selected{{/filtroMes}}>Mes</option>
+            <option value="anio" {{#filtroAnio}}selected{{/filtroAnio}}>Año</option>
+        </select>
+        <button type="submit"
+                class="border border-solid border-gray-500 w-24 p-2 mx-2 hover:bg-gray-500 hover:text-white duration-200">
+            Filtrar
+        </button>
+    </form>
+</div>
+<div class="flex flex-col items-center justify-center">
+    <h1 id="chart_title" class="text-3xl"></h1>
+    <div id="chart_div" class="flex justify-center my-3"></div>
+</div>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-
-    google.charts.load('current', {'packages':['corechart']});
+    google.charts.load('current', {packages: ['corechart']});
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        data.addRows([
-            ['Jugadores', {{jugadores}}],
-            ['No Jugadores', 10 - {{jugadores}}]
-        ]);
+        let cantidadJugadoresTotal = {{cantidadJugadoresTotal}};
+        let data = new google.visualization.DataTable();
+        let titulo_grafico = document.getElementById('chart_title');
 
+        {{#filtroAnio}}
+            titulo_grafico.innerText = 'Jugadores nuevos por año.';
+            data.addColumn('number', 'Año');
+            data.addColumn('number', 'Jugadores');
+            let anios = {{anios}};
+            for (let i = 0; i < anios.length; i++) {
+                data.addRow([anios[i], cantidadJugadoresTotal[i]]);
+            }
+        {{/filtroAnio}}
 
-        var options = {
-            'title': 'Cantidad de Jugadores',
-            'width': 400,
-            'height': 300
+        {{#filtroMes}}
+            titulo_grafico.innerText = 'Jugadores nuevos por mes.';
+            data.addColumn('string', 'Meses');
+            data.addColumn('number', 'Jugadores');
+            let meses = [
+                'Enero',
+                'Febrero',
+                'Marzo',
+                'Abril',
+                'Mayo',
+                'Junio',
+                'Julio',
+                'Agosto',
+                'Septiembre',
+                'Octubre',
+                'Noviembre',
+                'Diciembre'
+            ];
+            for (let i = 0; i < meses.length; i++) {
+                data.addRow([meses[i], cantidadJugadoresTotal[i]]);
+            }
+        {{/filtroMes}}
+
+        {{#filtroSemana}}
+            titulo_grafico.innerText = 'Jugadores nuevos por semana.';
+            data.addColumn('string', 'Semanas');
+            data.addColumn('number', 'Jugadores');
+
+            let fechas = [];
+
+            for (let i = 0; i < 4; i++) {
+                let fechaInicio = new Date();
+                fechaInicio.setDate(fechaInicio.getDate() - i * 7);
+                fechaInicio.setHours(0, 0, 0, 0);
+
+                let inicio = ("0" + fechaInicio.getDate()).slice(-2) + "-" + ("0" + (fechaInicio.getMonth() + 1)).slice(-2);
+
+                fechas.push(inicio);
+            }
+
+            fechas.sort();
+
+            for (let i = 0; i < fechas.length; i++) {
+                data.addRow([fechas[i], cantidadJugadoresTotal[i]]);
+            }
+        {{/filtroSemana}}
+
+        {{#filtroDia}}
+            titulo_grafico.innerText = 'Jugadores nuevos por día.';
+            data.addColumn('string', 'Días');
+            data.addColumn('number', 'Jugadores');
+
+            let ultimos7Dias = [];
+            let fechaActual = new Date();
+
+            for (let i = 0; i < 7; i++) {
+                let fecha = new Date(fechaActual);
+                fecha.setDate(fecha.getDate() - i);
+                let dia = fecha.getDate();
+                let mes = fecha.getMonth() + 1;
+                let fechaFormateada = dia.toString().padStart(2, '0') + '-' + mes.toString().padStart(2, '0');
+                ultimos7Dias.push(fechaFormateada);
+            }
+            ultimos7Dias.sort();
+
+            for (let i = 0; i < ultimos7Dias.length; i++) {
+                data.addRow([ultimos7Dias[i], cantidadJugadoresTotal[i]]);
+            }
+        {{/filtroDia}}
+        
+        let options = {
+            curveType: 'function',
+            legend: {position: 'bottom'},
+            width: Math.floor(window.innerWidth * 0.95),
+            height: 400,
+            hAxis: {
+                format: '0'
+            },
+            vAxis: {
+                format: '0'
+            }
         };
 
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        let chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
         chart.draw(data, options);
     }
 </script>
-
-<div id="chart_div"></div>
 </body>
 </html>

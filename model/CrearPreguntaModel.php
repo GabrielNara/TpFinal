@@ -46,8 +46,8 @@ class CrearPreguntaModel
         $categoria = $datos['categoria'];
 
 
-        $query = "INSERT INTO `preguntas`(`pregunta`, `id_estado_pregunta`,`id_categoria`, `respuesta_a`, `respuesta_b`, `respuesta_c`, `respuesta_d`, `respuesta_correcta`)
-         VALUES ('$pregunta',4,'$categoria','$opcionA','$opcionB','$opcionC','$opcionD','$opcionA')";
+        $query = "INSERT INTO `preguntas`(`pregunta`, `id_estado_pregunta`,`id_categoria`, `respuesta_a`, `respuesta_b`, `respuesta_c`, `respuesta_d`, `respuesta_correcta`,`fecha_creacion`)
+         VALUES ('$pregunta',4,'$categoria','$opcionA','$opcionB','$opcionC','$opcionD','$opcionA',CURDATE())";
         return $this->database->queryInsertar($query);
     }
 
