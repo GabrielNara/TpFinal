@@ -54,8 +54,17 @@
     <h1 id="chart_title" class="text-3xl"></h1>
     <input type="text" id="datepicker" placeholder="Seleccione una fecha">
     <div id="chart_div"></div>
+
+
 </div>
 
+<div class="flex flex-col items-center justify-center">
+    <h1 id="chart_title" class="text-3xl"></h1>
+    <button onclick="generateLastWeekChart()">Mostrar últimos 7 días</button>
+    <div id="chart_div"></div>
+
+
+</div>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -80,6 +89,45 @@
             type: 'GET',
             dataType: 'json',
             data: { date: selectedDate },
+
+            success: function(response) {
+                console.log(response);
+                drawChart(response);
+            },
+
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+
+    function formatDate(date) {
+        var year = date.getFullYear();
+        var month = String(date.getMonth() + 1).padStart(2, '0');
+        var day = String(date.getDate()).padStart(2, '0');
+        return year + '-' + month + '-' + day;
+    }
+    function generateLastWeekChart() {
+        // Obtener la fecha actual y calcular la fecha hace una semana
+        var today = new Date();
+        var lastWeek = new Date();
+        lastWeek.setDate(today.getDate() - 7);
+
+        // Formatear las fechas en el formato deseado (yyyy-mm-dd)
+        var formattedToday = formatDate(today);
+        var formattedLastWeek = formatDate(lastWeek);
+
+        generateChartRange(formattedLastWeek, formattedToday);
+    }
+
+    function generateChartRange(startDate, endDate) {
+        var url = '/tpFinal/administrador/cantidadJugadorPorSexoSemanal';
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            data: { start_date: startDate, end_date: endDate },
 
             success: function(response) {
                 console.log(response);

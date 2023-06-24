@@ -108,12 +108,6 @@ class AdministradorModel
         return intval($cantidad[0]["cant_preguntas"]);
     }
 
-    public function obtenerCantidadJugadoresM(){
-
-        $query= "SELECT COUNT(*)FROM `usuarios` WHERE sexo = 'M'";
-        $cantidadM = $this->database->querySelectFetchAssoc($query);
-        return intval($cantidadM[0]["COUNT(*)"]);
-    }
 
     public function obtenerCantidadJugadoresMDia($fecha){
 
@@ -122,12 +116,6 @@ class AdministradorModel
         return intval($cantidadM[0]["COUNT(*)"]);
     }
 
-    public function obtenerCantidadJugadoresF(){
-
-        $query= "SELECT COUNT(*) FROM `usuarios` WHERE sexo = 'F'";
-        $cantidad = $this->database->querySelectFetchAssoc($query);
-        return intval($cantidad[0]["COUNT(*)"]);
-    }
 
     public function obtenerCantidadJugadoresFDia($fecha){
 
@@ -136,17 +124,25 @@ class AdministradorModel
         return intval($cantidad[0]["COUNT(*)"]);
     }
 
+    public function obtenerCantidadJugadoresOtroDia($fecha){
 
-    public function obtenerCantidadJugadoresOtro(){
-
-        $query= "SELECT COUNT(*) FROM `usuarios` WHERE sexo = 'Otro'";
+        $query= "SELECT COUNT(*)FROM `usuarios` WHERE sexo = 'Otro' and fecha_registro ='$fecha'";
         $cantidad = $this->database->querySelectFetchAssoc($query);
         return intval($cantidad[0]["COUNT(*)"]);
     }
 
-    public function obtenerCantidadJugadoresOtroDia($fecha){
-
-        $query= "SELECT COUNT(*)FROM `usuarios` WHERE sexo = 'Otro' and fecha_registro ='$fecha'";
+public function ObtenerCantidadJugadoresMSemanal($fechaInicio, $fechaSalida){
+    $query= "SELECT COUNT(*)FROM `usuarios` WHERE sexo = 'M' and fecha_registro between '$fechaInicio' and '$fechaSalida'";
+    $cantidad = $this->database->querySelectFetchAssoc($query);
+    return intval($cantidad[0]["COUNT(*)"]);
+}
+    public function ObtenerCantidadJugadoresFSemanal($fechaInicio, $fechaSalida){
+        $query= "SELECT COUNT(*)FROM `usuarios` WHERE sexo = 'F' and fecha_registro between '$fechaInicio' and '$fechaSalida'";
+        $cantidad = $this->database->querySelectFetchAssoc($query);
+        return intval($cantidad[0]["COUNT(*)"]);
+    }
+    public function ObtenerCantidadJugadoresOtroSemanal($fechaInicio, $fechaSalida){
+        $query= "SELECT COUNT(*)FROM `usuarios` WHERE sexo = 'Otro' and fecha_registro between '$fechaInicio' and '$fechaSalida'";
         $cantidad = $this->database->querySelectFetchAssoc($query);
         return intval($cantidad[0]["COUNT(*)"]);
     }

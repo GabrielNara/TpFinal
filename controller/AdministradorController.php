@@ -127,4 +127,30 @@ public function cantidadJugadorPorSexoDia(){
     echo json_encode($datos);
 }
 
+    public function cantidadJugadorPorSexoSemanal()
+    {
+        $startDate = $_GET['start_date'];
+        $endDate = $_GET['end_date'];
+
+        $cantidadJugadoresM = $this->administradorModel->ObtenerCantidadJugadoresMSemanal($startDate, $endDate);
+        $cantidadJugadoresF = $this->administradorModel->ObtenerCantidadJugadoresFSemanal($startDate, $endDate);
+        $cantidadJugadoresOtro = $this->administradorModel->ObtenerCantidadJugadoresOtroSemanal($startDate, $endDate);
+
+        $datos = [
+            'cantidadJugadoresM' => $cantidadJugadoresM,
+            'cantidadJugadoresF' => $cantidadJugadoresF,
+            'cantidadJugadoresOtro' => $cantidadJugadoresOtro
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($datos);
+    }
+
+
+
+
+
+
+
+
 }
