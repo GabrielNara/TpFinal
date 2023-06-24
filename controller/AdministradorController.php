@@ -102,4 +102,29 @@ class AdministradorController
         $this->renderer->render("statsPreguntas", $contexto);
     }
 
+
+    public function jugadoresPorSexo(){
+
+        $this->redireccionamiento();
+
+        $this->renderer->render("jugadoresSexo");
+    }
+
+public function cantidadJugadorPorSexoDia(){
+    $fecha = $_GET['date'];
+
+    $cantidadJugadoresM = $this->administradorModel->ObtenerCantidadJugadoresMDia($fecha);
+    $cantidadJugadoresF = $this->administradorModel->ObtenerCantidadJugadoresFDia($fecha);
+    $cantidadJugadoresOtro = $this->administradorModel->ObtenerCantidadJugadoresOtroDia($fecha);
+
+// Crea un arreglo con los datos
+    $datos = [
+        'cantidadJugadoresM' => $cantidadJugadoresM,
+        'cantidadJugadoresF' => $cantidadJugadoresF,
+        'cantidadJugadoresOtro' => $cantidadJugadoresOtro
+    ];
+    header('Content-Type: application/json');
+    echo json_encode($datos);
+}
+
 }
