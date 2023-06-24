@@ -393,28 +393,129 @@ class AdministradorModel
     }
 
 
-    public function obtenerCantidadJugadoresAnioM($anio)
+    public function obtenerCantidadUsuariosPorSexoPorDia()
     {
-        $query = "SELECT COUNT(*) FROM `usuarios` WHERE  sexo = 'M' and YEAR(fecha_registro) = '$anio'";
+        $cantidad_usuarios = [];
+        $fechas = [];
+        for ($i = 0; $i < 7; $i++) {
+            $fecha = date("Y-m-d", strtotime("-$i days"));
+            array_push($fechas, $fecha);
+        }
+        sort($fechas);
 
-        $cantidad = $this->database->querySelectFetchAssoc($query);
-        return intval($cantidad[0]["COUNT(*)"]);
+        foreach ($fechas as $fecha) {
+            $fechaInicio = $fecha . " 00:00:00";
+            $fechaFin = $fecha . " 23:59:59";
+            $query = "SELECT 
+                    SUM(CASE WHEN sexo = 'M' THEN 1 ELSE 0 END) AS masculinos,
+                    SUM(CASE WHEN sexo = 'F' THEN 1 ELSE 0 END) AS femeninos,
+                    SUM(CASE WHEN sexo = 'Otro' THEN 1 ELSE 0 END) AS otros
+                FROM usuarios 
+                WHERE fecha_registro BETWEEN '$fechaInicio' AND '$fechaFin'";
+
+            $result = $this->database->querySelectFetchAssoc($query);
+
+            $cantidad_usuarios[] = [
+                'masculinos' => intval($result[0]['masculinos']),
+                'femeninos' => intval($result[0]['femeninos']),
+                'otros' => intval($result[0]['otros'])
+            ];
+        }
+
+        return $cantidad_usuarios;
     }
 
-    public function obtenerCantidadJugadoresAnioF($anio)
+    public function obtenerCantidadUsuariosPorSexoPorSemana()
     {
-        $query = "SELECT COUNT(*) FROM `usuarios` WHERE  sexo = 'F' and YEAR(fecha_registro) = '$anio'";
+        $cantidad_usuarios = [];
+        $fechas = [];
 
-        $cantidad = $this->database->querySelectFetchAssoc($query);
-        return intval($cantidad[0]["COUNT(*)"]);
+        for ($i = 0; $i < 4; $i++) {
+            $fecha_inicio = strtotime("-".(($i * 7) + 6)." days");
+            $fecha_fin = strtotime("-".($i * 7)." days");
+
+            $fechas[$i] = array(
+                'inicio' => date('Y-m-d', $fecha_inicio),
+                'fin' => date('Y-m-d', $fecha_fin)
+            );
+        }
+        $fechas = array_reverse($fechas);
+
+        foreach ($fechas as $fecha) {
+            $fechaInicio = $fecha['inicio'] . " 00:00:00";
+            $fechaFin = $fecha['fin'] . " 23:59:59";
+            $query = "SELECT 
+                    SUM(CASE WHEN sexo = 'M' THEN 1 ELSE 0 END) AS masculinos,
+                    SUM(CASE WHEN sexo = 'F' THEN 1 ELSE 0 END) AS femeninos,
+                    SUM(CASE WHEN sexo = 'Otro' THEN 1 ELSE 0 END) AS otros
+                FROM usuarios 
+                WHERE fecha_registro BETWEEN '$fechaInicio' AND '$fechaFin'";
+
+            $result = $this->database->querySelectFetchAssoc($query);
+
+            $cantidad_usuarios[] = [
+                'masculinos' => intval($result[0]['masculinos']),
+                'femeninos' => intval($result[0]['femeninos']),
+                'otros' => intval($result[0]['otros'])
+            ];
+        }
+
+        return $cantidad_usuarios;
     }
-    public function obtenerCantidadJugadoresAnioOtro($anio)
+
+
+    public function obtenerCantidadUsuariosPorSexoPorMes()
     {
-        $query = "SELECT COUNT(*) FROM `usuarios` WHERE  sexo = 'Otro' and YEAR(fecha_registro) = '$anio'";
+        $cantidad_usuarios = [];
 
-        $cantidad = $this->database->querySelectFetchAssoc($query);
-        return intval($cantidad[0]["COUNT(*)"]);
+        for ($i = 1; $i <= 12; $i++) {
+            $query = "SELECT 
+                    SUM(CASE WHEN sexo = 'M' THEN 1 ELSE 0 END) AS masculinos,
+                    SUM(CASE WHEN sexo = 'F' THEN 1 ELSE 0 END) AS femeninos,
+                    SUM(CASE WHEN sexo = 'Otro' THEN 1 ELSE 0 END) AS otros
+                FROM usuarios 
+                WHERE YEAR(fecha_registro) = YEAR(CURRENT_DATE()) AND MONTH(fecha_registro) = '$i';";
+
+            $result = $this->database->querySelectFetchAssoc($query);
+
+            $cantidad_usuarios[] = [
+                'masculinos' => intval($result[0]['masculinos']),
+                'femeninos' => intval($result[0]['femeninos']),
+                'otros' => intval($result[0]['otros'])
+            ];
+        }
+
+        return $cantidad_usuarios;
     }
+    public function obtenerCantidadUsuariosPorSexoPorAnio()
+    {
+        $cantidad_usuarios = [];
+
+        $anio_actual = date('Y');
+
+        for ($i = 0; $i < 4; $i++) {
+            $anio = $anio_actual - $i;
+
+            $query = "SELECT 
+                   SUM(CASE WHEN sexo = 'M' THEN 1 ELSE 0 END) AS masculinos,
+                    SUM(CASE WHEN sexo = 'F' THEN 1 ELSE 0 END) AS femeninos,
+                    SUM(CASE WHEN sexo = 'Otro' THEN 1 ELSE 0 END) AS otros
+                FROM usuarios 
+                WHERE YEAR(fecha_registro) = '$anio';";
+
+            $result = $this->database->querySelectFetchAssoc($query);
+
+            $cantidad_usuarios[] = [
+                'anio' => $anio,
+                'masculinos' => intval($result[0]['masculinos']),
+                'femeninos' => intval($result[0]['femeninos']),
+                'otros' => intval($result[0]['otros'])
+            ];
+        }
+
+        return $cantidad_usuarios;
+    }
+
 
 }
 

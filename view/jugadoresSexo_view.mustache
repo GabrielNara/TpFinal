@@ -1,13 +1,3 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estadísticas</title>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-</head>
-<body>
 {{> header}}
 
 <!-- Breadcrumb -->
@@ -24,17 +14,16 @@
                 Lobby
             </a>
         </li>
-        <li>
-            <div class="flex items-center">
-                <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
-                     xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                          clip-rule="evenodd"></path>
-                </svg>
-                <a href="/tpFinal/administrador/estadisticas"
-                   class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Estadisticas</a>
-            </div>
+        <div class="flex items-center">
+            <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"></path>
+            </svg>
+            <a href="/tpFinal/administrador/estadisticas"
+               class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Estadisticas</a>
+        </div>
         </li>
         <li aria-current="page">
             <div class="flex items-center">
@@ -49,186 +38,157 @@
         </li>
     </ol>
 </nav>
-
-<div class="flex flex-col items-center justify-center border border-gray-300 rounded-lg p-4 mb-4">
-    <h1 id="chart_title" class="text-3xl"></h1>
-    <input type="text" id="datepicker" placeholder="Seleccione una fecha">
+<div class="mx-8 my-2">
+    <p class="my-2 text-xl font-semi-bold">USUARIOS POR SEXO</p>
+    <form action="/tpFinal/administrador/cantUsuariosSexo" method="GET" class="flex items-center">
+        <select name="filtro" class="border border-solid border-gray-500 w-36 p-2 mx-2 focus:outline-none">
+            <option value="dia" {{#filtroDia}}selected{{/filtroDia}}>Día</option>
+            <option value="semana" {{#filtroSemana}}selected{{/filtroSemana}}>Semana</option>
+            <option value="mes" {{#filtroMes}}selected{{/filtroMes}}>Mes</option>
+            <option value="anio" {{#filtroAnio}}selected{{/filtroAnio}}>Año</option>
+        </select>
+        <button type="submit"
+                class="border border-solid border-gray-500 w-24 p-2 mx-2 hover:bg-gray-500 hover:text-white duration-200">
+            Filtrar
+        </button>
+    </form>
 </div>
-
-<div class="flex flex-col items-center justify-center border border-gray-300 rounded-lg p-4 mb-4">
+<div class="flex flex-col items-center justify-center">
     <h1 id="chart_title" class="text-3xl"></h1>
-    <button onclick="ultimaSemanaChart()">Mostrar últimos 7 días</button>
+    <div id="chart_div" class="flex justify-center my-3"></div>
 </div>
-
-<div class="flex flex-col items-center justify-center border border-gray-300 rounded-lg p-4 mb-4">
-    <h1 id="chart_title" class="text-3xl"></h1>
-    <select id="mesSelector" class="mb-2">
-        <option value="1">Enero</option>
-        <option value="2">Febrero</option>
-        <option value="3">Marzo</option>
-        <option value="4">Abril</option>
-        <option value="5">Mayo</option>
-        <option value="6">Junio</option>
-        <option value="7">Julio</option>
-        <option value="8">Agosto</option>
-        <option value="9">Septiembre</option>
-        <option value="10">Octubre</option>
-        <option value="11">Noviembre</option>
-        <option value="12">Diciembre</option>
-    </select>
-    <button onclick="mesChart()">Generar Gráfico por Mes</button>
-</div>
-
-<div class="flex flex-col items-center justify-center border border-gray-300 rounded-lg p-4 mb-4">
-    <h1 id="chart_title" class="text-3xl"></h1>
-    <select id="anioSelector" class="mb-2">
-        <option value="2018">2018</option>
-        <option value="2019">2019</option>
-        <option value="2020">2020</option>
-        <option value="2021">2021</option>
-        <option value="2022">2022</option>
-        <option value="2023">2023</option>
-    </select>
-    <button onclick="anioChart()">Generar Gráfico por Año</button>
-</div>
-
-<div id="chart_div"></div>
-
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
-    google.charts.load('current', {packages: ['corechart', 'controls']});
+    google.charts.load('current', {packages: ['corechart']});
     google.charts.setOnLoadCallback(drawChart);
 
-    $(document).ready(function() {
-        $('#datepicker').datepicker({
-            dateFormat: 'yy-mm-dd',
-            onSelect: function(date) {
-                // Se ejecuta cuando se selecciona una fecha
-                generateChart(date);
+    function drawChart() {
+        let cantidadUsuariosTotal = {{{cantidadUsuariosTotal}}};
+        let data = new google.visualization.DataTable();
+        let titulo_grafico = document.getElementById('chart_title');
+
+        {{#filtroDia}}
+            titulo_grafico.innerText = 'Usuarios por genero por día.';
+            data.addColumn('string', 'Días');
+            data.addColumn('number', 'Masculinos');
+            data.addColumn('number', 'Femeninos');
+            data.addColumn('number', 'Otros');
+
+            let ultimos7Dias = [];
+            let fechaActual = new Date();
+
+            for (let i = 0; i < 7; i++) {
+                let fecha = new Date(fechaActual);
+                fecha.setDate(fecha.getDate() - i);
+                let dia = fecha.getDate();
+                let mes = fecha.getMonth() + 1;
+                let fechaFormateada = dia.toString().padStart(2, '0') + '-' + mes.toString().padStart(2, '0');
+                ultimos7Dias.push(fechaFormateada);
             }
-        });
-    });
-    function generateChart(selectedDate) {
-        var url = '/tpFinal/administrador/cantidadJugadorPorSexoDia';
+            ultimos7Dias.sort();
 
-        $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'json',
-            data: { date: selectedDate },
+            let cantidadUsuariosTotalParsed = JSON.parse('{{{cantidadUsuariosTotal}}}');
 
-            success: function(response) {
-                console.log(response);
-                drawChart(response);
-            },
-
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
+            for (let i = 0; i < cantidadUsuariosTotalParsed.length; i++) {
+                data.addRow([
+                    ultimos7Dias[i],
+                    cantidadUsuariosTotalParsed[i].masculinos,
+                    cantidadUsuariosTotalParsed[i].femeninos,
+                    cantidadUsuariosTotalParsed[i].otros
+                ]);
             }
-        });
-    }
+        {{/filtroDia}}
 
-    function formatDate(date) {
-        var year = date.getFullYear();
-        var month = String(date.getMonth() + 1).padStart(2, '0');
-        var day = String(date.getDate()).padStart(2, '0');
-        return year + '-' + month + '-' + day;
-    }
-    function ultimaSemanaChart() {
-        // Obtener la fecha actual y calcular la fecha hace una semana
-        var today = new Date();
-        var lastWeek = new Date();
-        lastWeek.setDate(today.getDate() - 7);
+        {{#filtroSemana}}
+            titulo_grafico.innerText = 'Usuarios por genero por semana.';
+            data.addColumn('string', 'Semanas');
+            data.addColumn('number', 'Masculinos');
+            data.addColumn('number', 'Femeninos');
+            data.addColumn('number', 'Otros');
 
-        // Formatear las fechas en el formato deseado (yyyy-mm-dd)
-        var formattedToday = formatDate(today);
-        var formattedLastWeek = formatDate(lastWeek);
+            let fechas = [];
 
-        generateChartSemanal(formattedLastWeek, formattedToday);
-    }
+            for (let i = 0; i < 4; i++) {
+                let fechaInicio = new Date();
+                fechaInicio.setDate(fechaInicio.getDate() - i * 7);
+                fechaInicio.setHours(0, 0, 0, 0);
 
-    function generateChartSemanal(startDate, endDate) {
-        var url = '/tpFinal/administrador/cantidadJugadorPorSexoSemanal';
+                let inicio = ("0" + fechaInicio.getDate()).slice(-2) + "-" + ("0" + (fechaInicio.getMonth() + 1)).slice(-2);
 
-        $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'json',
-            data: { start_date: startDate, end_date: endDate },
-
-            success: function(response) {
-                console.log(response);
-                drawChart(response);
-            },
-
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
+                fechas.push(inicio);
             }
-        });
-    }
 
-    function mesChart() {
-        var mesSeleccionado = $('#mesSelector').val();
-        generateChartMensual(mesSeleccionado);
-    }
+            fechas.sort();
 
-    function generateChartMensual(mesSeleccionado) {
-        var url = '/tpFinal/administrador/cantidadJugadorPorSexoMes';
+            let cantidadUsuariosTotalParsed = JSON.parse('{{{cantidadUsuariosTotal}}}');
 
-        $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'json',
-            data: { month: mesSeleccionado },
-
-            success: function(response) {
-                console.log(response);
-                drawChart(response);
-            },
-
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
+            for (let i = 0; i < cantidadUsuariosTotalParsed.length; i++) {
+                data.addRow([
+                    fechas[i],
+                    cantidadUsuariosTotalParsed[i].masculinos,
+                    cantidadUsuariosTotalParsed[i].femeninos,
+                    cantidadUsuariosTotalParsed[i].otros
+                ]);
             }
-        });
-    }
+        {{/filtroSemana}}
 
-    function anioChart(){
-        var anioSeleccionado = $('#anioSelector').val();
-        generateChartAnual(anioSeleccionado);
-    }
-    function generateChartAnual(anioSeleccionado) {
-        var url = '/tpFinal/administrador/cantidadJugadorPorSexoAnio';
+        {{#filtroMes}}
+            titulo_grafico.innerText = 'Usuarios por genero por mes.';
+            data.addColumn('string', 'Meses');
+            data.addColumn('number', 'Masculinos');
+            data.addColumn('number', 'Femeninos');
+            data.addColumn('number', 'Otros');
+            let meses = [
+                'Enero',
+                'Febrero',
+                'Marzo',
+                'Abril',
+                'Mayo',
+                'Junio',
+                'Julio',
+                'Agosto',
+                'Septiembre',
+                'Octubre',
+                'Noviembre',
+                'Diciembre'
+            ];
 
-        $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'json',
-            data: { year: anioSeleccionado},
+            let cantidadUsuariosTotalParsed = JSON.parse('{{{cantidadUsuariosTotal}}}');
 
-            success: function(response) {
-                console.log(response);
-                drawChart(response);
-            },
-
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
+            for (let i = 0; i < meses.length; i++) {
+                data.addRow([meses[i],
+                    cantidadUsuariosTotalParsed[i].masculinos,
+                    cantidadUsuariosTotalParsed[i].femeninos,
+                    cantidadUsuariosTotalParsed[i].otros
+                ]);
             }
-        });
-    }
+        {{/filtroMes}}
 
-    function drawChart(data) {
+        {{#filtroAnio}}
+            titulo_grafico.innerText = 'Usuarios por genero por año.';
+            data.addColumn('number', 'Año');
+            data.addColumn('number', 'Masculinos');
+            data.addColumn('number', 'Femeninos');
+            data.addColumn('number', 'Otros');
 
-        var chartData = new google.visualization.DataTable();
-        chartData.addColumn('string', 'Sexo');
-        chartData.addColumn('number', 'Jugadores');
+            let anios = {{anios}};
 
-        chartData.addRow(['Masculino', data.cantidadJugadoresM]);
-        chartData.addRow(['Femenino', data.cantidadJugadoresF]);
-        chartData.addRow(['Otro', data.cantidadJugadoresOtro]);
+            let cantidadUsuariosTotalParsed = JSON.parse('{{{cantidadUsuariosTotal}}}');
 
-        var options = {
-            legend: { position: 'bottom' },
+            for (let i = 0; i < anios.length; i++) {
+                data.addRow([anios[i],
+                    cantidadUsuariosTotalParsed[i].masculinos,
+                    cantidadUsuariosTotalParsed[i].femeninos,
+                    cantidadUsuariosTotalParsed[i].otros
+                ]);
+            }
+        {{/filtroAnio}}
+
+
+
+        let options = {
+            curveType: 'function',
+            legend: {position: 'bottom'},
             width: Math.floor(window.innerWidth * 0.95),
             height: 400,
             hAxis: {
@@ -239,8 +199,9 @@
             }
         };
 
-        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-        chart.draw(chartData, options);
+        let chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
     }
 </script>
 </body>

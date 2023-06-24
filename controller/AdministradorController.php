@@ -230,90 +230,79 @@ class AdministradorController
     }
 
 
-    public function jugadoresPorSexo(){
-
+    public function cantUsuariosSexo(){
         $this->redireccionamiento();
 
-        $this->renderer->render("jugadoresSexo");
+        $filtro = $_GET['filtro'] ?? 'anio';
+
+        $contexto = array(
+            'filtroDia' => $filtro === 'dia',
+            'filtroSemana' => $filtro === 'semana',
+            'filtroMes' => $filtro === 'mes',
+            'filtroAnio' => $filtro === 'anio'
+        );
+
+        switch ($filtro) {
+            case 'dia':
+                $cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorSexoPorDia();
+                $usuariosJson = [];
+                foreach ($cantidadUsuariosTotal as $usuarios) {
+                    $usuariosJson[] = [
+                        'masculinos' => $usuarios['masculinos'],
+                        'femeninos' => $usuarios['femeninos'],
+                        'otros' => $usuarios['otros']
+                    ];
+                }
+                $contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+                break;
+            case 'semana':
+                $cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorSexoPorSemana();
+                $usuariosJson = [];
+                foreach ($cantidadUsuariosTotal as $usuarios) {
+                    $usuariosJson[] = [
+                        'masculinos' => $usuarios['masculinos'],
+                        'femeninos' => $usuarios['femeninos'],
+                        'otros' => $usuarios['otros']
+                    ];
+                }
+                $contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+
+                break;
+            case 'mes':
+                $cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorSexoPorMes();
+                $usuariosJson = [];
+                foreach ($cantidadUsuariosTotal as $usuarios) {
+                    $usuariosJson[] = [
+                        'masculinos' => $usuarios['masculinos'],
+                        'femeninos' => $usuarios['femeninos'],
+                        'otros' => $usuarios['otros']
+                    ];
+                }
+                $contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+
+                //var_dump($contexto);
+                break;
+
+            case 'anio':
+                $cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorSexoPorAnio();
+                $usuariosJson = [];
+                $anios = [];
+                foreach ($cantidadUsuariosTotal as $usuarios) {
+                    $usuariosJson[] = [
+                        'masculinos' => $usuarios['masculinos'],
+                        'femeninos' => $usuarios['femeninos'],
+                        'otros' => $usuarios['otros']
+                    ];
+                    $anios[] = $usuarios['anio'];
+                }
+                $contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+                $contexto['anios'] = json_encode($anios);
+                break;
+
+        }
+
+        $this->renderer->render("jugadoresSexo", $contexto);
     }
-
-public function cantidadJugadorPorSexoDia(){
-    $fecha = $_GET['date'];
-
-    $cantidadJugadoresM = $this->administradorModel->ObtenerCantidadJugadoresMDia($fecha);
-    $cantidadJugadoresF = $this->administradorModel->ObtenerCantidadJugadoresFDia($fecha);
-    $cantidadJugadoresOtro = $this->administradorModel->ObtenerCantidadJugadoresOtroDia($fecha);
-
-// Crea un arreglo con los datos
-    $datos = [
-        'cantidadJugadoresM' => $cantidadJugadoresM,
-        'cantidadJugadoresF' => $cantidadJugadoresF,
-        'cantidadJugadoresOtro' => $cantidadJugadoresOtro
-    ];
-    header('Content-Type: application/json');
-    echo json_encode($datos);
-}
-
-    public function cantidadJugadorPorSexoSemanal()
-    {
-        $startDate = $_GET['start_date'];
-        $endDate = $_GET['end_date'];
-
-        $cantidadJugadoresM = $this->administradorModel->ObtenerCantidadJugadoresMSemanal($startDate, $endDate);
-        $cantidadJugadoresF = $this->administradorModel->ObtenerCantidadJugadoresFSemanal($startDate, $endDate);
-        $cantidadJugadoresOtro = $this->administradorModel->ObtenerCantidadJugadoresOtroSemanal($startDate, $endDate);
-
-        $datos = [
-            'cantidadJugadoresM' => $cantidadJugadoresM,
-            'cantidadJugadoresF' => $cantidadJugadoresF,
-            'cantidadJugadoresOtro' => $cantidadJugadoresOtro
-        ];
-
-        header('Content-Type: application/json');
-        echo json_encode($datos);
-    }
-
-
-    public function cantidadJugadorPorSexoMes()
-    {
-        $mes = $_GET['month'];
-
-
-        $cantidadJugadoresM = $this->administradorModel->obtenerCantidadJugadoresMesM($mes);
-        $cantidadJugadoresF = $this->administradorModel->obtenerCantidadJugadoresMesF($mes);
-        $cantidadJugadoresOtro = $this->administradorModel->obtenerCantidadJugadoresMesOtro($mes);
-
-        $datos = [
-            'cantidadJugadoresM' => $cantidadJugadoresM,
-            'cantidadJugadoresF' => $cantidadJugadoresF,
-            'cantidadJugadoresOtro' => $cantidadJugadoresOtro
-        ];
-
-        header('Content-Type: application/json');
-        echo json_encode($datos);
-    }
-
-
-    public function cantidadJugadorPorSexoAnio()
-    {
-        $anio = $_GET['year'];
-
-
-        $cantidadJugadoresM = $this->administradorModel->obtenerCantidadJugadoresAnioM($anio);
-        $cantidadJugadoresF = $this->administradorModel->obtenerCantidadJugadoresAnioF($anio);
-        $cantidadJugadoresOtro = $this->administradorModel->obtenerCantidadJugadoresAnioOtro($anio);
-
-        $datos = [
-            'cantidadJugadoresM' => $cantidadJugadoresM,
-            'cantidadJugadoresF' => $cantidadJugadoresF,
-            'cantidadJugadoresOtro' => $cantidadJugadoresOtro
-        ];
-
-        header('Content-Type: application/json');
-        echo json_encode($datos);
-    }
-
-
 
 
 
