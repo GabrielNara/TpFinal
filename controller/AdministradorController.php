@@ -70,36 +70,41 @@ class AdministradorController
 		$this->renderer->render("cantidadJugadores", $contexto);
 	}
 
-    public function statsPreguntas(){
+	public function statsPreguntas()
+	{
+		$this->redireccionamiento();
+		$desde = 0;
+		$filtro = $_GET['filtro'] ?? 'A';
 
-        $this->redireccionamiento();
-        $desde = 0;
-        $filtro = $_GET['filtro'] ?? 'A';
+		$contexto = array(
+			'filtroDia' => $filtro === 'D',
+			'filtroSemana' => $filtro === 'S',
+			'filtroMes' => $filtro === 'M',
+			'filtroAnio' => $filtro === 'A'
+		);
 
-        switch ($filtro){
-            case 'D':
-                $desde = 1;
-                break;
-            case 'S':
-                $desde = 7;
-                break;
-            case 'M':
-                $desde = 30;
-                break;
-            case 'A':
-                $desde = 365;
-                break;
-        }
+		switch ($filtro) {
+			case 'D':
+				$desde = 1;
+				break;
+			case 'S':
+				$desde = 7;
+				break;
+			case 'M':
+				$desde = 30;
+				break;
+			case 'A':
+				$desde = 365;
+				break;
+		}
 
-        $cantidadPreguntasActivas = $this->administradorModel->obtenerCantidadPreguntas($desde,1);
-        $cantidadPreguntasSugeridas = $this->administradorModel->obtenerCantidadPreguntas($desde,4);
+		$cantidadPreguntasActivas = $this->administradorModel->obtenerCantidadPreguntas($desde, 1);
+		$cantidadPreguntasSugeridas = $this->administradorModel->obtenerCantidadPreguntas($desde, 4);
 
-        $contexto['cantPreguntasActivas']= json_encode($cantidadPreguntasActivas);
-        $contexto['cantPreguntasSugeridas']= json_encode($cantidadPreguntasSugeridas);
+		$contexto['cantPreguntasActivas'] = json_encode($cantidadPreguntasActivas);
+		$contexto['cantPreguntasSugeridas'] = json_encode($cantidadPreguntasSugeridas);
 
-
-
-        $this->renderer->render("statsPreguntas", $contexto);
-    }
+		$this->renderer->render("statsPreguntas", $contexto);
+	}
 
 }
