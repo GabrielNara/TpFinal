@@ -39,7 +39,7 @@
     </ol>
 </nav>
 <div class="mx-8 my-2">
-    <p class="my-2 text-xl font-semi-bold">JUGADORES NUEVOS</p>
+    <p class="my-2 text-xl font-semi-bold">PREGUNTAS EN EL JUEGO</p>
     <form action="/tpFinal/administrador/statsPreguntas" method="GET" class="flex items-center">
         <select name="filtro" class="border border-solid border-gray-500 w-36 p-2 mx-2 focus:outline-none">
             <option value="D" {{#filtroDia}}selected{{/filtroDia}}>Día</option>
@@ -54,27 +54,28 @@
     </form>
 </div>
 <div class="flex flex-col items-center justify-center">
+    <h1 id="chart_title" class="text-3xl my-4">PREGUNTAS EN EL JUEGO POR
+        {{#filtroAnio}}AÑO{{/filtroAnio}}
+        {{#filtroMes}}MES{{/filtroMes}}
+        {{#filtroSemana}}SEMANA{{/filtroSemana}}
+        {{#filtroDia}}DIA{{/filtroDia}}</h1>
     <div id="grafico" style="width: 500px; height: 400px;"></div>
 </div>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-    google.charts.load('current', {'packages':['corechart']});
+    google.charts.load('current', {'packages': ['corechart']});
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
         var data = google.visualization.arrayToDataTable([
             ['Categoría', 'Valor'],
-            ['Preguntas en juego', {{cantPreguntasActivas}}],
+            ['Preguntas en el juego', {{cantPreguntasActivas}}],
             ['Preguntas creadas',{{cantPreguntasSugeridas}}],
         ]);
 
-        var options = {
-            title: 'Gráfico de Torta'
-        };
-
         var chart = new google.visualization.PieChart(document.getElementById('grafico'));
-        chart.draw(data, options);
+        chart.draw(data);
     }
 </script>
 

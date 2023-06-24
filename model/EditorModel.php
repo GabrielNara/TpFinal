@@ -16,13 +16,6 @@ class EditorModel
         return $this->database->querySelectFetchAssoc($query);
     }
 
-
-    public function obtenerPreguntasEnRevision()
-    {
-        $query = "SELECT * FROM `preguntas` WHERE id_estado_pregunta = 3 or id_estado_pregunta = 4";
-        return $this->database->query($query);
-    }
-
     public function obtenerPreguntas()
     {
         $query = "SELECT * FROM `preguntas`";
