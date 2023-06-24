@@ -202,16 +202,17 @@ class AdministradorController
             case 'anio':
                 $cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorEdadPorAnio();
                 $usuariosJson = [];
+                $anios = [];
                 foreach ($cantidadUsuariosTotal as $usuarios) {
                     $usuariosJson[] = [
                         'menores' => $usuarios['menores'],
                         'medios' => $usuarios['medios'],
                         'jubilados' => $usuarios['jubilados']
                     ];
+                    $anios[] = $usuarios['anio'];
                 }
                 $contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
-
-                //var_dump($contexto);
+                $contexto['anios'] = json_encode($anios);
                 break;
 
         }
