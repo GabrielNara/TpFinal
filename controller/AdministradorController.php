@@ -171,6 +171,48 @@ class AdministradorController
                 }
                 $contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
                 break;
+            case 'semana':
+                $cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorEdadPorSemana();
+                $usuariosJson = [];
+                foreach ($cantidadUsuariosTotal as $usuarios) {
+                    $usuariosJson[] = [
+                        'menores' => $usuarios['menores'],
+                        'medios' => $usuarios['medios'],
+                        'jubilados' => $usuarios['jubilados']
+                    ];
+                }
+                $contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+
+                break;
+            case 'mes':
+                $cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorEdadPorMes();
+                $usuariosJson = [];
+                foreach ($cantidadUsuariosTotal as $usuarios) {
+                    $usuariosJson[] = [
+                        'menores' => $usuarios['menores'],
+                        'medios' => $usuarios['medios'],
+                        'jubilados' => $usuarios['jubilados']
+                    ];
+                }
+                $contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+
+                //var_dump($contexto);
+                break;
+
+            case 'anio':
+                $cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorEdadPorAnio();
+                $usuariosJson = [];
+                foreach ($cantidadUsuariosTotal as $usuarios) {
+                    $usuariosJson[] = [
+                        'menores' => $usuarios['menores'],
+                        'medios' => $usuarios['medios'],
+                        'jubilados' => $usuarios['jubilados']
+                    ];
+                }
+                $contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+
+                //var_dump($contexto);
+                break;
 
         }
 

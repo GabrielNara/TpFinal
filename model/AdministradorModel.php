@@ -224,5 +224,99 @@ class AdministradorModel
         return $cantidad_usuarios;
     }
 
+    public function obtenerCantidadUsuariosPorEdadPorSemana()
+    {
+        $cantidad_usuarios = [];
+        $fechas = [];
+
+        for ($i = 0; $i < 4; $i++) {
+            $fecha_inicio = strtotime("-".(($i * 7) + 6)." days");
+            $fecha_fin = strtotime("-".($i * 7)." days");
+
+            $fechas[$i] = array(
+                'inicio' => date('Y-m-d', $fecha_inicio),
+                'fin' => date('Y-m-d', $fecha_fin)
+            );
+        }
+        $fechas = array_reverse($fechas);
+
+        foreach ($fechas as $fecha) {
+            $fechaInicio = $fecha['inicio'] . " 00:00:00";
+            $fechaFin = $fecha['fin'] . " 23:59:59";
+            $query = "SELECT 
+                    SUM(CASE WHEN YEAR(CURDATE()) - YEAR(ano_nacimiento) < 18 THEN 1 ELSE 0 END) AS menores,
+                    SUM(CASE WHEN YEAR(CURDATE()) - YEAR(ano_nacimiento) >= 18 AND YEAR(CURDATE()) - YEAR(ano_nacimiento) < 65 THEN 1 ELSE 0 END) AS medios,
+                    SUM(CASE WHEN YEAR(CURDATE()) - YEAR(ano_nacimiento) >= 65 THEN 1 ELSE 0 END) AS jubilados
+                FROM usuarios 
+                WHERE fecha_registro BETWEEN '$fechaInicio' AND '$fechaFin'";
+
+            $result = $this->database->querySelectFetchAssoc($query);
+
+            $cantidad_usuarios[] = [
+                'menores' => intval($result[0]['menores']),
+                'medios' => intval($result[0]['medios']),
+                'jubilados' => intval($result[0]['jubilados'])
+            ];
+        }
+
+        return $cantidad_usuarios;
+    }
+
+    public function obtenerCantidadUsuariosPorEdadPorMes()
+    {
+        $cantidad_usuarios = [];
+
+        for ($i = 1; $i <= 12; $i++) {
+            $query = "SELECT 
+                    SUM(CASE WHEN YEAR(CURDATE()) - YEAR(ano_nacimiento) < 18 THEN 1 ELSE 0 END) AS menores,
+                    SUM(CASE WHEN YEAR(CURDATE()) - YEAR(ano_nacimiento) >= 18 AND YEAR(CURDATE()) - YEAR(ano_nacimiento) < 65 THEN 1 ELSE 0 END) AS medios,
+                    SUM(CASE WHEN YEAR(CURDATE()) - YEAR(ano_nacimiento) >= 65 THEN 1 ELSE 0 END) AS jubilados
+                FROM usuarios 
+                WHERE YEAR(fecha_registro) = YEAR(CURRENT_DATE()) AND MONTH(fecha_registro) = '$i';";
+
+            $result = $this->database->querySelectFetchAssoc($query);
+
+            $cantidad_usuarios[] = [
+                'menores' => intval($result[0]['menores']),
+                'medios' => intval($result[0]['medios']),
+                'jubilados' => intval($result[0]['jubilados'])
+            ];
+        }
+
+        return $cantidad_usuarios;
+    }
+
+    public function obtenerCantidadUsuariosPorEdadPorAnio()
+    {
+        $cantidad_usuarios = [];
+
+        // Obtener el año actual
+        $anio_actual = date('Y');
+
+        // Calcular los años anteriores hasta 4 años atrás
+        for ($i = 0; $i < 4; $i++) {
+            $anio = $anio_actual - $i;
+
+            $query = "SELECT 
+                    SUM(CASE WHEN YEAR(CURDATE()) - YEAR(ano_nacimiento) < 18 THEN 1 ELSE 0 END) AS menores,
+                    SUM(CASE WHEN YEAR(CURDATE()) - YEAR(ano_nacimiento) >= 18 AND YEAR(CURDATE()) - YEAR(ano_nacimiento) < 65 THEN 1 ELSE 0 END) AS medios,
+                    SUM(CASE WHEN YEAR(CURDATE()) - YEAR(ano_nacimiento) >= 65 THEN 1 ELSE 0 END) AS jubilados
+                FROM usuarios 
+                WHERE YEAR(fecha_registro) = '$anio';";
+
+            $result = $this->database->querySelectFetchAssoc($query);
+
+            $cantidad_usuarios[] = [
+                'anio' => $anio,
+                'menores' => intval($result[0]['menores']),
+                'medios' => intval($result[0]['medios']),
+                'jubilados' => intval($result[0]['jubilados'])
+            ];
+        }
+
+        return $cantidad_usuarios;
+    }
+
+
 
 }

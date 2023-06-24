@@ -99,7 +99,91 @@
             }
         {{/filtroDia}}
 
-        
+        {{#filtroSemana}}
+            titulo_grafico.innerText = 'Usuarios por grupo de edad por semana.';
+            data.addColumn('string', 'Semanas');
+            data.addColumn('number', 'Menores');
+            data.addColumn('number', 'Medios');
+            data.addColumn('number', 'Jubilados');
+
+            let fechas = [];
+
+            for (let i = 0; i < 4; i++) {
+                let fechaInicio = new Date();
+                fechaInicio.setDate(fechaInicio.getDate() - i * 7);
+                fechaInicio.setHours(0, 0, 0, 0);
+
+                let inicio = ("0" + fechaInicio.getDate()).slice(-2) + "-" + ("0" + (fechaInicio.getMonth() + 1)).slice(-2);
+
+                fechas.push(inicio);
+            }
+
+            fechas.sort();
+
+            let cantidadUsuariosTotalParsed = JSON.parse('{{{cantidadUsuariosTotal}}}');
+
+            for (let i = 0; i < cantidadUsuariosTotalParsed.length; i++) {
+                data.addRow([
+                    fechas[i],
+                    cantidadUsuariosTotalParsed[i].menores,
+                    cantidadUsuariosTotalParsed[i].medios,
+                    cantidadUsuariosTotalParsed[i].jubilados
+                ]);
+            }
+        {{/filtroSemana}}
+
+        {{#filtroMes}}
+            titulo_grafico.innerText = 'Usuarios por grupo de edad por mes.';
+            data.addColumn('string', 'Meses');
+            data.addColumn('number', 'Menores');
+            data.addColumn('number', 'Medios');
+            data.addColumn('number', 'Jubilados');
+            let meses = [
+                'Enero',
+                'Febrero',
+                'Marzo',
+                'Abril',
+                'Mayo',
+                'Junio',
+                'Julio',
+                'Agosto',
+                'Septiembre',
+                'Octubre',
+                'Noviembre',
+                'Diciembre'
+            ];
+
+            let cantidadUsuariosTotalParsed = JSON.parse('{{{cantidadUsuariosTotal}}}');
+
+            for (let i = 0; i < meses.length; i++) {
+                data.addRow([meses[i],
+                    cantidadUsuariosTotalParsed[i].menores,
+                    cantidadUsuariosTotalParsed[i].medios,
+                    cantidadUsuariosTotalParsed[i].jubilados]);
+            }
+        {{/filtroMes}}
+
+        {{#filtroAnio}}
+            titulo_grafico.innerText = 'Usuarios por grupo de edad por anio.';
+            data.addColumn('number', 'Año');
+            data.addColumn('number', 'Menores');
+            data.addColumn('number', 'Medios');
+            data.addColumn('number', 'Jubilados');
+
+            let anios = {{anios}};
+
+            let cantidadUsuariosTotalParsed = JSON.parse('{{{cantidadUsuariosTotal}}}');
+
+            for (let i = 0; i < anios.length; i++) {
+                data.addRow([anios[i],
+                    cantidadUsuariosTotalParsed[i].menores,
+                    cantidadUsuariosTotalParsed[i].medios,
+                    cantidadUsuariosTotalParsed[i].jubilados]);;
+            }
+        {{/filtroAnio}}
+
+
+
         let options = {
             curveType: 'function',
             legend: {position: 'bottom'},
