@@ -63,66 +63,9 @@
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-        let cantidadUsuariosTotal = {{cantidadUsuariosTotal}};
+        let cantidadUsuariosTotal = {{{cantidadUsuariosTotal}}};
         let data = new google.visualization.DataTable();
         let titulo_grafico = document.getElementById('chart_title');
-
-        {{#filtroAnio}}
-            titulo_grafico.innerText = 'Partidas nuevas por año.';
-            data.addColumn('number', 'Año');
-            data.addColumn('number', 'Partidas');
-            let anios = {{anios}};
-            for (let i = 0; i < anios.length; i++) {
-                data.addRow([anios[i], cantidadPartidasTotal[i]]);
-            }
-        {{/filtroAnio}}
-
-        {{#filtroMes}}
-            titulo_grafico.innerText = 'Partidas nuevas por mes.';
-            data.addColumn('string', 'Meses');
-            data.addColumn('number', 'Partidas');
-            let meses = [
-                'Enero',
-                'Febrero',
-                'Marzo',
-                'Abril',
-                'Mayo',
-                'Junio',
-                'Julio',
-                'Agosto',
-                'Septiembre',
-                'Octubre',
-                'Noviembre',
-                'Diciembre'
-            ];
-            for (let i = 0; i < meses.length; i++) {
-                data.addRow([meses[i], cantidadPartidasTotal[i]]);
-            }
-        {{/filtroMes}}
-
-        {{#filtroSemana}}
-            titulo_grafico.innerText = 'Partidas nuevas por semana.';
-            data.addColumn('string', 'Semanas');
-            data.addColumn('number', 'Partidas');
-
-            let fechas = [];
-
-            for (let i = 0; i < 4; i++) {
-                let fechaInicio = new Date();
-                fechaInicio.setDate(fechaInicio.getDate() - i * 7);
-                fechaInicio.setHours(0, 0, 0, 0);
-
-                let inicio = ("0" + fechaInicio.getDate()).slice(-2) + "-" + ("0" + (fechaInicio.getMonth() + 1)).slice(-2);
-
-                fechas.push(inicio);
-            }
-
-            fechas.sort();
-
-            for (let i = 0; i < fechas.length; i++) {
-                data.addRow([fechas[i], cantidadPartidasTotal[i]]);
-            }
-        {{/filtroSemana}}
 
         {{#filtroDia}}
             titulo_grafico.innerText = 'Usuarios por grupo de edad por día.';
@@ -144,16 +87,19 @@
             }
             ultimos7Dias.sort();
 
-            for (let i = 0; i < ultimos7Dias.length; i++) {
+            let cantidadUsuariosTotalParsed = JSON.parse('{{{cantidadUsuariosTotal}}}');
+
+            for (let i = 0; i < cantidadUsuariosTotalParsed.length; i++) {
                 data.addRow([
                     ultimos7Dias[i],
-                    cantidadUsuariosTotal[i].menores,
-                    cantidadUsuariosTotal[i].medios,
-                    cantidadUsuariosTotal[i].jubilados
+                    cantidadUsuariosTotalParsed[i].menores,
+                    cantidadUsuariosTotalParsed[i].medios,
+                    cantidadUsuariosTotalParsed[i].jubilados
                 ]);
             }
         {{/filtroDia}}
 
+        
         let options = {
             curveType: 'function',
             legend: {position: 'bottom'},

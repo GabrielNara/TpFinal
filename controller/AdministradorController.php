@@ -161,26 +161,17 @@ class AdministradorController
         switch ($filtro) {
             case 'dia':
                 $cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorEdadPorDia();
-               // var_dump($cantidadUsuariosTotal);
-                $contexto['cantidadUsuariosTotal'] = json_encode($cantidadUsuariosTotal);
-                break;
-            case 'semana':
-                $cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorSemana();
-                $contexto['cantidadPartidasTotal'] = json_encode($cantidadPartidasTotal);
-                break;
-            case 'mes':
-                $cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorMes();
-                $contexto['cantidadPartidasTotal'] = json_encode($cantidadPartidasTotal);
-                break;
-            case 'anio': //REVISAR FILTRO DE ANIOS --------------------------------------------------------
-                $getAnios = $this->administradorModel->getAniosRegistroPartidas();
-                foreach ($getAnios as $anio) {
-                    $anios[] = intval($anio['anios']);
+                $usuariosJson = [];
+                foreach ($cantidadUsuariosTotal as $usuarios) {
+                    $usuariosJson[] = [
+                        'menores' => $usuarios['menores'],
+                        'medios' => $usuarios['medios'],
+                        'jubilados' => $usuarios['jubilados']
+                    ];
                 }
-                $cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorAnio($anios);
-                $contexto['anios'] = json_encode($anios);
-                $contexto['cantidadPartidasTotal'] = json_encode($cantidadPartidasTotal);
+                $contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
                 break;
+
         }
 
         $this->renderer->render("usuariosEdad", $contexto);
