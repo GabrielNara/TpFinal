@@ -37,6 +37,7 @@ class PartidaController
 		$this->partidaModel->sumarPreguntaALaEstadistica($pregunta['id']);
 		$this->partidaModel->sumarPreguntaAlJugador($_SESSION['idPartida']);
 
+
 		echo json_encode($pregunta);
 	}
 

@@ -1,86 +1,110 @@
 <?php
 
-
 class AdministradorController
 {
-    private $renderer;
+	private $renderer;
 
-    private $administradorModel;
+	private $administradorModel;
 
+	public function __construct($renderer, $administradorModel)
+	{
+		$this->renderer = $renderer;
+		$this->administradorModel = $administradorModel;
+	}
 
-    public function __construct($renderer, $administradorModel)
-    {
-        $this->renderer = $renderer;
-        $this->administradorModel = $administradorModel;
+	public function redireccionamiento()
+	{
+		$usuario = $_SESSION['usuario'];
+		$rol = $this->administradorModel->getRol($usuario["id"]);
 
-    }
+		if ($rol[0]['idRol'] == 3 || $rol[0]['idRol'] == 2) {
+			header('Location: /tpfinal/lobby/list');
+			exit();
+		}
+	}
 
-    public function redireccionamiento() {
-        $usuario = $_SESSION['usuario'];
-        $rol = $this->administradorModel->getRol($usuario["id"]);
+	public function estadisticas()
+	{
+		$this->redireccionamiento();
 
-        if ($rol[0]['idRol'] == 3 || $rol[0]['idRol'] == 2 ) {
+		$this->renderer->render("estadisticas");
+	}
 
-            header('Location: /tpfinal/lobby/list');
-            exit();
-        }
-    }
+	public function cantJugadores()
+	{
+		$this->redireccionamiento();
 
-    public function estadisticas(){
+		$filtro = $_GET['filtro'] ?? 'anio';
 
-        $this->redireccionamiento();
+		$contexto = array(
+			'filtroDia' => $filtro === 'dia',
+			'filtroSemana' => $filtro === 'semana',
+			'filtroMes' => $filtro === 'mes',
+			'filtroAnio' => $filtro === 'anio'
+		);
 
-        $this->renderer->render("estadisticas");
+		switch ($filtro) {
+			case 'dia':
+				$cantidadJugadoresTotal = $this->administradorModel->obtenerCantidadJugadoresPorDia();
+				$contexto['cantidadJugadoresTotal'] = json_encode($cantidadJugadoresTotal);
+				break;
+			case 'semana':
+				$cantidadJugadoresTotal = $this->administradorModel->obtenerCantidadJugadoresPorSemana();
+				$contexto['cantidadJugadoresTotal'] = json_encode($cantidadJugadoresTotal);
+				break;
+			case 'mes':
+				$cantidadJugadoresTotal = $this->administradorModel->obtenerCantidadJugadoresPorMes();
+				$contexto['cantidadJugadoresTotal'] = json_encode($cantidadJugadoresTotal);
+				break;
+			case 'anio':
+				$getAnios = $this->administradorModel->getAniosRegistroJugadores();
+				foreach ($getAnios as $anio) {
+					$anios[] = intval($anio['anios']);
+				}
+				$cantidadJugadoresTotal = $this->administradorModel->obtenerCantidadJugadoresPorAnio($anios);
+				$contexto['anios'] = json_encode($anios);
+				$contexto['cantidadJugadoresTotal'] = json_encode($cantidadJugadoresTotal);
+				break;
+		}
 
+		$this->renderer->render("cantidadJugadores", $contexto);
+	}
 
-    }
+	public function statsPreguntas()
+	{
+		$this->redireccionamiento();
+		$desde = 0;
+		$filtro = $_GET['filtro'] ?? 'A';
 
-    public function cantJugadores()
-    {
-        $this->redireccionamiento();
+		$contexto = array(
+			'filtroDia' => $filtro === 'D',
+			'filtroSemana' => $filtro === 'S',
+			'filtroMes' => $filtro === 'M',
+			'filtroAnio' => $filtro === 'A'
+		);
 
-        $filtro = $_GET['filtro'] ?? 'todos'; // Obtener el valor del filtro desde la URL
+		switch ($filtro) {
+			case 'D':
+				$desde = 1;
+				break;
+			case 'S':
+				$desde = 7;
+				break;
+			case 'M':
+				$desde = 30;
+				break;
+			case 'A':
+				$desde = 365;
+				break;
+		}
 
-        $filtroPeriodo = $this->filtroPeriodo($filtro);
+		$cantidadPreguntasActivas = $this->administradorModel->obtenerCantidadPreguntas($desde, 1);
+		$cantidadPreguntasSugeridas = $this->administradorModel->obtenerCantidadPreguntas($desde, 4);
 
-        $cantidadJugadores = $this->administradorModel->obtenerCantidadJugadores($filtroPeriodo);
+		$contexto['cantPreguntasActivas'] = json_encode($cantidadPreguntasActivas);
+		$contexto['cantPreguntasSugeridas'] = json_encode($cantidadPreguntasSugeridas);
 
-        $contexto = array(
-            'jugadores' => $cantidadJugadores[0]['cantidad'], // Obtener el valor correcto de la cantidad de jugadores
-            'filtroTodos' => ($filtro === 'todos') ? true : false,
-            'filtroDia' => ($filtro === 'dia') ? true : false,
-            'filtroSemana' => ($filtro === 'semana') ? true : false,
-            'filtroMes' => ($filtro === 'mes') ? true : false,
-            'filtroAnio' => ($filtro === 'anio') ? true : false
-        );
-
-        $this->renderer->render("cantidadJugadores", $contexto);
-    }
-
-    public function filtroPeriodo($filtro){
-
-        switch ($filtro) {
-            case 'dia':
-                $filtroPeriodo = 'DATE(u.fecha_registro) = CURDATE()';
-                break;
-            case 'semana':
-                $filtroPeriodo = 'DATE_FORMAT(u.fecha_registro, "%x-%v") = DATE_FORMAT(CURDATE(), "%x-%v")';
-                break;
-            case 'mes':
-                $filtroPeriodo = 'MONTH(u.fecha_registro) = MONTH(CURDATE())';
-                break;
-            case 'anio':
-                $filtroPeriodo = 'YEAR(u.fecha_registro) = YEAR(CURDATE())';
-                break;
-            default:
-                $filtroPeriodo = '';
-                break;
-        }
-
-        return $filtroPeriodo;
-    }
-
-
-
+		$this->renderer->render("statsPreguntas", $contexto);
+	}
 
 }

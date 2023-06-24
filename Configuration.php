@@ -10,11 +10,8 @@ include_once("model/UsuarioModel.php");
 include_once("model/RolModel.php");
 include_once("model/RankingModel.php");
 include_once("model/CrearPreguntaModel.php");
-
 include_once("model/EditorModel.php");
 include_once("model/AdministradorModel.php");
-
-
 
 include_once('controller/HomeController.php');
 include_once('controller/CrearPreguntaController.php');

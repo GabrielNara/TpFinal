@@ -4,6 +4,7 @@ class CrearPreguntaController
 {
     private $renderer;
 
+
     public function __construct($renderer,$crearPreguntaModel) {
         $this->renderer = $renderer;
         $this->crearPreguntaModel = $crearPreguntaModel;

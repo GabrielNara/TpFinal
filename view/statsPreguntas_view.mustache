@@ -1,0 +1,83 @@
+{{> header}}
+
+<!-- Breadcrumb -->
+<nav class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
+     aria-label="Breadcrumb">
+    <ol class="inline-flex items-center space-x-1 md:space-x-3">
+        <li class="inline-flex items-center">
+            <a href="/tpFinal/lobby/list"
+               class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                <svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                </svg>
+                Lobby
+            </a>
+        </li>
+        <div class="flex items-center">
+            <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"></path>
+            </svg>
+            <a href="/tpFinal/administrador/estadisticas"
+               class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Estadisticas</a>
+        </div>
+        </li>
+        <li aria-current="page">
+            <div class="flex items-center">
+                <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                          clip-rule="evenodd"></path>
+                </svg>
+                <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">...</span>
+            </div>
+        </li>
+    </ol>
+</nav>
+<div class="mx-8 my-2">
+    <p class="my-2 text-xl font-semi-bold">PREGUNTAS EN EL JUEGO</p>
+    <form action="/tpFinal/administrador/statsPreguntas" method="GET" class="flex items-center">
+        <select name="filtro" class="border border-solid border-gray-500 w-36 p-2 mx-2 focus:outline-none">
+            <option value="D" {{#filtroDia}}selected{{/filtroDia}}>Día</option>
+            <option value="S" {{#filtroSemana}}selected{{/filtroSemana}}>Semana</option>
+            <option value="M" {{#filtroMes}}selected{{/filtroMes}}>Mes</option>
+            <option value="A" {{#filtroAnio}}selected{{/filtroAnio}}>Año</option>
+        </select>
+        <button type="submit"
+                class="border border-solid border-gray-500 w-24 p-2 mx-2 hover:bg-gray-500 hover:text-white duration-200">
+            Filtrar
+        </button>
+    </form>
+</div>
+<div class="flex flex-col items-center justify-center">
+    <h1 id="chart_title" class="text-3xl my-4">PREGUNTAS EN EL JUEGO POR
+        {{#filtroAnio}}AÑO{{/filtroAnio}}
+        {{#filtroMes}}MES{{/filtroMes}}
+        {{#filtroSemana}}SEMANA{{/filtroSemana}}
+        {{#filtroDia}}DIA{{/filtroDia}}</h1>
+    <div id="grafico" style="width: 500px; height: 400px;"></div>
+</div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', {'packages': ['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Categoría', 'Valor'],
+            ['Preguntas en el juego', {{cantPreguntasActivas}}],
+            ['Preguntas creadas',{{cantPreguntasSugeridas}}],
+        ]);
+
+        var chart = new google.visualization.PieChart(document.getElementById('grafico'));
+        chart.draw(data);
+    }
+</script>
+
+</body>
+</html>
