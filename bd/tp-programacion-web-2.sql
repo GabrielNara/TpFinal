@@ -165,7 +165,7 @@ CREATE TABLE `usuarios` (
   `apellido` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `contrasena` varchar(255) NOT NULL,
-  `ano_nacimiento` smallint(6) NOT NULL,
+  `ano_nacimiento` year(4) NOT NULL,
   `sexo` varchar(10) NOT NULL,
   `pais_ciudad` varchar(255) NOT NULL,
   `nombre_usuario` varchar(255) NOT NULL,
