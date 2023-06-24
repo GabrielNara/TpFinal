@@ -304,6 +304,89 @@ class AdministradorController
         $this->renderer->render("jugadoresSexo", $contexto);
     }
 
+    public function cantUsuariosPais(){
+        $this->redireccionamiento();
+
+        $filtro = $_GET['filtro'] ?? 'anio';
+
+        $contexto = array(
+            'filtroDia' => $filtro === 'dia',
+            'filtroSemana' => $filtro === 'semana',
+            'filtroMes' => $filtro === 'mes',
+            'filtroAnio' => $filtro === 'anio'
+        );
+
+        switch ($filtro) {
+            case 'dia':
+                $cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorPaisPorDia();
+                $usuariosJson = [];
+                foreach ($cantidadUsuariosTotal as $usuarios) {
+                    $usuariosJson[] = [
+                        'argentinos' => $usuarios['argentinos'],
+                        'chilenos' => $usuarios['chilenos'],
+                        'peruanos' => $usuarios['peruanos'],
+                        'colombianos' => $usuarios['colombianos'],
+                        'otros' => $usuarios['otros']
+                    ];
+                }
+                $contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+                break;
+            case 'semana':
+                $cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorPaisPorSemana();
+                $usuariosJson = [];
+                foreach ($cantidadUsuariosTotal as $usuarios) {
+                    $usuariosJson[] = [
+                        'argentinos' => $usuarios['argentinos'],
+                        'chilenos' => $usuarios['chilenos'],
+                        'peruanos' => $usuarios['peruanos'],
+                        'colombianos' => $usuarios['colombianos'],
+                        'otros' => $usuarios['otros']
+                    ];
+                }
+                $contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+
+                break;
+            case 'mes':
+                $cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorPaisPorMes();
+                $usuariosJson = [];
+                foreach ($cantidadUsuariosTotal as $usuarios) {
+                    $usuariosJson[] = [
+                        'argentinos' => $usuarios['argentinos'],
+                        'chilenos' => $usuarios['chilenos'],
+                        'peruanos' => $usuarios['peruanos'],
+                        'colombianos' => $usuarios['colombianos'],
+                        'otros' => $usuarios['otros']
+                    ];
+                }
+                $contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+
+                //var_dump($contexto);
+                break;
+
+            case 'anio':
+                $cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorPaisPorAnio();
+                $usuariosJson = [];
+                $anios = [];
+                foreach ($cantidadUsuariosTotal as $usuarios) {
+                    $usuariosJson[] = [
+                        'argentinos' => $usuarios['argentinos'],
+                        'chilenos' => $usuarios['chilenos'],
+                        'peruanos' => $usuarios['peruanos'],
+                        'colombianos' => $usuarios['colombianos'],
+                        'otros' => $usuarios['otros']
+                    ];
+                    $anios[] = $usuarios['anio'];
+                }
+                $contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+                $contexto['anios'] = json_encode($anios);
+                break;
+
+        }
+
+        $this->renderer->render("jugadoresPais", $contexto);
+    }
+
+
 
 
 
