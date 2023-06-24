@@ -107,4 +107,122 @@ class AdministradorModel
         $cantidad =$this->database->querySelectFetchAssoc($query);
         return intval($cantidad[0]["cant_preguntas"]);
     }
+
+    public function obtenerCantidadPartidasPorDia()
+    {
+        $cantidad_partidas = [];
+        $fechas = [];
+        for ($i = 0; $i < 7; $i++) {
+            $fecha = date("Y-m-d", strtotime("-$i days"));
+            array_push($fechas, $fecha);
+        }
+        sort($fechas);
+        foreach ($fechas as $fecha) {
+            $fechaInicio = $fecha." 00:00:00";
+            $fechaFin = $fecha." 23:59:59";
+            $query = "SELECT COUNT(*) AS cantidad FROM partidas WHERE fecha BETWEEN '$fechaInicio' AND '$fechaFin'";
+            $cantidad = $this->database->querySelectFetchAssoc($query);
+            array_push($cantidad_partidas, intval($cantidad[0]["cantidad"]));
+        }
+
+        return $cantidad_partidas;
+    }
+
+    public function obtenerCantidadPartidasPorSemana()
+    {
+        $cantidad_partidas = [];
+        $fechas = [];
+
+        for ($i = 0; $i < 4; $i++) {
+            $fecha_inicio = strtotime("-".(($i * 7) + 6)." days");
+            $fecha_fin = strtotime("-".($i * 7)." days");
+
+            $fechas[$i] = array(
+                'inicio' => date('Y-m-d', $fecha_inicio),
+                'fin' => date('Y-m-d', $fecha_fin)
+            );
+        }
+
+        $fechas = array_reverse($fechas);
+
+        for ($i = 0; $i < count($fechas); $i++) {
+            $fechaInicio = $fechas[$i]['inicio']." 00:00:00";
+            $fechaFin = $fechas[$i]['fin']." 23:59:59";
+            $query = "SELECT COUNT(*) AS cantidad FROM partidas WHERE fecha BETWEEN '$fechaInicio' AND '$fechaFin'";
+            $cantidad = $this->database->querySelectFetchAssoc($query);
+            array_push($cantidad_partidas, intval($cantidad[0]["cantidad"]));
+        }
+
+        return $cantidad_partidas;
+    }
+
+    public function obtenerCantidadPartidasPorMes()
+    {
+        $cantidad_partidas = [];
+
+        for ($i = 1; $i <= 12; $i++) {
+            $query = "SELECT COUNT(*) AS cantidad FROM partidas 
+                  WHERE YEAR(partidas.fecha) = 2023 AND MONTH(partidas.fecha) = '$i';";
+
+            $cantidad = $this->database->querySelectFetchAssoc($query);
+            array_push($cantidad_partidas, intval($cantidad[0]["cantidad"]));
+        }
+
+        return $cantidad_partidas;
+    }
+
+    public function getAniosRegistroPartidas()
+    {
+        $query = "SELECT YEAR(fecha) AS anios FROM partidas ORDER BY anios ASC;";
+        return $this->database->querySelectFetchAssoc($query);
+    }
+
+    public function obtenerCantidadPartidasPorAnio($anios)
+    {
+        $cantidad_partidas = [];
+
+        foreach ($anios as $anio) {
+            $query = "SELECT COUNT(*) AS cantidad FROM partidas
+                  WHERE  YEAR(partidas.fecha) = '$anio';";
+
+            $cantidad = $this->database->querySelectFetchAssoc($query);
+            array_push($cantidad_partidas, intval($cantidad[0]["cantidad"]));
+        }
+
+        return $cantidad_partidas;
+    }
+
+    public function obtenerCantidadUsuariosPorEdadPorDia()
+    {
+        $cantidad_usuarios = [];
+        $fechas = [];
+        for ($i = 0; $i < 7; $i++) {
+            $fecha = date("Y-m-d", strtotime("-$i days"));
+            array_push($fechas, $fecha);
+        }
+        sort($fechas);
+
+        foreach ($fechas as $fecha) {
+            $fechaInicio = $fecha . " 00:00:00";
+            $fechaFin = $fecha . " 23:59:59";
+            $query = "SELECT 
+                    SUM(CASE WHEN YEAR(CURDATE()) - YEAR(ano_nacimiento) < 18 THEN 1 ELSE 0 END) AS menores,
+                    SUM(CASE WHEN YEAR(CURDATE()) - YEAR(ano_nacimiento) >= 18 AND YEAR(CURDATE()) - YEAR(ano_nacimiento) < 65 THEN 1 ELSE 0 END) AS medios,
+                    SUM(CASE WHEN YEAR(CURDATE()) - YEAR(ano_nacimiento) >= 65 THEN 1 ELSE 0 END) AS jubilados
+                FROM usuarios 
+                WHERE fecha_registro BETWEEN '$fechaInicio' AND '$fechaFin'";
+
+            $result = $this->database->querySelectFetchAssoc($query);
+
+            $cantidad_usuarios[] = [
+                'menores' => intval($result[0]['menores']),
+                'medios' => intval($result[0]['medios']),
+                'jubilados' => intval($result[0]['jubilados'])
+            ];
+        }
+
+        return $cantidad_usuarios;
+    }
+
+
 }

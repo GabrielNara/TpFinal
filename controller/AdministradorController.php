@@ -107,4 +107,83 @@ class AdministradorController
 		$this->renderer->render("statsPreguntas", $contexto);
 	}
 
+    public function cantPartidasJugadas(){
+        $this->redireccionamiento();
+
+        $filtro = $_GET['filtro'] ?? 'anio';
+
+        $contexto = array(
+            'filtroDia' => $filtro === 'dia',
+            'filtroSemana' => $filtro === 'semana',
+            'filtroMes' => $filtro === 'mes',
+            'filtroAnio' => $filtro === 'anio'
+        );
+
+        switch ($filtro) {
+            case 'dia':
+                $cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorDia();
+                $contexto['cantidadPartidasTotal'] = json_encode($cantidadPartidasTotal);
+                break;
+            case 'semana':
+                $cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorSemana();
+                $contexto['cantidadPartidasTotal'] = json_encode($cantidadPartidasTotal);
+                break;
+            case 'mes':
+                $cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorMes();
+                $contexto['cantidadPartidasTotal'] = json_encode($cantidadPartidasTotal);
+                break;
+            case 'anio': //REVISAR FILTRO DE ANIOS --------------------------------------------------------
+                $getAnios = $this->administradorModel->getAniosRegistroPartidas();
+                 foreach ($getAnios as $anio) {
+                    $anios[] = intval($anio['anios']);
+                }
+                $cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorAnio($anios);
+                $contexto['anios'] = json_encode($anios);
+                $contexto['cantidadPartidasTotal'] = json_encode($cantidadPartidasTotal);
+                break;
+        }
+
+        $this->renderer->render("partidasJugadas", $contexto);
+    }
+
+    public function cantUsuariosEdad(){
+        $this->redireccionamiento();
+
+        $filtro = $_GET['filtro'] ?? 'anio';
+
+        $contexto = array(
+            'filtroDia' => $filtro === 'dia',
+            'filtroSemana' => $filtro === 'semana',
+            'filtroMes' => $filtro === 'mes',
+            'filtroAnio' => $filtro === 'anio'
+        );
+
+        switch ($filtro) {
+            case 'dia':
+                $cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorEdadPorDia();
+               // var_dump($cantidadUsuariosTotal);
+                $contexto['cantidadUsuariosTotal'] = json_encode($cantidadUsuariosTotal);
+                break;
+            case 'semana':
+                $cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorSemana();
+                $contexto['cantidadPartidasTotal'] = json_encode($cantidadPartidasTotal);
+                break;
+            case 'mes':
+                $cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorMes();
+                $contexto['cantidadPartidasTotal'] = json_encode($cantidadPartidasTotal);
+                break;
+            case 'anio': //REVISAR FILTRO DE ANIOS --------------------------------------------------------
+                $getAnios = $this->administradorModel->getAniosRegistroPartidas();
+                foreach ($getAnios as $anio) {
+                    $anios[] = intval($anio['anios']);
+                }
+                $cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorAnio($anios);
+                $contexto['anios'] = json_encode($anios);
+                $contexto['cantidadPartidasTotal'] = json_encode($cantidadPartidasTotal);
+                break;
+        }
+
+        $this->renderer->render("usuariosEdad", $contexto);
+    }
+
 }
