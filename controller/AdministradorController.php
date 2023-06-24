@@ -132,15 +132,24 @@ class AdministradorController
                 $cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorMes();
                 $contexto['cantidadPartidasTotal'] = json_encode($cantidadPartidasTotal);
                 break;
-            case 'anio': //REVISAR FILTRO DE ANIOS --------------------------------------------------------
-                $getAnios = $this->administradorModel->getAniosRegistroPartidas();
-                 foreach ($getAnios as $anio) {
-                    $anios[] = intval($anio['anios']);
+            case 'anio':
+                $cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorAnio();
+                $anios = [];
+
+                // Obtener el año actual
+                $anio_actual = date('Y');
+
+                // Calcular los años anteriores hasta 4 años atrás
+                for ($i = 0; $i < 4; $i++) {
+                    $anio = $anio_actual - $i;
+                    $anios[] = $anio;
                 }
-                $cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorAnio($anios);
+
                 $contexto['anios'] = json_encode($anios);
                 $contexto['cantidadPartidasTotal'] = json_encode($cantidadPartidasTotal);
+
                 break;
+
         }
 
         $this->renderer->render("partidasJugadas", $contexto);

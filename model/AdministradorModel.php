@@ -171,17 +171,17 @@ class AdministradorModel
         return $cantidad_partidas;
     }
 
-    public function getAniosRegistroPartidas()
-    {
-        $query = "SELECT YEAR(fecha) AS anios FROM partidas ORDER BY anios ASC;";
-        return $this->database->querySelectFetchAssoc($query);
-    }
 
-    public function obtenerCantidadPartidasPorAnio($anios)
+    public function obtenerCantidadPartidasPorAnio()
     {
         $cantidad_partidas = [];
+        // Obtener el año actual
+        $anio_actual = date('Y');
 
-        foreach ($anios as $anio) {
+        // Calcular los años anteriores hasta 4 años atrás
+        for ($i = 0; $i < 4; $i++) {
+            $anio = $anio_actual - $i;
+
             $query = "SELECT COUNT(*) AS cantidad FROM partidas
                   WHERE  YEAR(partidas.fecha) = '$anio';";
 
@@ -190,6 +190,8 @@ class AdministradorModel
         }
 
         return $cantidad_partidas;
+
+
     }
 
     public function obtenerCantidadUsuariosPorEdadPorDia()
