@@ -229,3 +229,4 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2023-06-24  0:18:32
+UPDATE `usuarios` SET `pais_ciudad` = 'Argentina' WHERE `usuarios`.`id` = 4 or `usuarios`.`id` = 11  ; UPDATE `usuarios` SET `pais_ciudad` = 'Chile' WHERE `usuarios`.`id` = 5; UPDATE `usuarios` SET `pais_ciudad` = 'Argentina' WHERE `usuarios`.`id` = 6; UPDATE `usuarios` SET `pais_ciudad` = 'Peru' WHERE `usuarios`.`id` = 7; UPDATE `usuarios` SET `pais_ciudad` = 'Colombia' WHERE `usuarios`.`id` = 8; UPDATE `usuarios` SET `pais_ciudad` = 'Argentina' WHERE `usuarios`.`id` = 9; UPDATE `usuarios` SET `pais_ciudad` = 'Otro' WHERE `usuarios`.`id` = 10; UPDATE `usuarios` SET `pais_ciudad` = 'Otro' WHERE `usuarios`.`id` = 12; UPDATE `usuarios` SET `pais_ciudad` = 'Argentina' WHERE `usuarios`.`id` = 13; UPDATE `usuarios` SET `pais_ciudad` = 'Peru' WHERE `usuarios`.`id` = 14; UPDATE `usuarios` SET `pais_ciudad` = 'Peru' WHERE `usuarios`.`id` = 15;
