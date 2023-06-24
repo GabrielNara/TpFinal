@@ -50,21 +50,49 @@
     </ol>
 </nav>
 
-<div class="flex flex-col items-center justify-center">
+<div class="flex flex-col items-center justify-center border border-gray-300 rounded-lg p-4 mb-4">
     <h1 id="chart_title" class="text-3xl"></h1>
     <input type="text" id="datepicker" placeholder="Seleccione una fecha">
-    <div id="chart_div"></div>
-
-
 </div>
 
-<div class="flex flex-col items-center justify-center">
+<div class="flex flex-col items-center justify-center border border-gray-300 rounded-lg p-4 mb-4">
     <h1 id="chart_title" class="text-3xl"></h1>
-    <button onclick="generateLastWeekChart()">Mostrar últimos 7 días</button>
-    <div id="chart_div"></div>
-
-
+    <button onclick="ultimaSemanaChart()">Mostrar últimos 7 días</button>
 </div>
+
+<div class="flex flex-col items-center justify-center border border-gray-300 rounded-lg p-4 mb-4">
+    <h1 id="chart_title" class="text-3xl"></h1>
+    <select id="mesSelector" class="mb-2">
+        <option value="1">Enero</option>
+        <option value="2">Febrero</option>
+        <option value="3">Marzo</option>
+        <option value="4">Abril</option>
+        <option value="5">Mayo</option>
+        <option value="6">Junio</option>
+        <option value="7">Julio</option>
+        <option value="8">Agosto</option>
+        <option value="9">Septiembre</option>
+        <option value="10">Octubre</option>
+        <option value="11">Noviembre</option>
+        <option value="12">Diciembre</option>
+    </select>
+    <button onclick="mesChart()">Generar Gráfico por Mes</button>
+</div>
+
+<div class="flex flex-col items-center justify-center border border-gray-300 rounded-lg p-4 mb-4">
+    <h1 id="chart_title" class="text-3xl"></h1>
+    <select id="anioSelector" class="mb-2">
+        <option value="2018">2018</option>
+        <option value="2019">2019</option>
+        <option value="2020">2020</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+    </select>
+    <button onclick="anioChart()">Generar Gráfico por Año</button>
+</div>
+
+<div id="chart_div"></div>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -107,7 +135,7 @@
         var day = String(date.getDate()).padStart(2, '0');
         return year + '-' + month + '-' + day;
     }
-    function generateLastWeekChart() {
+    function ultimaSemanaChart() {
         // Obtener la fecha actual y calcular la fecha hace una semana
         var today = new Date();
         var lastWeek = new Date();
@@ -117,10 +145,10 @@
         var formattedToday = formatDate(today);
         var formattedLastWeek = formatDate(lastWeek);
 
-        generateChartRange(formattedLastWeek, formattedToday);
+        generateChartSemanal(formattedLastWeek, formattedToday);
     }
 
-    function generateChartRange(startDate, endDate) {
+    function generateChartSemanal(startDate, endDate) {
         var url = '/tpFinal/administrador/cantidadJugadorPorSexoSemanal';
 
         $.ajax({
@@ -128,6 +156,55 @@
             type: 'GET',
             dataType: 'json',
             data: { start_date: startDate, end_date: endDate },
+
+            success: function(response) {
+                console.log(response);
+                drawChart(response);
+            },
+
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+
+    function mesChart() {
+        var mesSeleccionado = $('#mesSelector').val();
+        generateChartMensual(mesSeleccionado);
+    }
+
+    function generateChartMensual(mesSeleccionado) {
+        var url = '/tpFinal/administrador/cantidadJugadorPorSexoMes';
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            data: { month: mesSeleccionado },
+
+            success: function(response) {
+                console.log(response);
+                drawChart(response);
+            },
+
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+
+    function anioChart(){
+        var anioSeleccionado = $('#anioSelector').val();
+        generateChartAnual(anioSeleccionado);
+    }
+    function generateChartAnual(anioSeleccionado) {
+        var url = '/tpFinal/administrador/cantidadJugadorPorSexoAnio';
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            data: { year: anioSeleccionado},
 
             success: function(response) {
                 console.log(response);

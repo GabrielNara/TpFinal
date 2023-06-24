@@ -147,6 +147,44 @@ public function cantidadJugadorPorSexoDia(){
     }
 
 
+    public function cantidadJugadorPorSexoMes()
+    {
+        $mes = $_GET['month'];
+
+
+        $cantidadJugadoresM = $this->administradorModel->obtenerCantidadJugadoresMesM($mes);
+        $cantidadJugadoresF = $this->administradorModel->obtenerCantidadJugadoresMesF($mes);
+        $cantidadJugadoresOtro = $this->administradorModel->obtenerCantidadJugadoresMesOtro($mes);
+
+        $datos = [
+            'cantidadJugadoresM' => $cantidadJugadoresM,
+            'cantidadJugadoresF' => $cantidadJugadoresF,
+            'cantidadJugadoresOtro' => $cantidadJugadoresOtro
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($datos);
+    }
+
+
+    public function cantidadJugadorPorSexoAnio()
+    {
+        $anio = $_GET['year'];
+
+
+        $cantidadJugadoresM = $this->administradorModel->obtenerCantidadJugadoresAnioM($anio);
+        $cantidadJugadoresF = $this->administradorModel->obtenerCantidadJugadoresAnioF($anio);
+        $cantidadJugadoresOtro = $this->administradorModel->obtenerCantidadJugadoresAnioOtro($anio);
+
+        $datos = [
+            'cantidadJugadoresM' => $cantidadJugadoresM,
+            'cantidadJugadoresF' => $cantidadJugadoresF,
+            'cantidadJugadoresOtro' => $cantidadJugadoresOtro
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($datos);
+    }
 
 
 
