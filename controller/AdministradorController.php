@@ -136,10 +136,8 @@ class AdministradorController
                 $cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorAnio();
                 $anios = [];
 
-                // Obtener el año actual
                 $anio_actual = date('Y');
 
-                // Calcular los años anteriores hasta 4 años atrás
                 for ($i = 0; $i < 4; $i++) {
                     $anio = $anio_actual - $i;
                     $anios[] = $anio;
@@ -204,8 +202,7 @@ class AdministradorController
                     ];
                 }
                 $contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
-
-                //var_dump($contexto);
+                
                 break;
 
             case 'anio':
