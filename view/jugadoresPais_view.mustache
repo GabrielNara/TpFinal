@@ -57,6 +57,11 @@
     <h1 id="chart_title" class="text-3xl"></h1>
     <div id="chart_div" class="flex justify-center my-3"></div>
 </div>
+<button id="generar_pdf_btn" type="button" class="border border-solid border-gray-500 w-24 p-2 mx-2 hover:bg-gray-500 hover:text-white duration-200">
+    Generar PDF
+</button>
+
+
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
     google.charts.load('current', {packages: ['corechart']});
@@ -219,6 +224,14 @@
 
         chart.draw(data, options);
     }
+
+    document.getElementById('generar_pdf_btn').addEventListener('click', function() {
+        var chartDiv = document.getElementById('chart_div');
+
+        html2pdf()
+                .from(chartDiv)
+                .save('grafico.pdf');
+    });
 </script>
 </body>
 </html>
