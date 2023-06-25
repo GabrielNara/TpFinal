@@ -73,26 +73,26 @@ class AdministradorController
     public function statsPreguntas(){
 
         $this->redireccionamiento();
-        $desde = 0;
+        $cantDiasARestar = 0;
         $filtro = $_GET['filtro'] ?? 'A';
 
         switch ($filtro){
             case 'D':
-                $desde = 1;
+                $cantDiasARestar = 1;
                 break;
             case 'S':
-                $desde = 7;
+                $cantDiasARestar = 7;
                 break;
             case 'M':
-                $desde = 30;
+                $cantDiasARestar = 30;
                 break;
             case 'A':
-                $desde = 365;
+                $cantDiasARestar = 365;
                 break;
         }
 
-        $cantidadPreguntasActivas = $this->administradorModel->obtenerCantidadPreguntas($desde,1);
-        $cantidadPreguntasSugeridas = $this->administradorModel->obtenerCantidadPreguntas($desde,4);
+        $cantidadPreguntasActivas = $this->administradorModel->obtenerCantidadPreguntas($cantDiasARestar,1);
+        $cantidadPreguntasSugeridas = $this->administradorModel->obtenerCantidadPreguntas($cantDiasARestar,4);
 
         $contexto['cantPreguntasActivas']= json_encode($cantidadPreguntasActivas);
         $contexto['cantPreguntasSugeridas']= json_encode($cantidadPreguntasSugeridas);

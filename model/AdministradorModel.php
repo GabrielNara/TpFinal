@@ -102,8 +102,8 @@ class AdministradorModel
 		$query = "SELECT YEAR(fecha_registro) AS anios FROM usuarios ORDER BY anios ASC;";
 		return $this->database->querySelectFetchAssoc($query);
 	}
-    public function obtenerCantidadPreguntas($desde, $estado){
-        $query = "SELECT COUNT(*) cant_preguntas FROM preguntas WHERE fecha_creacion >= DATE_SUB(CURDATE(), INTERVAL $desde DAY) AND fecha_creacion <= CURDATE() AND id_estado_pregunta = $estado;";
+    public function obtenerCantidadPreguntas($cantDiasARestar, $estado){
+        $query = "SELECT COUNT(*) cant_preguntas FROM preguntas WHERE fecha_creacion >= DATE_SUB(CURDATE(), INTERVAL $cantDiasARestar DAY) AND fecha_creacion <= CURDATE() AND id_estado_pregunta = $estado;";
         $cantidad =$this->database->querySelectFetchAssoc($query);
         return intval($cantidad[0]["cant_preguntas"]);
     }
