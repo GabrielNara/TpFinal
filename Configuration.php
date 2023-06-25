@@ -28,6 +28,7 @@ include_once('controller/AdministradorController.php');
 
 include_once('third-party/phpqrcode/qrlib.php');
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
+include_once ('third-party/fpdf/fpdf.php');
 require 'third-party/PHPMailer/src/Exception.php';
 require 'third-party/PHPMailer/src/PHPMailer.php';
 require 'third-party/PHPMailer/src/SMTP.php';

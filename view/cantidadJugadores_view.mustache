@@ -56,6 +56,10 @@
 <div class="flex flex-col items-center justify-center">
     <h1 id="chart_title" class="text-3xl"></h1>
     <div id="chart_div" class="flex justify-center my-3"></div>
+    <button id="generar_pdf_btn" type="button"
+            class="border border-solid border-gray-500 w-24 p-2 mx-2 hover:bg-gray-500 hover:text-white duration-200">
+        Generar PDF
+    </button>
 </div>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
@@ -72,6 +76,7 @@
             data.addColumn('number', 'Año');
             data.addColumn('number', 'Jugadores');
             let anios = {{anios}};
+            data.addRow([anios[0] - 1, 0]);
             for (let i = 0; i < anios.length; i++) {
                 data.addRow([anios[i], cantidadJugadoresTotal[i]]);
             }
@@ -146,11 +151,11 @@
                 data.addRow([ultimos7Dias[i], cantidadJugadoresTotal[i]]);
             }
         {{/filtroDia}}
-        
+
         let options = {
             curveType: 'function',
             legend: {position: 'bottom'},
-            width: Math.floor(window.innerWidth * 0.95),
+            width: Math.floor(window.innerWidth * 0.5),
             height: 400,
             hAxis: {
                 format: '0'
@@ -164,6 +169,14 @@
 
         chart.draw(data, options);
     }
+
+    document.getElementById('generar_pdf_btn').addEventListener('click', function () {
+        var chartDiv = document.getElementById('chart_div');
+
+        html2pdf()
+                .from(chartDiv)
+                .save('grafico.pdf');
+    });
 </script>
 </body>
 </html>
