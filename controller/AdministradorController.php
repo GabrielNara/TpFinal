@@ -227,31 +227,147 @@ class AdministradorController
     }
 
     public function convertirAPdf() {
+        $this->redireccionamiento();
 
-
-        // Obtener los datos enviados desde la vista
-        $data1 = $_POST['data1'];
-        $data2 = $_POST['data2'];
-
-        // Crear el objeto FPDF
+        $filtro = $_GET['filtro'] ?? 'anio';
+        //  ob_clean();
+        //  ob_start();
         $pdf = new FPDF();
         $pdf->AddPage();
 
-        // Configurar la fuente y el tamaño de la tabla
-        $pdf->SetFont('Arial', 'B', 16);
+        // Establecer el título de la tabla
+        $pdf->SetFont('Arial', 'B', 14);
+        $pdf->Cell(0, 10, 'Partidas por fechas', 0, 1, 'C');
 
-        // Crear la tabla con los datos
-        $pdf->Cell(40, 10, 'Dato 1', 1);
-        $pdf->Cell(40, 10, 'Dato 2', 1);
-        $pdf->Ln(); // Salto de línea
+        // Obtener los datos según el filtro seleccionado
+        switch ($filtro) {
+            case 'dia':
+                $datos = $this->administradorModel->obtenerCantidadPartidasPorDia();
+                // Obtener los últimos 7 días
+                $ultimos7Dias = array();
+                $fechaActual = new DateTime();
 
-        $pdf->Cell(40, 10, $data1, 1);
-        $pdf->Cell(40, 10, $data2, 1);
-        $pdf->Ln(); // Salto de línea
+                for ($i = 0; $i < 7; $i++) {
+                    $fecha = clone $fechaActual;
+                    $fecha->sub(new DateInterval('P'.$i.'D'));
+                    $dia = $fecha->format('d');
+                    $mes = $fecha->format('m');
+                    $fechaFormateada = $dia . '-' . $mes;
+                    $ultimos7Dias[] = $fechaFormateada;
+                }
 
-        // Generar el PDF
+                $ultimos7Dias = array_reverse($ultimos7Dias); // Invertir el orden para que aparezcan en el PDF en orden ascendente
+
+                // Generar la tabla en el PDF
+                $pdf->SetFont('Arial', '', 12);
+                if (!empty($datos)) {
+                    $indice = 0;
+                    foreach ($ultimos7Dias as $dia) {
+                        $cantidad = isset($datos[$indice]) ? $datos[$indice] : 0;
+                        $pdf->Cell(40, 10, $cantidad, 1); // Mostrar la cantidad de partidas
+                        $pdf->Cell(40, 10, $dia, 1); // Mostrar el día de la lista de últimos 7 días
+                        $pdf->Ln(); // Salto de línea
+                        $indice++;
+                    }
+                } else {
+                    // Manejar el caso en el que no hay datos disponibles
+                    $pdf->Cell(0, 10, 'No hay datos disponibles', 1, 1, 'C');
+                }
+
+                break;
+
+            case 'semana':
+                $datos = $this->administradorModel->obtenerCantidadPartidasPorSemana();
+                // Obtener las últimas 4 semanas
+                $ultimas4Semanas = array();
+                $fechaActual = new DateTime();
+
+                for ($i = 0; $i < 4; $i++) {
+                    $fecha = clone $fechaActual;
+                    $fecha->sub(new DateInterval('P'.($i * 7).'D')); // Restar múltiplos de 7 días para obtener las semanas
+                    $semana = $fecha->format('W');
+                    $ultimas4Semanas[] = $semana;
+                }
+
+                $ultimas4Semanas = array_reverse($ultimas4Semanas); // Invertir el orden para que aparezcan en el PDF en orden ascendente
+
+                // Generar la tabla en el PDF
+                $pdf->SetFont('Arial', '', 12);
+                if (!empty($datos)) {
+                    $indice = 0;
+                    foreach ($ultimas4Semanas as $semana) {
+                        $cantidad = isset($datos[$indice]) ? $datos[$indice] : 0;
+                        $pdf->Cell(40, 10, $cantidad, 1);
+                        $pdf->Cell(40, 10, $semana, 1);
+                        $pdf->Ln(); // Salto de línea
+                        $indice++;
+                    }
+                } else {
+                    // Manejar el caso en el que no hay datos disponibles
+                    $pdf->Cell(0, 10, 'No hay datos disponibles', 1, 1, 'C');
+                }
+
+                break;
+            case 'mes':
+                $datos = $this->administradorModel->obtenerCantidadPartidasPorMes();
+                // Obtener los 12 meses del año
+                $meses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
+
+                // Generar la tabla en el PDF
+                $pdf->SetFont('Arial', '', 12);
+                if (!empty($datos)) {
+                    $indice = 0;
+                    foreach ($meses as $mes) {
+                        $cantidad = isset($datos[$indice]) ? $datos[$indice] : 0;
+                        $pdf->Cell(40, 10, $cantidad, 1); // Mostrar la cantidad de partidas
+                        $pdf->Cell(40, 10, $mes, 1); // Mostrar el día de la lista de últimos 7 días
+                        $pdf->Ln(); // Salto de línea
+                        $indice++;
+                    }
+                } else {
+                    // Manejar el caso en el que no hay datos disponibles
+                    $pdf->Cell(0, 10, 'No hay datos disponibles', 1, 1, 'C');
+                }
+
+                break;
+            case 'anio':
+                $datos = $this->administradorModel->obtenerCantidadPartidasPorAnio();
+                // Obtener los últimos 4 años
+                $ultimos4Anios = array();
+                $anioActual = date('Y');
+
+                for ($i = 0; $i < 4; $i++) {
+                    $anio = $anioActual - $i;
+                    $ultimos4Anios[] = $anio;
+                }
+
+                // Generar la tabla en el PDF
+                $pdf->SetFont('Arial', '', 12);
+                if (!empty($datos)) {
+                    $indice = 0;
+                    foreach ($ultimos4Anios as $anio) {
+                        $cantidad = isset($datos[$indice]) ? $datos[$indice] : 0;
+                        $pdf->Cell(40, 10, $cantidad, 1); // Mostrar la cantidad de partidas
+                        $pdf->Cell(40, 10, $anio, 1);
+                        $pdf->Ln(); // Salto de línea
+                        $indice++;
+                    }
+                } else {
+                    // Manejar el caso en el que no hay datos disponibles
+                    $pdf->Cell(0, 10, 'No hay datos disponibles', 1, 1, 'C');
+                }
+
+                break;
+            default:
+                $datos = array(); // Definir datos por defecto si no se encuentra un filtro válido
+        }
+
+        // Salida del PDF
         $pdf->Output();
-
     }
+
+
+
+
 
 }
