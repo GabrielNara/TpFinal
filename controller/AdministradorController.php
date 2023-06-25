@@ -228,32 +228,6 @@ class AdministradorController
 		$this->renderer->render("usuariosEdad", $contexto);
 	}
 
-	public function convertirAPdf()
-	{
-		// Obtener los datos enviados desde la vista
-		$data1 = $_POST['data1'];
-		$data2 = $_POST['data2'];
-
-		// Crear el objeto FPDF
-		$pdf = new FPDF();
-		$pdf->AddPage();
-
-		// Configurar la fuente y el tamaño de la tabla
-		$pdf->SetFont('Arial', 'B', 16);
-
-		// Crear la tabla con los datos
-		$pdf->Cell(40, 10, 'Dato 1', 1);
-		$pdf->Cell(40, 10, 'Dato 2', 1);
-		$pdf->Ln(); // Salto de línea
-
-		$pdf->Cell(40, 10, $data1, 1);
-		$pdf->Cell(40, 10, $data2, 1);
-		$pdf->Ln(); // Salto de línea
-
-		// Generar el PDF
-		$pdf->Output();
-	}
-
 	public function cantUsuariosSexo()
 	{
 		$this->redireccionamiento();
