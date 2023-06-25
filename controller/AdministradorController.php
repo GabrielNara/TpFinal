@@ -107,151 +107,301 @@ class AdministradorController
 		$this->renderer->render("statsPreguntas", $contexto);
 	}
 
-    public function cantPartidasJugadas(){
-        $this->redireccionamiento();
+	public function cantPartidasJugadas()
+	{
+		$this->redireccionamiento();
 
-        $filtro = $_GET['filtro'] ?? 'anio';
+		$filtro = $_GET['filtro'] ?? 'anio';
 
-        $contexto = array(
-            'filtroDia' => $filtro === 'dia',
-            'filtroSemana' => $filtro === 'semana',
-            'filtroMes' => $filtro === 'mes',
-            'filtroAnio' => $filtro === 'anio'
-        );
+		$contexto = array(
+			'filtroDia' => $filtro === 'dia',
+			'filtroSemana' => $filtro === 'semana',
+			'filtroMes' => $filtro === 'mes',
+			'filtroAnio' => $filtro === 'anio'
+		);
 
-        switch ($filtro) {
-            case 'dia':
-                $cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorDia();
-                $contexto['cantidadPartidasTotal'] = json_encode($cantidadPartidasTotal);
-                break;
-            case 'semana':
-                $cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorSemana();
-                $contexto['cantidadPartidasTotal'] = json_encode($cantidadPartidasTotal);
-                break;
-            case 'mes':
-                $cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorMes();
-                $contexto['cantidadPartidasTotal'] = json_encode($cantidadPartidasTotal);
-                break;
-            case 'anio':
-                $cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorAnio();
-                $anios = [];
+		switch ($filtro) {
+			case 'dia':
+				$cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorDia();
+				$contexto['cantidadPartidasTotal'] = json_encode($cantidadPartidasTotal);
+				break;
+			case 'semana':
+				$cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorSemana();
+				$contexto['cantidadPartidasTotal'] = json_encode($cantidadPartidasTotal);
+				break;
+			case 'mes':
+				$cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorMes();
+				$contexto['cantidadPartidasTotal'] = json_encode($cantidadPartidasTotal);
+				break;
+			case 'anio':
+				$cantidadPartidasTotal = $this->administradorModel->obtenerCantidadPartidasPorAnio();
+				$anios = [];
 
-                $anio_actual = date('Y');
+				$anio_actual = date('Y');
 
-                for ($i = 0; $i < 4; $i++) {
-                    $anio = $anio_actual - $i;
-                    $anios[] = $anio;
-                }
+				for ($i = 0; $i < 4; $i++) {
+					$anio = $anio_actual - $i;
+					$anios[] = $anio;
+				}
 
-                $contexto['anios'] = json_encode($anios);
-                $contexto['cantidadPartidasTotal'] = json_encode($cantidadPartidasTotal);
+				$contexto['anios'] = json_encode($anios);
+				$contexto['cantidadPartidasTotal'] = json_encode($cantidadPartidasTotal);
 
-                break;
+				break;
 
-        }
+		}
 
-        $this->renderer->render("partidasJugadas", $contexto);
-    }
+		$this->renderer->render("partidasJugadas", $contexto);
+	}
 
-    public function cantUsuariosEdad(){
-        $this->redireccionamiento();
+	public function cantUsuariosEdad()
+	{
+		$this->redireccionamiento();
 
-        $filtro = $_GET['filtro'] ?? 'anio';
+		$filtro = $_GET['filtro'] ?? 'anio';
 
-        $contexto = array(
-            'filtroDia' => $filtro === 'dia',
-            'filtroSemana' => $filtro === 'semana',
-            'filtroMes' => $filtro === 'mes',
-            'filtroAnio' => $filtro === 'anio'
-        );
+		$contexto = array(
+			'filtroDia' => $filtro === 'dia',
+			'filtroSemana' => $filtro === 'semana',
+			'filtroMes' => $filtro === 'mes',
+			'filtroAnio' => $filtro === 'anio'
+		);
 
-        switch ($filtro) {
-            case 'dia':
-                $cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorEdadPorDia();
-                $usuariosJson = [];
-                foreach ($cantidadUsuariosTotal as $usuarios) {
-                    $usuariosJson[] = [
-                        'menores' => $usuarios['menores'],
-                        'medios' => $usuarios['medios'],
-                        'jubilados' => $usuarios['jubilados']
-                    ];
-                }
-                $contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
-                break;
-            case 'semana':
-                $cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorEdadPorSemana();
-                $usuariosJson = [];
-                foreach ($cantidadUsuariosTotal as $usuarios) {
-                    $usuariosJson[] = [
-                        'menores' => $usuarios['menores'],
-                        'medios' => $usuarios['medios'],
-                        'jubilados' => $usuarios['jubilados']
-                    ];
-                }
-                $contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+		switch ($filtro) {
+			case 'dia':
+				$cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorEdadPorDia();
+				$usuariosJson = [];
+				foreach ($cantidadUsuariosTotal as $usuarios) {
+					$usuariosJson[] = [
+						'menores' => $usuarios['menores'],
+						'medios' => $usuarios['medios'],
+						'jubilados' => $usuarios['jubilados']
+					];
+				}
+				$contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+				break;
+			case 'semana':
+				$cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorEdadPorSemana();
+				$usuariosJson = [];
+				foreach ($cantidadUsuariosTotal as $usuarios) {
+					$usuariosJson[] = [
+						'menores' => $usuarios['menores'],
+						'medios' => $usuarios['medios'],
+						'jubilados' => $usuarios['jubilados']
+					];
+				}
+				$contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
 
-                break;
-            case 'mes':
-                $cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorEdadPorMes();
-                $usuariosJson = [];
-                foreach ($cantidadUsuariosTotal as $usuarios) {
-                    $usuariosJson[] = [
-                        'menores' => $usuarios['menores'],
-                        'medios' => $usuarios['medios'],
-                        'jubilados' => $usuarios['jubilados']
-                    ];
-                }
-                $contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+				break;
+			case 'mes':
+				$cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorEdadPorMes();
+				$usuariosJson = [];
+				foreach ($cantidadUsuariosTotal as $usuarios) {
+					$usuariosJson[] = [
+						'menores' => $usuarios['menores'],
+						'medios' => $usuarios['medios'],
+						'jubilados' => $usuarios['jubilados']
+					];
+				}
+				$contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
 
-                break;
+				break;
 
-            case 'anio':
-                $cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorEdadPorAnio();
-                $usuariosJson = [];
-                $anios = [];
-                foreach ($cantidadUsuariosTotal as $usuarios) {
-                    $usuariosJson[] = [
-                        'menores' => $usuarios['menores'],
-                        'medios' => $usuarios['medios'],
-                        'jubilados' => $usuarios['jubilados']
-                    ];
-                    $anios[] = $usuarios['anio'];
-                }
-                $contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
-                $contexto['anios'] = json_encode($anios);
-                break;
+			case 'anio':
+				$cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorEdadPorAnio();
+				$usuariosJson = [];
+				$anios = [];
+				foreach ($cantidadUsuariosTotal as $usuarios) {
+					$usuariosJson[] = [
+						'menores' => $usuarios['menores'],
+						'medios' => $usuarios['medios'],
+						'jubilados' => $usuarios['jubilados']
+					];
+					$anios[] = $usuarios['anio'];
+				}
+				$contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+				$contexto['anios'] = json_encode($anios);
+				break;
 
-        }
+		}
 
-        $this->renderer->render("usuariosEdad", $contexto);
-    }
+		$this->renderer->render("usuariosEdad", $contexto);
+	}
 
-    public function convertirAPdf() {
+	public function convertirAPdf()
+	{
+		// Obtener los datos enviados desde la vista
+		$data1 = $_POST['data1'];
+		$data2 = $_POST['data2'];
 
+		// Crear el objeto FPDF
+		$pdf = new FPDF();
+		$pdf->AddPage();
 
-        // Obtener los datos enviados desde la vista
-        $data1 = $_POST['data1'];
-        $data2 = $_POST['data2'];
+		// Configurar la fuente y el tamaño de la tabla
+		$pdf->SetFont('Arial', 'B', 16);
 
-        // Crear el objeto FPDF
-        $pdf = new FPDF();
-        $pdf->AddPage();
+		// Crear la tabla con los datos
+		$pdf->Cell(40, 10, 'Dato 1', 1);
+		$pdf->Cell(40, 10, 'Dato 2', 1);
+		$pdf->Ln(); // Salto de línea
 
-        // Configurar la fuente y el tamaño de la tabla
-        $pdf->SetFont('Arial', 'B', 16);
+		$pdf->Cell(40, 10, $data1, 1);
+		$pdf->Cell(40, 10, $data2, 1);
+		$pdf->Ln(); // Salto de línea
 
-        // Crear la tabla con los datos
-        $pdf->Cell(40, 10, 'Dato 1', 1);
-        $pdf->Cell(40, 10, 'Dato 2', 1);
-        $pdf->Ln(); // Salto de línea
+		// Generar el PDF
+		$pdf->Output();
+	}
 
-        $pdf->Cell(40, 10, $data1, 1);
-        $pdf->Cell(40, 10, $data2, 1);
-        $pdf->Ln(); // Salto de línea
+	public function cantUsuariosSexo()
+	{
+		$this->redireccionamiento();
 
-        // Generar el PDF
-        $pdf->Output();
+		$filtro = $_GET['filtro'] ?? 'anio';
 
-    }
+		$contexto = array(
+			'filtroDia' => $filtro === 'dia',
+			'filtroSemana' => $filtro === 'semana',
+			'filtroMes' => $filtro === 'mes',
+			'filtroAnio' => $filtro === 'anio'
+		);
+
+		switch ($filtro) {
+			case 'dia':
+				$cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorSexoPorDia();
+				$usuariosJson = [];
+				foreach ($cantidadUsuariosTotal as $usuarios) {
+					$usuariosJson[] = [
+						'masculinos' => $usuarios['masculinos'],
+						'femeninos' => $usuarios['femeninos'],
+						'otros' => $usuarios['otros']
+					];
+				}
+				$contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+				break;
+			case 'semana':
+				$cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorSexoPorSemana();
+				$usuariosJson = [];
+				foreach ($cantidadUsuariosTotal as $usuarios) {
+					$usuariosJson[] = [
+						'masculinos' => $usuarios['masculinos'],
+						'femeninos' => $usuarios['femeninos'],
+						'otros' => $usuarios['otros']
+					];
+				}
+				$contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+				break;
+			case 'mes':
+				$cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorSexoPorMes();
+				$usuariosJson = [];
+				foreach ($cantidadUsuariosTotal as $usuarios) {
+					$usuariosJson[] = [
+						'masculinos' => $usuarios['masculinos'],
+						'femeninos' => $usuarios['femeninos'],
+						'otros' => $usuarios['otros']
+					];
+				}
+				$contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+
+				break;
+			case 'anio':
+				$cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorSexoPorAnio();
+				$usuariosJson = [];
+				$anios = [];
+				foreach ($cantidadUsuariosTotal as $usuarios) {
+					$usuariosJson[] = [
+						'masculinos' => $usuarios['masculinos'],
+						'femeninos' => $usuarios['femeninos'],
+						'otros' => $usuarios['otros']
+					];
+					$anios[] = $usuarios['anio'];
+				}
+				$contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+				$contexto['anios'] = json_encode($anios);
+				break;
+		}
+
+		$this->renderer->render("jugadoresSexo", $contexto);
+	}
+
+	public function cantUsuariosPais()
+	{
+		$this->redireccionamiento();
+
+		$filtro = $_GET['filtro'] ?? 'anio';
+
+		$contexto = array(
+			'filtroDia' => $filtro === 'dia',
+			'filtroSemana' => $filtro === 'semana',
+			'filtroMes' => $filtro === 'mes',
+			'filtroAnio' => $filtro === 'anio'
+		);
+
+		switch ($filtro) {
+			case 'dia':
+				$cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorPaisPorDia();
+				$usuariosJson = [];
+				foreach ($cantidadUsuariosTotal as $usuarios) {
+					$usuariosJson[] = [
+						'argentinos' => $usuarios['argentinos'],
+						'chilenos' => $usuarios['chilenos'],
+						'peruanos' => $usuarios['peruanos'],
+						'colombianos' => $usuarios['colombianos'],
+						'otros' => $usuarios['otros']
+					];
+				}
+				$contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+				break;
+			case 'semana':
+				$cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorPaisPorSemana();
+				$usuariosJson = [];
+				foreach ($cantidadUsuariosTotal as $usuarios) {
+					$usuariosJson[] = [
+						'argentinos' => $usuarios['argentinos'],
+						'chilenos' => $usuarios['chilenos'],
+						'peruanos' => $usuarios['peruanos'],
+						'colombianos' => $usuarios['colombianos'],
+						'otros' => $usuarios['otros']
+					];
+				}
+				$contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+				break;
+			case 'mes':
+				$cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorPaisPorMes();
+				$usuariosJson = [];
+				foreach ($cantidadUsuariosTotal as $usuarios) {
+					$usuariosJson[] = [
+						'argentinos' => $usuarios['argentinos'],
+						'chilenos' => $usuarios['chilenos'],
+						'peruanos' => $usuarios['peruanos'],
+						'colombianos' => $usuarios['colombianos'],
+						'otros' => $usuarios['otros']
+					];
+				}
+				$contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+				break;
+
+			case 'anio':
+				$cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorPaisPorAnio();
+				$usuariosJson = [];
+				$anios = [];
+				foreach ($cantidadUsuariosTotal as $usuarios) {
+					$usuariosJson[] = [
+						'argentinos' => $usuarios['argentinos'],
+						'chilenos' => $usuarios['chilenos'],
+						'peruanos' => $usuarios['peruanos'],
+						'colombianos' => $usuarios['colombianos'],
+						'otros' => $usuarios['otros']
+					];
+					$anios[] = $usuarios['anio'];
+				}
+				$contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+				$contexto['anios'] = json_encode($anios);
+				break;
+		}
+
+		$this->renderer->render("jugadoresPais", $contexto);
+	}
 
 }

@@ -39,8 +39,8 @@
     </ol>
 </nav>
 <div class="mx-8 my-2">
-    <p class="my-2 text-xl font-semi-bold">USUARIOS POR GRUPO DE EDAD</p>
-    <form action="/tpFinal/administrador/cantUsuariosEdad" method="GET" class="flex items-center">
+    <p class="my-2 text-xl font-semi-bold">USUARIOS POR SEXO</p>
+    <form action="/tpFinal/administrador/cantUsuariosSexo" method="GET" class="flex items-center">
         <select name="filtro" class="border border-solid border-gray-500 w-36 p-2 mx-2 focus:outline-none">
             <option value="dia" {{#filtroDia}}selected{{/filtroDia}}>Día</option>
             <option value="semana" {{#filtroSemana}}selected{{/filtroSemana}}>Semana</option>
@@ -58,6 +58,11 @@
     <div id="chart_div" class="flex justify-center my-3"></div>
 </div>
 
+<div class="flex flex-col items-center justify-center">
+    <h1 id="chart_title" class="text-3xl"></h1>
+    <div id="chart_div" class="flex justify-center my-3"></div>
+</div>
+
 <button id="generar_pdf_btn" type="button" class="border border-solid border-gray-500 w-24 p-2 mx-2 hover:bg-gray-500 hover:text-white duration-200">
     Generar PDF
 </button>
@@ -65,7 +70,7 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-    google.charts.load('current', {packages: ['corechart']});
+google.charts.load('current', {packages: ['corechart']});
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
@@ -74,11 +79,11 @@
         let titulo_grafico = document.getElementById('chart_title');
 
         {{#filtroDia}}
-            titulo_grafico.innerText = 'Usuarios por grupo de edad por día.';
+            titulo_grafico.innerText = 'Usuarios por genero por día.';
             data.addColumn('string', 'Días');
-            data.addColumn('number', 'Menores');
-            data.addColumn('number', 'Medios');
-            data.addColumn('number', 'Jubilados');
+            data.addColumn('number', 'Masculinos');
+            data.addColumn('number', 'Femeninos');
+            data.addColumn('number', 'Otros');
 
             let ultimos7Dias = [];
             let fechaActual = new Date();
@@ -98,19 +103,19 @@
             for (let i = 0; i < cantidadUsuariosTotalParsed.length; i++) {
                 data.addRow([
                     ultimos7Dias[i],
-                    cantidadUsuariosTotalParsed[i].menores,
-                    cantidadUsuariosTotalParsed[i].medios,
-                    cantidadUsuariosTotalParsed[i].jubilados
+                    cantidadUsuariosTotalParsed[i].masculinos,
+                    cantidadUsuariosTotalParsed[i].femeninos,
+                    cantidadUsuariosTotalParsed[i].otros
                 ]);
             }
         {{/filtroDia}}
 
         {{#filtroSemana}}
-            titulo_grafico.innerText = 'Usuarios por grupo de edad por semana.';
+            titulo_grafico.innerText = 'Usuarios por genero por semana.';
             data.addColumn('string', 'Semanas');
-            data.addColumn('number', 'Menores');
-            data.addColumn('number', 'Medios');
-            data.addColumn('number', 'Jubilados');
+            data.addColumn('number', 'Masculinos');
+            data.addColumn('number', 'Femeninos');
+            data.addColumn('number', 'Otros');
 
             let fechas = [];
 
@@ -131,19 +136,19 @@
             for (let i = 0; i < cantidadUsuariosTotalParsed.length; i++) {
                 data.addRow([
                     fechas[i],
-                    cantidadUsuariosTotalParsed[i].menores,
-                    cantidadUsuariosTotalParsed[i].medios,
-                    cantidadUsuariosTotalParsed[i].jubilados
+                    cantidadUsuariosTotalParsed[i].masculinos,
+                    cantidadUsuariosTotalParsed[i].femeninos,
+                    cantidadUsuariosTotalParsed[i].otros
                 ]);
             }
         {{/filtroSemana}}
 
         {{#filtroMes}}
-            titulo_grafico.innerText = 'Usuarios por grupo de edad por mes.';
+            titulo_grafico.innerText = 'Usuarios por genero por mes.';
             data.addColumn('string', 'Meses');
-            data.addColumn('number', 'Menores');
-            data.addColumn('number', 'Medios');
-            data.addColumn('number', 'Jubilados');
+            data.addColumn('number', 'Masculinos');
+            data.addColumn('number', 'Femeninos');
+            data.addColumn('number', 'Otros');
             let meses = [
                 'Enero',
                 'Febrero',
@@ -163,18 +168,19 @@
 
             for (let i = 0; i < meses.length; i++) {
                 data.addRow([meses[i],
-                    cantidadUsuariosTotalParsed[i].menores,
-                    cantidadUsuariosTotalParsed[i].medios,
-                    cantidadUsuariosTotalParsed[i].jubilados]);
+                    cantidadUsuariosTotalParsed[i].masculinos,
+                    cantidadUsuariosTotalParsed[i].femeninos,
+                    cantidadUsuariosTotalParsed[i].otros
+                ]);
             }
         {{/filtroMes}}
 
         {{#filtroAnio}}
-            titulo_grafico.innerText = 'Usuarios por grupo de edad por año.';
+            titulo_grafico.innerText = 'Usuarios por genero por año.';
             data.addColumn('number', 'Año');
-            data.addColumn('number', 'Menores');
-            data.addColumn('number', 'Medios');
-            data.addColumn('number', 'Jubilados');
+            data.addColumn('number', 'Masculinos');
+            data.addColumn('number', 'Femeninos');
+            data.addColumn('number', 'Otros');
 
             let anios = {{anios}};
 
@@ -182,9 +188,10 @@
 
             for (let i = 0; i < anios.length; i++) {
                 data.addRow([anios[i],
-                    cantidadUsuariosTotalParsed[i].menores,
-                    cantidadUsuariosTotalParsed[i].medios,
-                    cantidadUsuariosTotalParsed[i].jubilados]);;
+                    cantidadUsuariosTotalParsed[i].masculinos,
+                    cantidadUsuariosTotalParsed[i].femeninos,
+                    cantidadUsuariosTotalParsed[i].otros
+                ]);
             }
         {{/filtroAnio}}
 
@@ -207,13 +214,14 @@
 
         chart.draw(data, options);
     }
-    document.getElementById('generar_pdf_btn').addEventListener('click', function() {
-        var chartDiv = document.getElementById('chart_div');
 
-        html2pdf()
-                .from(chartDiv)
-                .save('grafico.pdf');
-    });
+document.getElementById('generar_pdf_btn').addEventListener('click', function() {
+    var chartDiv = document.getElementById('chart_div');
+
+    html2pdf()
+            .from(chartDiv)
+            .save('grafico.pdf');
+});
 
 </script>
 </body>
