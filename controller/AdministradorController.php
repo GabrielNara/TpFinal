@@ -375,7 +375,7 @@ class AdministradorController
         // Salida del PDF
         $pdf->Output();
     }
-
+/*
     public function convertirAPdfUsuariosPorEdad() {
         $this->redireccionamiento();
 
@@ -554,6 +554,7 @@ class AdministradorController
         // Salida del PDF
         $pdf->Output();
     }
+ */
 
 
 
