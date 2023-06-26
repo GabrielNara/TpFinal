@@ -46,8 +46,8 @@
     </div>
 </nav>
 <div class="mx-8 my-2">
-    <p class="my-2 text-xl font-semi-bold">USUARIOS POR SEXO</p>
-    <form id="primerFormulario" action="/tpFinal/administrador/cantUsuariosSexo" method="GET" class="flex items-center">
+    <p class="my-2 text-xl font-semi-bold">COMPRAS TRAMPITAS</p>
+    <form id="primerFormulario" action="/tpFinal/administrador/comprasTrampitas" method="GET" class="flex items-center">
         <select name="filtro" class="border border-solid border-gray-500 w-36 p-2 mx-2 focus:outline-none">
             <option value="dia" {{#filtroDia}}selected{{/filtroDia}}>Día</option>
             <option value="semana" {{#filtroSemana}}selected{{/filtroSemana}}>Semana</option>
@@ -61,7 +61,7 @@
     </form>
 </div>
 <div class="flex flex-col items-center justify-center">
-    <h1 class="text-3xl">Usuarios por género por
+    <h1 class="text-3xl">Compras de trampitas por
         {{#filtroAnio}}año{{/filtroAnio}}
         {{#filtroMes}}mes{{/filtroMes}}
         {{#filtroSemana}}semana{{/filtroSemana}}
@@ -71,7 +71,7 @@
 <div class="flex flex-col items-center justify-center">
     <h1 class="text-3xl"></h1>
     <div id="chart_div" class="flex justify-center my-3"></div>
-    <form id="segundoFormulario" action="/tpFinal/administrador/convertirAPdfUsuariosPorSexo" method="GET"
+    <form id="segundoFormulario" action="/tpFinal/administrador/convertirAPdfComprasTrampitas" method="GET"
           class="flex items-center">
         <input type="hidden" name="filtro">
         <button type="button"
@@ -100,9 +100,7 @@
 
         {{#filtroDia}}
             data.addColumn('string', 'Días');
-            data.addColumn('number', 'Masculino');
-            data.addColumn('number', 'Femenino');
-            data.addColumn('number', 'Otros');
+            data.addColumn('number', 'Trampitas compradas');
 
             let ultimos7Dias = [];
             let fechaActual = new Date();
@@ -116,24 +114,19 @@
                 ultimos7Dias.push(fechaFormateada);
             }
             ultimos7Dias.sort();
+            let cantidadTrampitas = JSON.parse('{{{cantidadTrampitas}}}');
 
-            let cantidadUsuariosTotalParsed = JSON.parse('{{{cantidadUsuariosTotal}}}');
-
-            for (let i = 0; i < cantidadUsuariosTotalParsed.length; i++) {
+            for (let i = 0; i < cantidadTrampitas.length; i++) {
                 data.addRow([
                     ultimos7Dias[i],
-                    cantidadUsuariosTotalParsed[i].masculinos,
-                    cantidadUsuariosTotalParsed[i].femeninos,
-                    cantidadUsuariosTotalParsed[i].otros
+                    cantidadTrampitas[i].cantidadTrampitas
                 ]);
             }
         {{/filtroDia}}
 
         {{#filtroSemana}}
             data.addColumn('string', 'Semanas');
-            data.addColumn('number', 'Masculino');
-            data.addColumn('number', 'Femenino');
-            data.addColumn('number', 'Otros');
+            data.addColumn('number', 'Trampitas compradas');
 
             let fechas = [];
 
@@ -149,23 +142,19 @@
 
             fechas.sort();
 
-            let cantidadUsuariosTotalParsed = JSON.parse('{{{cantidadUsuariosTotal}}}');
+            let cantidadTrampitas = JSON.parse('{{{cantidadTrampitas}}}');
 
-            for (let i = 0; i < cantidadUsuariosTotalParsed.length; i++) {
+            for (let i = 0; i < cantidadTrampitas.length; i++) {
                 data.addRow([
                     fechas[i],
-                    cantidadUsuariosTotalParsed[i].masculinos,
-                    cantidadUsuariosTotalParsed[i].femeninos,
-                    cantidadUsuariosTotalParsed[i].otros
+                    cantidadTrampitas[i].cantidadTrampitas
                 ]);
             }
         {{/filtroSemana}}
 
         {{#filtroMes}}
             data.addColumn('string', 'Meses');
-            data.addColumn('number', 'Masculino');
-            data.addColumn('number', 'Femenino');
-            data.addColumn('number', 'Otros');
+            data.addColumn('number', 'Trampitas compradas');
             let meses = [
                 'Enero',
                 'Febrero',
@@ -181,32 +170,25 @@
                 'Diciembre'
             ];
 
-            let cantidadUsuariosTotalParsed = JSON.parse('{{{cantidadUsuariosTotal}}}');
+            let cantidadTrampitas = JSON.parse('{{{cantidadTrampitas}}}');
 
-            for (let i = 0; i < meses.length; i++) {
+            for (let i = 0; i < cantidadTrampitas.length; i++) {
                 data.addRow([meses[i],
-                    cantidadUsuariosTotalParsed[i].masculinos,
-                    cantidadUsuariosTotalParsed[i].femeninos,
-                    cantidadUsuariosTotalParsed[i].otros
+                    cantidadTrampitas[i].cantidadTrampitas,
                 ]);
             }
         {{/filtroMes}}
 
         {{#filtroAnio}}
             data.addColumn('number', 'Año');
-            data.addColumn('number', 'Masculino');
-            data.addColumn('number', 'Femenino');
-            data.addColumn('number', 'Otros');
+            data.addColumn('number', 'Trampitas compradas');
 
             let anios = {{anios}};
+            let cantidadTrampitas = JSON.parse('{{{cantidadTrampitas}}}');
 
-            let cantidadUsuariosTotalParsed = JSON.parse('{{{cantidadUsuariosTotal}}}');
-
-            for (let i = 0; i < anios.length; i++) {
+            for (let i = 0; i < cantidadTrampitas.length; i++) {
                 data.addRow([anios[i],
-                    cantidadUsuariosTotalParsed[i].masculinos,
-                    cantidadUsuariosTotalParsed[i].femeninos,
-                    cantidadUsuariosTotalParsed[i].otros
+                    cantidadTrampitas[i].cantidadTrampitas,
                 ]);
             }
         {{/filtroAnio}}
