@@ -34,6 +34,8 @@ class LobbyModel
 	{
 		$query = "UPDATE usuarios SET trampitas = trampitas + $cantidadTrampitas WHERE id = '$id'";
 		$this->database->queryInsertar($query);
+		$query = "INSERT INTO trampitas (idUsuario, cantidad, fecha_compra) VALUES('$id', '$cantidadTrampitas', CURRENT_DATE());";
+		$this->database->queryInsertar($query);
 	}
 
 }

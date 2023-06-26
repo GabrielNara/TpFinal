@@ -527,6 +527,71 @@ class AdministradorController
 		$this->renderer->render("jugadoresPais", $contexto);
 	}
 
+	public function comprasTrampitas()
+	{
+		$this->redireccionamiento();
+
+		$filtro = $_GET['filtro'] ?? 'anio';
+
+		$contexto = array(
+			'filtroDia' => $filtro === 'dia',
+			'filtroSemana' => $filtro === 'semana',
+			'filtroMes' => $filtro === 'mes',
+			'filtroAnio' => $filtro === 'anio'
+		);
+
+		switch ($filtro) {
+			case 'dia':
+				$cantidadTrampitas = $this->administradorModel->obtenerComprasTrampitasPorDia();
+				$trampitasJson = [];
+				foreach ($cantidadTrampitas as $trampita) {
+					$trampitasJson[] = [
+						'cantidadTrampitas' => $trampita
+					];
+				}
+				$contexto['cantidadTrampitas'] = json_encode($trampitasJson);
+				break;
+			case 'semana':
+				$cantidadTrampitas = $this->administradorModel->obtenerComprasTrampitasPorSemana();
+				$trampitasJson = [];
+				foreach ($cantidadTrampitas as $trampita) {
+					$trampitasJson[] = [
+						'cantidadTrampitas' => $trampita
+					];
+				}
+				$contexto['cantidadTrampitas'] = json_encode($trampitasJson);
+				break;
+			case 'mes':
+				$cantidadTrampitas = $this->administradorModel->obtenerComprasTrampitasPorMes();
+				$trampitasJson = [];
+				foreach ($cantidadTrampitas as $trampita) {
+					$trampitasJson[] = [
+						'cantidadTrampitas' => $trampita
+					];
+				}
+				$contexto['cantidadTrampitas'] = json_encode($trampitasJson);
+				break;
+
+			case 'anio':
+				$getAnios = $this->administradorModel->getAniosComprasTrampitas();
+				foreach ($getAnios as $anio) {
+					$anios[] = intval($anio['anios']);
+				}
+				$cantidadTrampitas = $this->administradorModel->obtenerComprasTrampitasPorAnio($anios);
+				$trampitasJson = [];
+				foreach ($cantidadTrampitas as $trampita) {
+					$trampitasJson[] = [
+						'cantidadTrampitas' => $trampita
+					];
+				}
+				$contexto['anios'] = json_encode($anios);
+				$contexto['cantidadTrampitas'] = json_encode($trampitasJson);
+				break;
+		}
+
+		$this->renderer->render("comprasTrampitas", $contexto);
+	}
+
 	public function porcentajeAciertoPorJugador()
 	{
 		$this->redireccionamiento();
@@ -1505,6 +1570,147 @@ class AdministradorController
 			$pdf->Cell(50, 10, $porcentaje_acierto.'%', 1);
 			$pdf->Ln(); // Salto de línea
 		}
+		$pdf->Output();
+	}
+
+	public function convertirAPdfComprasTrampitas()
+	{
+		$this->redireccionamiento();
+
+		$filtro = $_GET['filtro'] ?? 'anio';
+		$pdf = new FPDF();
+		$pdf->AddPage();
+
+		// Establecer el título de la tabla
+		$pdf->SetFont('Arial', 'B', 14);
+		$pdf->Cell(0, 10, 'Compras de trampitas', 0, 1, 'C');
+
+		// Obtener los datos según el filtro seleccionado
+		switch ($filtro) {
+			case 'dia':
+				$datos = $this->administradorModel->obtenerComprasTrampitasPorDia();
+				$ultimos7Dias = array();
+				$fechaActual = new DateTime();
+
+				for ($i = 0; $i < 7; $i++) {
+					$fecha = clone $fechaActual;
+					$fecha->sub(new DateInterval('P'.$i.'D'));
+					$dia = $fecha->format('d');
+					$mes = $fecha->format('m');
+					$fechaFormateada = $dia.'-'.$mes;
+					$ultimos7Dias[] = $fechaFormateada;
+				}
+
+				$ultimos7Dias = array_reverse($ultimos7Dias); // Invertir el orden para que aparezcan en el PDF en orden ascendente
+
+				$pdf->SetFont('Arial', '', 12);
+				$pdf->Cell(20, 10, 'Dia', 1);
+				$pdf->Cell(40, 10, 'Trampitas vendidas', 1);
+				$pdf->Ln(); // Salto de línea
+
+				if (!empty($datos)) {
+					$indice = 0;
+					foreach ($ultimos7Dias as $dia) {
+						$cantidad = $datos[$indice];
+						$pdf->Cell(20, 10, $dia, 1);
+						$pdf->Cell(40, 10, $cantidad, 1);
+						$pdf->Ln(); // Salto de línea
+						$indice++;
+					}
+				} else {
+					$pdf->Cell(160, 10, 'No hay datos disponibles', 1, 1, 'C');
+				}
+				break;
+			case 'semana':
+				$datos = $this->administradorModel->obtenerComprasTrampitasPorSemana();
+				$ultimas4Semanas = array();
+				$fechaActual = new DateTime();
+
+				for ($i = 0; $i < 4; $i++) {
+					$fecha = clone $fechaActual;
+					$fecha->sub(new DateInterval('P'.($i * 7).'D')); // Restar múltiplos de 7 días para obtener las semanas
+					$semana = $fecha->format('W');
+					$ultimas4Semanas[] = $semana;
+				}
+
+				$ultimas4Semanas = array_reverse($ultimas4Semanas); // Invertir el orden para que aparezcan en el PDF en orden ascendente
+
+				// Generar la tabla en el PDF
+				$pdf->SetFont('Arial', '', 12);
+				$pdf->Cell(20, 10, 'Semana', 1);
+				$pdf->Cell(40, 10, 'Trampitas vendidas', 1);
+				$pdf->Ln(); // Salto de línea
+
+				if (!empty($datos)) {
+					$indice = 0;
+					foreach ($ultimas4Semanas as $semana) {
+						$cantidad = $datos[$indice];
+						$pdf->Cell(20, 10, $semana, 1);
+						$pdf->Cell(40, 10, $cantidad, 1);
+						$pdf->Ln(); // Salto de línea
+						$indice++;
+					}
+				} else {
+					$pdf->Cell(160, 10, 'No hay datos disponibles', 1, 1, 'C');
+				}
+				break;
+			case 'mes':
+				$datos = $this->administradorModel->obtenerComprasTrampitasPorMes();
+				$meses = array(
+					'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre',
+					'Octubre',
+					'Noviembre', 'Diciembre'
+				);
+
+				// Generar la tabla en el PDF
+				$pdf->SetFont('Arial', '', 12);
+				$pdf->Cell(30, 10, 'Mes', 1);
+				$pdf->Cell(40, 10, 'Trampitas vendidas', 1);
+				$pdf->Ln(); // Salto de línea
+
+				if (!empty($datos)) {
+					$indice = 0;
+					foreach ($meses as $mes) {
+						$cantidad = $datos[$indice];
+						$pdf->Cell(30, 10, $mes, 1);
+						$pdf->Cell(40, 10, $cantidad, 1);
+						$pdf->Ln(); // Salto de línea
+						$indice++;
+					}
+				} else {
+					$pdf->Cell(160, 10, 'No hay datos disponibles', 1, 1, 'C');
+				}
+				break;
+			case 'anio':
+				$getAnios = $this->administradorModel->getAniosComprasTrampitas();
+				foreach ($getAnios as $anio) {
+					$anios[] = intval($anio['anios']);
+				}
+				$datos = $this->administradorModel->obtenerComprasTrampitasPorAnio($anios);
+
+				// Generar la tabla en el PDF
+				$pdf->SetFont('Arial', '', 12);
+				$pdf->Cell(20, 10, 'Anio', 1);
+				$pdf->Cell(40, 10, 'Trampitas vendidas', 1);
+				$pdf->Ln(); // Salto de línea
+
+				if (!empty($datos)) {
+					$indice = 0;
+					foreach ($anios as $anio) {
+						$cantidad = $datos[$indice];
+						$pdf->Cell(20, 10, $anio, 1);
+						$pdf->Cell(40, 10, $cantidad, 1);
+						$pdf->Ln(); // Salto de línea
+						$indice++;
+					}
+				} else {
+					$pdf->Cell(160, 10, 'No hay datos disponibles', 1, 1, 'C');
+				}
+				break;
+			default:
+				$datos = array(); // Definir datos por defecto si no se encuentra un filtro válido
+		}
+
 		$pdf->Output();
 	}
 

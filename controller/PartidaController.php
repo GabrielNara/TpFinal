@@ -12,8 +12,17 @@ class PartidaController
 		$this->partidaModel = $partidaModel;
 	}
 
+	public function redireccionamiento()
+	{
+		if (!isset($_SESSION['usuario'])) {
+			header('Location: /tpfinal/');
+			exit();
+		}
+	}
+
 	public function pregunta()
 	{
+		$this->redireccionamiento();
 		$this->partidaModel->crearPartida();
 		$_SESSION['lista_preguntas'] = $this->partidaModel->obtenerListaPreguntas($_SESSION['usuario']['id']);
 		$_SESSION['puntaje'] = 0;
@@ -38,8 +47,6 @@ class PartidaController
 		unset($_SESSION['lista_preguntas'][$indice]);
 		$this->partidaModel->sumarPreguntaALaEstadistica($pregunta['id']);
 		$this->partidaModel->sumarPreguntaAlJugador($_SESSION['idPartida']);
-
-
 		echo json_encode($pregunta);
 	}
 
@@ -81,7 +88,7 @@ class PartidaController
 
 	public function usarTrampita()
 	{
-		if ($_SESSION['usuario']['trampitas'] > 0) {
+		if ($this->partidaModel->getTrampitasUsuario($_SESSION['usuario']['id']) > 0) {
 			$datos = array(
 				'idPregunta' => $_POST['id_pregunta']
 			);
@@ -100,6 +107,12 @@ class PartidaController
 	public function reportarPregunta()
 	{
 		$this->partidaModel->reportarPregunta($_POST['id_pregunta']);
+	}
+
+	public function actualizarTrampitas()
+	{
+		$contexto['trampitas'] = $this->partidaModel->getTrampitasUsuario($_SESSION['usuario']['id']);
+		echo json_encode($contexto);
 	}
 
 }
