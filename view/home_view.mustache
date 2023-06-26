@@ -1,10 +1,18 @@
 {{> header}}
-<div class="bg-gray-200 my-8 2xl:my-0 2xl:h-screen overflow-hidden flex items-center justify-center">
+<div class="bg-gray-200 mt-12 sm:mt-0 sm:h-screen overflow-hidden flex items-center justify-center">
     <div class="w-5/6 lg:w-4/5 xl:w-7/12 flex">
         <div class="w-full h-auto hidden lg:block lg:w-1/2 bg-cover rounded-lg lg:rounded-r-none"
              style="background-image: url('https://media.istockphoto.com/id/471889448/vector/education-seamless-pattern.jpg?s=612x612&w=0&k=20&c=9mlQuFWKsS4EQ6YK3HQcHYNKVWqUzY3evTWwKdYYV54=')">
         </div>
         <div class="w-full lg:w-1/2 bg-white rounded-lg lg:rounded-l-none p-6 lg:p-12 flex flex-col justify-between">
+            <div class="w-full flex justify-end">
+                <button class="hidden" id="reproducirMusica">
+                    <i class="fa-solid fa-volume-high fa-2xl"></i>
+                </button>
+                <button id="pausarMusica">
+                    <i class="fa-solid fa-volume-xmark fa-2xl"></i>
+                </button>
+            </div>
             <h3 class="font-bold text-3xl text-indigo-700 text-center tracking-widest uppercase my-4">QUIZ TIME</h3>
             <p class="text-lg mx-auto my-10 px-8 lg:px-0">¡Bienvenido! Para empezar a jugar, iniciá sesión con tu
                 cuenta. Si no tenés una, podés crearla y comenzar a jugar.</p>
@@ -21,4 +29,3 @@
         </div>
     </div>
 </div>
-{{> footer}}

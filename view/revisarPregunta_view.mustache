@@ -13,6 +13,14 @@
 </style>
 <div id="container" class="flex flex-col justify-center items-center w-full my-8 2xl:my-0 2xl:h-screen">
     <div id="contenedor-pregunta" class="bg-white p-12 rounded-lg shadow-lg w-[90%] sm:w-[500px] mt-8 neon-border">
+        <div class="w-full flex justify-end">
+            <button class="hidden" id="reproducirMusica">
+                <i class="fa-solid fa-volume-high fa-2xl"></i>
+            </button>
+            <button id="pausarMusica">
+                <i class="fa-solid fa-volume-xmark fa-2xl"></i>
+            </button>
+        </div>
         <div id="categoria"></div>
         {{#pregunta}}
             <form action="aprobarPregunta" method="post">

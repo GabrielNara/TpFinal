@@ -46,10 +46,8 @@
     </div>
 </nav>
 <div class="mx-8 my-2">
-    <p class="my-2 text-xl font-semi-bold">PARTIDAS JUGADAS</p>
-    <form id="primerFormulario" action="/tpFinal/administrador/cantPartidasJugadas" method="GET" class="flex items-center">
-  <!--  <form id="primerFormulario" action="/tpFinal/administrador/cantPartidasJugadas" method="GET" -->
-          class="flex items-center">
+    <p class="my-2 text-xl font-semi-bold">USUARIOS POR SEXO</p>
+    <form id="primerFormulario" action="/tpFinal/administrador/cantUsuariosSexo" method="GET" class="flex items-center">
         <select name="filtro" class="border border-solid border-gray-500 w-36 p-2 mx-2 focus:outline-none">
             <option value="dia" {{#filtroDia}}selected{{/filtroDia}}>Día</option>
             <option value="semana" {{#filtroSemana}}selected{{/filtroSemana}}>Semana</option>
@@ -63,25 +61,23 @@
     </form>
 </div>
 <div class="flex flex-col items-center justify-center">
-    <h1 class="text-3xl">Partidas nuevas por
+    <h1 class="text-3xl">Usuarios por género por
         {{#filtroAnio}}año{{/filtroAnio}}
         {{#filtroMes}}mes{{/filtroMes}}
         {{#filtroSemana}}semana{{/filtroSemana}}
         {{#filtroDia}}día{{/filtroDia}}</h1>
     <div id="chart_div" class="flex justify-center my-3"></div>
-
-   <!-- <form  id="segundoFormulario" action="/tpFinal/administrador/convertirAPdf" method="GET" class="flex items-center">
-        <input type="hidden" name="filtro">
-        <button type="button" onclick="submitPdfForm()">Hacer PDF</button> -->
-
-    <form id="segundoFormulario" action="/tpFinal/administrador/convertirAPdfCantidadPartidas" method="GET"
+</div>
+<div class="flex flex-col items-center justify-center">
+    <h1 class="text-3xl"></h1>
+    <div id="chart_div" class="flex justify-center my-3"></div>
+    <form id="segundoFormulario" action="/tpFinal/administrador/convertirAPdfUsuariosPorSexo" method="GET"
           class="flex items-center">
         <input type="hidden" name="filtro">
         <button type="button"
                 class="border border-solid border-gray-500 w-24 p-2 mx-2 hover:bg-gray-500 hover:text-white duration-200"
                 onclick="submitPdfForm()">Hacer PDF
         </button>
-
     </form>
 </div>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -96,58 +92,48 @@
         newTab.focus();
     }
 
-    function submitPdfForm() {
-        // Obtener el valor seleccionado del primer formulario
-        const filtro = document.querySelector('#primerFormulario select[name="filtro"]').value;
-
-        document.querySelector('#segundoFormulario input[name="filtro"]').value = filtro;
-
-        // Enviar el segundo formulario
-        document.querySelector('#segundoFormulario').submit();
-    }
-
-
     google.charts.load('current', {packages: ['corechart']});
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-        let cantidadPartidasTotal = {{cantidadPartidasTotal}};
         let data = new google.visualization.DataTable();
 
-        {{#filtroAnio}}
-            data.addColumn('number', 'Año');
-            data.addColumn('number', 'Partidas');
-            let anios = {{anios}};
-            for (let i = 0; i < anios.length; i++) {
-                data.addRow([anios[i], cantidadPartidasTotal[i]]);
-            }
-        {{/filtroAnio}}
+        {{#filtroDia}}
+            data.addColumn('string', 'Días');
+            data.addColumn('number', 'Masculino');
+            data.addColumn('number', 'Femenino');
+            data.addColumn('number', 'Otros');
 
-        {{#filtroMes}}
-            data.addColumn('string', 'Meses');
-            data.addColumn('number', 'Partidas');
-            let meses = [
-                'Enero',
-                'Febrero',
-                'Marzo',
-                'Abril',
-                'Mayo',
-                'Junio',
-                'Julio',
-                'Agosto',
-                'Septiembre',
-                'Octubre',
-                'Noviembre',
-                'Diciembre'
-            ];
-            for (let i = 0; i < meses.length; i++) {
-                data.addRow([meses[i], cantidadPartidasTotal[i]]);
+            let ultimos7Dias = [];
+            let fechaActual = new Date();
+
+            for (let i = 0; i < 7; i++) {
+                let fecha = new Date(fechaActual);
+                fecha.setDate(fecha.getDate() - i);
+                let dia = fecha.getDate();
+                let mes = fecha.getMonth() + 1;
+                let fechaFormateada = dia.toString().padStart(2, '0') + '-' + mes.toString().padStart(2, '0');
+                ultimos7Dias.push(fechaFormateada);
             }
-        {{/filtroMes}}
+            ultimos7Dias.sort();
+
+            let cantidadUsuariosTotalParsed = JSON.parse('{{{cantidadUsuariosTotal}}}');
+
+            for (let i = 0; i < cantidadUsuariosTotalParsed.length; i++) {
+                data.addRow([
+                    ultimos7Dias[i],
+                    cantidadUsuariosTotalParsed[i].masculinos,
+                    cantidadUsuariosTotalParsed[i].femeninos,
+                    cantidadUsuariosTotalParsed[i].otros
+                ]);
+            }
+        {{/filtroDia}}
 
         {{#filtroSemana}}
             data.addColumn('string', 'Semanas');
-            data.addColumn('number', 'Partidas');
+            data.addColumn('number', 'Masculino');
+            data.addColumn('number', 'Femenino');
+            data.addColumn('number', 'Otros');
 
             let fechas = [];
 
@@ -163,32 +149,67 @@
 
             fechas.sort();
 
-            for (let i = 0; i < fechas.length; i++) {
-                data.addRow([fechas[i], cantidadPartidasTotal[i]]);
+            let cantidadUsuariosTotalParsed = JSON.parse('{{{cantidadUsuariosTotal}}}');
+
+            for (let i = 0; i < cantidadUsuariosTotalParsed.length; i++) {
+                data.addRow([
+                    fechas[i],
+                    cantidadUsuariosTotalParsed[i].masculinos,
+                    cantidadUsuariosTotalParsed[i].femeninos,
+                    cantidadUsuariosTotalParsed[i].otros
+                ]);
             }
         {{/filtroSemana}}
 
-        {{#filtroDia}}
-            data.addColumn('string', 'Días');
-            data.addColumn('number', 'Partidas');
+        {{#filtroMes}}
+            data.addColumn('string', 'Meses');
+            data.addColumn('number', 'Masculino');
+            data.addColumn('number', 'Femenino');
+            data.addColumn('number', 'Otros');
+            let meses = [
+                'Enero',
+                'Febrero',
+                'Marzo',
+                'Abril',
+                'Mayo',
+                'Junio',
+                'Julio',
+                'Agosto',
+                'Septiembre',
+                'Octubre',
+                'Noviembre',
+                'Diciembre'
+            ];
 
-            let ultimos7Dias = [];
-            let fechaActual = new Date();
+            let cantidadUsuariosTotalParsed = JSON.parse('{{{cantidadUsuariosTotal}}}');
 
-            for (let i = 0; i < 7; i++) {
-                let fecha = new Date(fechaActual);
-                fecha.setDate(fecha.getDate() - i);
-                let dia = fecha.getDate();
-                let mes = fecha.getMonth() + 1;
-                let fechaFormateada = dia.toString().padStart(2, '0') + '-' + mes.toString().padStart(2, '0');
-                ultimos7Dias.push(fechaFormateada);
+            for (let i = 0; i < meses.length; i++) {
+                data.addRow([meses[i],
+                    cantidadUsuariosTotalParsed[i].masculinos,
+                    cantidadUsuariosTotalParsed[i].femeninos,
+                    cantidadUsuariosTotalParsed[i].otros
+                ]);
             }
-            ultimos7Dias.sort();
+        {{/filtroMes}}
 
-            for (let i = 0; i < ultimos7Dias.length; i++) {
-                data.addRow([ultimos7Dias[i], cantidadPartidasTotal[i]]);
+        {{#filtroAnio}}
+            data.addColumn('number', 'Año');
+            data.addColumn('number', 'Masculino');
+            data.addColumn('number', 'Femenino');
+            data.addColumn('number', 'Otros');
+
+            let anios = {{anios}};
+
+            let cantidadUsuariosTotalParsed = JSON.parse('{{{cantidadUsuariosTotal}}}');
+
+            for (let i = 0; i < anios.length; i++) {
+                data.addRow([anios[i],
+                    cantidadUsuariosTotalParsed[i].masculinos,
+                    cantidadUsuariosTotalParsed[i].femeninos,
+                    cantidadUsuariosTotalParsed[i].otros
+                ]);
             }
-        {{/filtroDia}}
+        {{/filtroAnio}}
 
         let options = {
             curveType: 'function',
@@ -207,11 +228,6 @@
 
         chart.draw(data, options);
     }
-
-
-
 </script>
 </body>
 </html>
-</script>
-

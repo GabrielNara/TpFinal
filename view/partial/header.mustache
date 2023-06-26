@@ -6,11 +6,30 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Quiz Time</title>
-    <link href="/TpFinal/public/favicon.ico" rel="icon" type="image/x-icon" />
+    <link href="/TpFinal/public/favicon.ico" rel="icon" type="image/x-icon"/>
     <link href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css" rel="stylesheet">
     <link rel="stylesheet" href="/TpFinal/public/estilos/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/f46e1e1d56.js" crossorigin="anonymous"></script>
     <script src="/TpFinal/public/js/jquery-3.7.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 </head>
 <body class="antialiased text-gray-700 bg-gray-100">
+<audio id="musica" src="/TpFinal/public/music/Fluffing-a-Duck.mp3" autoplay loop></audio>
+<script>
+    $(document).ready(function () {
+        let audio = document.getElementById('musica');
+
+        $('#reproducirMusica').click(function () {
+            audio.play();
+            $(this).removeClass('block').addClass('hidden');
+            $('#pausarMusica').removeClass('hidden').addClass('block');
+        });
+
+        $('#pausarMusica').click(function () {
+            audio.pause();
+            $(this).removeClass('block').addClass('hidden');
+            $('#reproducirMusica').removeClass('hidden').addClass('block');
+        });
+    });
+</script>

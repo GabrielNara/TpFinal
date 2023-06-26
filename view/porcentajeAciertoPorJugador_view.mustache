@@ -45,77 +45,45 @@
         </button>
     </div>
 </nav>
-<div class="mx-8 my-2">
-    <p class="my-2 text-xl font-semi-bold">PREGUNTAS EN EL JUEGO</p>
-    <form id="primerFormulario" action="/tpFinal/administrador/statsPreguntas" method="GET" class="flex items-center">
-        <select name="filtro" class="border border-solid border-gray-500 w-36 p-2 mx-2 focus:outline-none">
-            <option value="dia" {{#filtroDia}}selected{{/filtroDia}}>Día</option>
-            <option value="semana" {{#filtroSemana}}selected{{/filtroSemana}}>Semana</option>
-            <option value="mes" {{#filtroMes}}selected{{/filtroMes}}>Mes</option>
-            <option value="anio" {{#filtroAnio}}selected{{/filtroAnio}}>Año</option>
-        </select>
-        <button type="submit"
-                class="border border-solid border-gray-500 w-24 p-2 mx-2 hover:bg-gray-500 hover:text-white duration-200">
-            Filtrar
-        </button>
-    </form>
-</div>
 <div class="flex flex-col items-center justify-center">
-    <h1 class="text-3xl my-4">Preguntas en el juego por
-        {{#filtroAnio}}año{{/filtroAnio}}
-        {{#filtroMes}}mes{{/filtroMes}}
-        {{#filtroSemana}}semana{{/filtroSemana}}
-        {{#filtroDia}}día{{/filtroDia}}</h1>
+    <h1 class="text-3xl my-4">Porcentaje de acierto por jugador</h1>
     <div id="chart_div" class="my-4"></div>
-    <form id="segundoFormulario" action="/tpFinal/administrador/convertirAPdfEstadisticasPreguntas" method="GET"
-          class="flex items-center">
-        <input type="hidden" name="filtro">
+    <a href="/tpFinal/administrador/convertirAPdfPorcentajeAciertoPorJugador"
+       class="flex items-center" target="_blank">
         <button type="button"
                 class="border border-solid border-gray-500 w-24 p-2 mx-2 hover:bg-gray-500 hover:text-white duration-200"
                 onclick="submitPdfForm()">Hacer PDF
         </button>
-    </form>
+    </a>
 </div>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-    function submitPdfForm() {
-        const filtro = document.querySelector('#primerFormulario select[name="filtro"]').value;
-        document.querySelector('#segundoFormulario input[name="filtro"]').value = filtro;
-        let form = document.querySelector('#segundoFormulario');
-        let url = form.getAttribute('action');
-        let queryString = form.getAttribute('method') === 'GET' ? '?' + new URLSearchParams(new FormData(form)).toString() : '';
-        let newTab = window.open(url + queryString, '_blank');
-        newTab.focus();
-    }
-
-    var cantPreguntasActivas = {{cantPreguntasActivas}};
-    var cantPreguntasSuspendidas = {{cantPreguntasSuspendidas}};
-    var cantPreguntasReportadas = {{cantPreguntasReportadas}};
-    var cantPreguntasSugeridas = {{cantPreguntasSugeridas}};
     google.charts.load('current', {'packages': ['corechart']});
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
         var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Preguntas');
-        data.addColumn('number', 'Cantidad');
+        data.addColumn('string', 'Nombre de usuario');
+        data.addColumn('number', 'Porcentaje de acierto');
 
-        data.addRows([
-            ['Preguntas activas', cantPreguntasActivas],
-            ['Preguntas suspendidas', cantPreguntasSuspendidas],
-            ['Preguntas reportadas', cantPreguntasReportadas],
-            ['Preguntas sugeridas', cantPreguntasSugeridas]
-        ]);
+        let porcentajeAciertoPorJugadorParsed = JSON.parse('{{{datos}}}');
+
+        for (let i = 0; i < porcentajeAciertoPorJugadorParsed.length; i++) {
+            data.addRow([
+                porcentajeAciertoPorJugadorParsed[i].nombre_usuario,
+                parseFloat(porcentajeAciertoPorJugadorParsed[i].porcentaje_acierto)
+            ]);
+        }
 
         var options = {
-            pieHole: 0.25,
-            legend: {position: 'right'},
+            bars: 'vertical',
+            legend: {position: 'bottom'},
             width: Math.floor(window.innerWidth * 0.5),
             height: 400,
         };
 
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
         chart.draw(data, options);
     }
 </script>

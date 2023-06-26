@@ -14,7 +14,7 @@
                     <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/sidebar2-svg1.svg" alt="logo">
                     <p class="text-2xl leading-6 text-white">Quiz Time</p>
                 </div>
-                <div class="h-1/2 flex flex-col sm:flex-row lg:flex-col justify-center items-center p-6 border-b border-gray-600 w-full">
+                <div class="h-1/2 flex flex-col md:flex-row lg:flex-col justify-center items-center pt-4 lg:pb-12 border-b border-gray-600 w-full">
                     <a href="/tpFinal/partida/pregunta"
                        class="flex justify-center lg:justify-start items-center hover:text-white text-center lg:text-start focus:bg-gray-700 focus:text-white text-gray-400 rounded px-3 py-2 w-full lg:w-52">
                         <i class="mx-2 sm:mx-1 lg:w-1/5 text-center fa-solid fa-plus"></i>
@@ -57,12 +57,21 @@
                 </div>
             </div>
             <div class="flex flex-col w-full lg:w-3/4 xl:w-4/5 justify-center">
-                <div class="w-full xl:w-1/4">
+                <div class="w-full flex items-center justify-between">
                     <button type="button"
                             class="m-6 lg:mx-6 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
                         <a href="cerrarSesion">Cerrar sesión</a>
                     </button>
+                    <div class="mr-5 mt-5">
+                        <button class="hidden" id="reproducirMusica">
+                            <i class="fa-solid fa-volume-high fa-2xl"></i>
+                        </button>
+                        <button id="pausarMusica">
+                            <i class="fa-solid fa-volume-xmark fa-2xl"></i>
+                        </button>
+                    </div>
                 </div>
+                <div id="errorCompraTrampitas"></div>
                 <h1 class="font-bold text-4xl lg:text-5xl text-center text-indigo-700 my-4">
                     Hola, {{usuario.nombre}}!
                 </h1>
@@ -85,8 +94,57 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="flex items-center">
+                    <i class="fa-solid fa-forward-fast mx-2"></i>
+                    <p class="text-2xl">Tus trampitas: {{trampitas}}</p>
+                    <button type="button" onclick="comprarTrampita()"
+                            class="m-6 lg:mx-6 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
+                        Comprar trampita
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
-{{> footer}}
+<script type="text/javascript">
+    function comprarTrampita() {
+        let $recuadro = $('<div>').addClass('flex justify-center items-center fixed inset-0 bg-gray-500 bg-opacity-80');
+        let $contenidoRecuadro = $('<div>').addClass('flex flex-col justify-center items-center w-[80%] sm:w-[450px] h-[450px] sm:h-[550px] bg-white border border-gray-100');
+        $recuadro.append($contenidoRecuadro);
+        $contenidoRecuadro.append('<p class="text-center text-3xl text-purple-500 font-bold mb-2">¿Desea comprar una trampita?</p>');
+        $contenidoRecuadro.append('<label for="cantidad" class="mt-3">Cantidad<input oninput="actualizarPrecio()" type="number" id="cantidad" class="mx-2 border border-solid border-gray-500 p-3 focus:outline-none"></label>');
+        $contenidoRecuadro.append('<div class="flex justify-center my-3"><p class="text-3xl text-purple-500 mx-1">Precio:</p><p id="precio" class="text-3xl text-purple-500 mx-1">0</p><p class="text-3xl text-purple-500 mx-1">USD</p></div>');
+        $contenidoRecuadro.append('<img src="/TpFinal/public/img/buy.png" class="w-48 my-6"/>');
+        $contenidoRecuadro.append('<div class="w-full flex justify-center"><button id="cancelar" class="w-2/5 bg-red-500 hover:bg-red-600 duration-300 text-white text-sm font-bold tracking-wide rounded-full mx-2 px-5 py-2">No</button><button type="submit" id="comprar" class="w-2/5 bg-green-500 hover:bg-green-600 duration-300 text-white text-sm font-bold tracking-wide rounded-full mx-2 px-5 py-2">Sí</button></div>');
+        $('body').append($recuadro);
+        $('#comprar').click(function () {
+            $.ajax({
+                url: 'http://localhost/tpFinal/lobby/comprarTrampita',
+                type: 'POST',
+                data: {
+                    cantidad: $('#cantidad').val()
+                },
+                success: function (response) {
+                    if ($('#cantidad').val() > 0) {
+                        location.reload();
+                    } else {
+                        $recuadro.remove();
+                        $('#errorCompraTrampitas').addClass('w-[90%] bg-yellow-300 text-yellow-800 font-bold mx-auto mt-6 p-3 rounded');
+                        $('#errorCompraTrampitas').text('Cantidad inválida de trampitas.');
+                    }
+                },
+                error: function (xhr, status, error) {
+
+                }
+            });
+        });
+        $('#cancelar').click(function () {
+            $recuadro.remove();
+        });
+    }
+
+    function actualizarPrecio() {
+        let cantidad = $("#cantidad").val();
+        $("#precio").text(cantidad);
+    }
+</script>
