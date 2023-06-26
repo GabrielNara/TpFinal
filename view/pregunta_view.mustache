@@ -89,6 +89,7 @@
     let tiempoRestante = 10; // Inicializar el tiempo restante a 10 segundos
     let temporizador; // letiable para almacenar el temporizador
     let respondio = false;
+    let cantidadTrampitas;
 
     function iniciarTemporizador() {
         temporizador = setInterval(function () {
@@ -102,20 +103,14 @@
         }, 1000); // Actualizar el temporizador cada segundo (1000 ms)
     }
 
-    function detenerTemporizador() {
-        clearInterval(temporizador);
-    }
-
-    function reanudarTemporizador() {
-        iniciarTemporizador();
-    }
-
     async function terminarPartida() {
         try {
             const response = await fetch('http://localhost/tpFinal/partida/totalPuntaje');
             const totalJson = await response.json();
 
             if (tiempoRestante === 0 && respondio === false) {
+                $('#recuadroReporte').remove();
+                $('#recuadroTrampita').remove();
                 $('#contenedor-numero-pregunta').remove();
                 $('#contenedor-pregunta').remove();
                 $('#container').hide().append('<div class="max-w-xl p-12 bg-white rounded-lg shadow-lg neon-border">' +
@@ -140,6 +135,7 @@
     function cargarPregunta() {
         tiempoRestante = 10; // Reiniciar el tiempo restante a 10 segundos al cargar una nueva pregunta
         $('#temporizador').text(tiempoRestante);
+        $('#errorTrampita').remove();
         $('#cartel-reporte-enviado').remove();
         $.ajax({
             url: 'http://localhost/tpFinal/partida/siguientePregunta',
@@ -223,11 +219,23 @@
                 alert('error');
             }
         });
+        $.ajax({
+            url: 'http://localhost/tpFinal/partida/actualizarTrampitas',
+            method: 'GET',
+            success: function (data) {
+                let trampitas = JSON.parse(data);
+                cantidadTrampitas = trampitas.trampitas;
+                $('#trampitas').text(cantidadTrampitas);
+
+            },
+            error: function (xhr, status, error) {
+
+            }
+        });
     }
 
     function reportarPregunta() {
-        detenerTemporizador();
-        let $recuadro = $('<div>').addClass('flex justify-center items-center fixed inset-0 bg-gray-500 bg-opacity-80');
+        let $recuadro = $('<div id="recuadroReporte">').addClass('flex justify-center items-center fixed inset-0 bg-gray-500 bg-opacity-80');
         let $contenidoRecuadro = $('<div>').addClass('flex flex-col justify-center items-center w-[80%] sm:w-[450px] h-[400px] sm:h-[450px] bg-white border border-gray-100');
         $recuadro.append($contenidoRecuadro);
         $contenidoRecuadro.append('<p class="text-center text-3xl text-purple-500 font-bold">¿Desea reportar la pregunta?</p>');
@@ -244,7 +252,6 @@
                 success: function (response) {
                     $recuadro.remove();
                     $('#contenedor-pregunta').append('<div id="cartel-reporte-enviado" class="w-[90%] bg-yellow-300 text-yellow-800 font-bold mx-auto mt-6 p-3 rounded">Se reportó la pregunta.</div>');
-                    reanudarTemporizador();
                 },
                 error: function (xhr, status, error) {
 
@@ -253,7 +260,6 @@
         });
         $('#cancelarReporte').click(function () {
             $recuadro.remove();
-            reanudarTemporizador();
         });
     }
 
@@ -346,71 +352,71 @@
             }
         });
         $('#usarTrampita').click(function () {
-            detenerTemporizador();
-            let $recuadro = $('<div>').addClass('flex justify-center items-center fixed inset-0 bg-gray-500 bg-opacity-80');
-            let $contenidoRecuadro = $('<div>').addClass('flex flex-col justify-center items-center w-[80%] sm:w-[450px] h-[450px] sm:h-[500px] bg-white border border-gray-100');
-            $recuadro.append($contenidoRecuadro);
-            $contenidoRecuadro.append('<p class="text-center text-3xl text-purple-500 font-bold m-4">¿Desea usar una trampita para responder la pregunta?</p>');
-            $contenidoRecuadro.append('<img src="/TpFinal/public/img/happy-man.png" class="w-64 my-6"/>');
-            $contenidoRecuadro.append('<div class="w-full flex justify-center"><button id="cancelarTrampita" class="w-2/5 bg-red-500 hover:bg-red-600 duration-300 text-white text-sm font-bold tracking-wide rounded-full mx-2 px-5 py-2">No</button><button type="submit" id="enviarTrampita" class="w-2/5 bg-green-500 hover:bg-green-600 duration-300 text-white text-sm font-bold tracking-wide rounded-full mx-2 px-5 py-2">Sí</button></div>');
-            $('body').append($recuadro);
-            $('#enviarTrampita').click(function () {
-                respondio = true;
-                $.ajax({
-                    url: 'http://localhost/tpFinal/partida/usarTrampita',
-                    type: 'POST',
-                    data: {
-                        id_pregunta: $('#id_pregunta').val()
-                    },
-                    success: function (response) {
-                        $recuadro.remove();
-                        let data = JSON.parse(response);
+            if (cantidadTrampitas > 0) {
+                let $recuadro = $('<div id="recuadroTrampita">').addClass('flex justify-center items-center fixed inset-0 bg-gray-500 bg-opacity-80');
+                let $contenidoRecuadro = $('<div>').addClass('flex flex-col justify-center items-center w-[80%] sm:w-[450px] h-[450px] sm:h-[500px] bg-white border border-gray-100');
+                $recuadro.append($contenidoRecuadro);
+                $contenidoRecuadro.append('<p class="text-center text-3xl text-purple-500 font-bold m-4">¿Desea usar una trampita para responder la pregunta?</p>');
+                $contenidoRecuadro.append('<img src="/TpFinal/public/img/happy-man.png" class="w-64 my-6"/>');
+                $contenidoRecuadro.append('<div class="w-full flex justify-center"><button id="cancelarTrampita" class="w-2/5 bg-red-500 hover:bg-red-600 duration-300 text-white text-sm font-bold tracking-wide rounded-full mx-2 px-5 py-2">No</button><button type="submit" id="enviarTrampita" class="w-2/5 bg-green-500 hover:bg-green-600 duration-300 text-white text-sm font-bold tracking-wide rounded-full mx-2 px-5 py-2">Sí</button></div>');
+                $('body').append($recuadro);
+                $('#enviarTrampita').click(function () {
+                    respondio = true;
+                    $.ajax({
+                        url: 'http://localhost/tpFinal/partida/usarTrampita',
+                        type: 'POST',
+                        data: {
+                            id_pregunta: $('#id_pregunta').val()
+                        },
+                        success: function (response) {
+                            $recuadro.remove();
+                            let data = JSON.parse(response);
 
-                        $('#puntaje').text(data.puntos);
-                        $('#trampitas').text(data.trampitas);
-                        setTimeout(function () {
-                            $('#contenedor-numero-pregunta').hide();
-                            $('#contenedor-pregunta').hide();
-                            cargarPregunta();
-                            iniciarTemporizador();
-                            respondio = false;
-                            tiempoRestante += 2
-                            $('#container').hide().append('<div id="resultado" class="bg-white shadow-lg rounded-lg p-8 neon-border">' +
-                                    '<h1 class="text-5xl font-bold text-center text-blue-700 my-8">¡Respuesta Correcta!</h1>' +
-                                    '<div class="flex justify-center items-center">' +
-                                    '<img src="/TpFinal/public/img/carafeliz1.png" class="h-32" alt="Cara Feliz" />' +
-                                    '</div>' +
-                                    '<div class="my-8 loading w-full h-auto flex justify-center items-center">' +
-                                    '<div class="line-box w-4/5 border border-2 border-gray-200 rounded-2xl">' +
-                                    '<div class="line h-5 rounded-2xl bg-[#67D295]">' +
-                                    '</div>' +
-                                    '</div>' +
-                                    '</div>' +
-                                    '</div>'
-                            ).show();
+                            $('#puntaje').text(data.puntos);
                             setTimeout(function () {
-                                $('#nroPregunta').text(data.puntos + 1);
-                                $('#respuesta_seleccionada').val('');
-                                $('.opcion').each(function () {
-                                    if ($(this).hasClass('bg-gray-500 text-gray-100')) {
-                                        $(this).removeClass('bg-gray-500 text-gray-100');
-                                    }
-                                });
-                                $('#contenedor-numero-pregunta').show();
-                                $('#contenedor-pregunta').show();
-                                $('#resultado').remove();
-                            }, 2000);
-                        },);
-                    },
-                    error: function (xhr, status, error) {
+                                $('#contenedor-numero-pregunta').hide();
+                                $('#contenedor-pregunta').hide();
+                                cargarPregunta();
+                                respondio = false;
+                                tiempoRestante += 2
+                                $('#container').hide().append('<div id="resultado" class="bg-white shadow-lg rounded-lg p-8 neon-border">' +
+                                        '<h1 class="text-5xl font-bold text-center text-blue-700 my-8">¡Respuesta Correcta!</h1>' +
+                                        '<div class="flex justify-center items-center">' +
+                                        '<img src="/TpFinal/public/img/carafeliz1.png" class="h-32" alt="Cara Feliz" />' +
+                                        '</div>' +
+                                        '<div class="my-8 loading w-full h-auto flex justify-center items-center">' +
+                                        '<div class="line-box w-4/5 border border-2 border-gray-200 rounded-2xl">' +
+                                        '<div class="line h-5 rounded-2xl bg-[#67D295]">' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>'
+                                ).show();
+                                setTimeout(function () {
+                                    $('#nroPregunta').text(data.puntos + 1);
+                                    $('#respuesta_seleccionada').val('');
+                                    $('.opcion').each(function () {
+                                        if ($(this).hasClass('bg-gray-500 text-gray-100')) {
+                                            $(this).removeClass('bg-gray-500 text-gray-100');
+                                        }
+                                    });
+                                    $('#contenedor-numero-pregunta').show();
+                                    $('#contenedor-pregunta').show();
+                                    $('#resultado').remove();
+                                }, 2000);
+                            },);
+                        },
+                        error: function (xhr, status, error) {
 
-                    }
+                        }
+                    });
                 });
-            });
-            $('#cancelarTrampita').click(function () {
-                $recuadro.remove();
-                reanudarTemporizador();
-            });
+                $('#cancelarTrampita').click(function () {
+                    $recuadro.remove();
+                });
+            } else {
+                $('#contenedor-pregunta').append('<div id="errorTrampita" class="w-[90%] bg-red-300 text-red-800 font-bold mx-auto mt-6 p-3 rounded">No tenés trampitas.</div>');
+            }
         });
     });
 </script>
