@@ -14,20 +14,20 @@ class EditorController
 		$this->editorModel = $editorModel;
 	}
 
-    public function redireccionamiento()
-    {
-        if (isset($_SESSION['usuario'])) {
-            $rol = $this->editorModel->getRol($_SESSION['usuario']["id"]);
+	public function redireccionamiento()
+	{
+		if (isset($_SESSION['usuario'])) {
+			$rol = $this->editorModel->getRol($_SESSION['usuario']["id"]);
 
-            if ($rol[0]['idRol'] == 3) {
-                header('Location: /tpfinal/lobby/list');
-                exit();
-            }
-        } else {
-            header('Location: /tpfinal/');
-            exit();
-        }
-    }
+			if ($rol[0]['idRol'] == 3) {
+				header('Location: /tpfinal/lobby/list');
+				exit();
+			}
+		} else {
+			header('Location: /tpfinal/');
+			exit();
+		}
+	}
 
 	public function revisionPreguntas()
 	{
