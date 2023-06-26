@@ -129,10 +129,13 @@ VALUES ('$nombre','$apellido','$email','$contrasena','$anionacimiento','$sexo','
         if (!empty($result)) {
             // El token es válido, marcar la cuenta de usuario como validada
             $email = $result[0]['email'];
-
+            $id = $result[0]['id'];
             // Actualizar la columna de validación en la base de datos
             $query = "UPDATE usuarios SET validado = 1 WHERE email = '$email'";
+            $query2 = "INSERT INTO usuarios_roles (idUsuario, idRol) VALUES ('$id', '3')";
             $this->database->queryInsertar($query);
+            $this->database->queryInsertar($query2);
+
         } else {
             // El token no es válido
             echo "El token de validación no es válido.";
@@ -143,4 +146,5 @@ VALUES ('$nombre','$apellido','$email','$contrasena','$anionacimiento','$sexo','
         $fotoperfil = $_FILES['fotoPerfil']['tmp_name'];
         move_uploaded_file($fotoperfil, "./public/img/" .  $_FILES['fotoPerfil']['name']);
     }
+
 }
