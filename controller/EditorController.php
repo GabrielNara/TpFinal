@@ -16,12 +16,15 @@ class EditorController
 
 	public function redireccionamiento()
 	{
-		$usuario = $_SESSION['usuario'];
-		$rol = $this->editorModel->getRol($usuario["id"]);
-		// Verificar si el usuario tiene el rol de "jugador"
-		if ($rol[0]['idRol'] == 3) {
-			// Redirigir al usuario al lobby o a la página predeterminada
-			header('Location: /tpfinal/lobby/list');
+		if (isset($_SESSION['usuario'])) {
+			$rol = $this->editorModel->getRol($_SESSION['usuario']["id"]);
+
+			if ($rol[0]['idRol'] == 3) {
+				header('Location: /tpfinal/lobby/list');
+				exit();
+			}
+		} else {
+			header('Location: /tpfinal/');
 			exit();
 		}
 	}
