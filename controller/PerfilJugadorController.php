@@ -25,10 +25,13 @@ class PerfilJugadorController
         $qr = $this->usuarioModel->generarQr($id);
 
         $datos = array(
-            'ranking' => $resultado[0],
+
             'usuario' => $usuario[0],
             'qr' => '.' . $qr
         );
+        if (!empty($resultado)){
+            $datos['ranking'] = $resultado[0];
+        }
         $this->renderer->render("perfilJugador", $datos);
     }
 }
