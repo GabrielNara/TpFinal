@@ -26,15 +26,17 @@ class LobbyController
 
 			$data = array(
 				'usuario' => $usuario,
-				'puntajeMayor' => $mayorPuntaje[0]["puntajeTotal"],
-				'historial' => $historial,
+                'puntajeMayor' => isset($mayorPuntaje[0]["puntajeTotal"]) ? $mayorPuntaje[0]["puntajeTotal"] : null,
+                'historial' => $historial,
 				'trampitas' => $cantidadTrampitas
 			);
 
-			if ($rol[0]['idRol'] == 2) {
+            if (!empty($rol) && isset($rol[0]['idRol']) && $rol[0]['idRol'] == 2)
+                {
 				$data['editor'] = true;
 			} else {
-				if ($rol[0]['idRol'] == 1) {
+                if (!empty($rol) && isset($rol[0]['idRol']) && $rol[0]['idRol'] == 1) 
+                    {
 					$data['editor'] = true;
 					$data['administrador'] = true;
 				}
