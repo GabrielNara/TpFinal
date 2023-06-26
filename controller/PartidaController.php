@@ -88,7 +88,7 @@ class PartidaController
 
 	public function usarTrampita()
 	{
-		if ($_SESSION['usuario']['trampitas'] > 0) {
+		if ($this->partidaModel->getTrampitasUsuario($_SESSION['usuario']['id']) > 0) {
 			$datos = array(
 				'idPregunta' => $_POST['id_pregunta']
 			);

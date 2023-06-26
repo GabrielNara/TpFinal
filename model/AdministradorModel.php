@@ -588,4 +588,108 @@ class AdministradorModel
 		$query = "SELECT nombre_usuario, porcentaje_acierto FROM usuarios ORDER BY id ASC;";
 		return $this->database->querySelectFetchAssoc($query);
 	}
+
+	public function obtenerComprasTrampitasPorDia()
+	{
+		$cantidad_trampitas = [];
+		$fechas = [];
+		for ($i = 0; $i < 7; $i++) {
+			$fecha = date("Y-m-d", strtotime("-$i days"));
+			array_push($fechas, $fecha);
+		}
+		sort($fechas);
+		foreach ($fechas as $fecha) {
+			$totalTrampitas = 0;
+			$fechaInicio = $fecha." 00:00:00";
+			$fechaFin = $fecha." 23:59:59";
+			$query = "SELECT cantidad FROM trampitas WHERE fecha_compra BETWEEN '$fechaInicio' AND '$fechaFin'";
+			$cantidadComprada = $this->database->querySelectFetchAssoc($query);
+			for ($i = 0; $i < count($cantidadComprada); $i++) {
+				$totalTrampitas += intval($cantidadComprada[$i]["cantidad"]);
+			}
+			array_push($cantidad_trampitas, $totalTrampitas);
+		}
+
+		return $cantidad_trampitas;
+	}
+
+	public function obtenerComprasTrampitasPorSemana()
+	{
+		$cantidad_trampitas = [];
+		$fechas = [];
+
+		for ($i = 0; $i < 4; $i++) {
+			$fecha_inicio = strtotime("-".(($i * 7) + 6)." days");
+			$fecha_fin = strtotime("-".($i * 7)." days");
+
+			$fechas[$i] = array(
+				'inicio' => date('Y-m-d', $fecha_inicio),
+				'fin' => date('Y-m-d', $fecha_fin)
+			);
+		}
+
+		$fechas = array_reverse($fechas);
+
+		for ($i = 0; $i < count($fechas); $i++) {
+			$totalTrampitas = 0;
+			$fechaInicio = $fechas[$i]['inicio']." 00:00:00";
+			$fechaFin = $fechas[$i]['fin']." 23:59:59";
+
+			$query = "SELECT cantidad FROM trampitas WHERE fecha_compra BETWEEN '$fechaInicio' AND '$fechaFin';";
+			$cantidadComprada = $this->database->querySelectFetchAssoc($query);
+
+			for ($j = 0; $j < count($cantidadComprada); $j++) {
+				$totalTrampitas += intval($cantidadComprada[$j]["cantidad"]);
+			}
+
+			array_push($cantidad_trampitas, $totalTrampitas);
+		}
+
+		return $cantidad_trampitas;
+	}
+
+	public function obtenerComprasTrampitasPorMes()
+	{
+		$cantidad_trampitas = [];
+
+		for ($i = 1; $i <= 12; $i++) {
+			$totalTrampitas = 0;
+			$query = "SELECT cantidad FROM trampitas WHERE YEAR(fecha_compra) = 2023 AND MONTH(fecha_compra) = '$i';";
+			$cantidadComprada = $this->database->querySelectFetchAssoc($query);
+
+			for ($j = 0; $j < count($cantidadComprada); $j++) {
+				$totalTrampitas += intval($cantidadComprada[$j]["cantidad"]);
+			}
+
+			array_push($cantidad_trampitas, $totalTrampitas);
+		}
+
+		return $cantidad_trampitas;
+	}
+
+	public function obtenerComprasTrampitasPorAnio($anios)
+	{
+		$cantidad_trampitas = [];
+
+		foreach ($anios as $anio) {
+			$totalTrampitas = 0;
+
+			$query = "SELECT cantidad FROM trampitas WHERE YEAR(fecha_compra) = '$anio';";
+			$cantidadComprada = $this->database->querySelectFetchAssoc($query);
+
+			for ($j = 0; $j < count($cantidadComprada); $j++) {
+				$totalTrampitas += intval($cantidadComprada[$j]["cantidad"]);
+			}
+
+			array_push($cantidad_trampitas, $totalTrampitas);
+		}
+
+		return $cantidad_trampitas;
+	}
+
+	public function getAniosComprasTrampitas()
+	{
+		$query = "SELECT DISTINCT YEAR(fecha_compra) AS anios FROM trampitas ORDER BY anios ASC;";
+		return $this->database->querySelectFetchAssoc($query);
+	}
 }
