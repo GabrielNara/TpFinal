@@ -190,4 +190,17 @@ class PartidaModel
 		$query = "UPDATE preguntas SET `id_estado_pregunta` = 3 WHERE id = '$id_pregunta'";
 		return $this->database->queryInsertar($query);
 	}
+
+	public function getTrampitasUsuario($id)
+	{
+		$query = "SELECT trampitas FROM usuarios WHERE id = '$id'";
+		$result = $this->database->query($query);
+		return $result[0]['trampitas'];
+	}
+
+	public function restarTrampitaAlUsuario($id_usuario)
+	{
+		$query = "UPDATE usuarios SET trampitas = trampitas - 1 WHERE id = '$id_usuario'";
+		$this->database->queryInsertar($query);
+	}
 }

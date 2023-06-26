@@ -31,10 +31,18 @@
         </h1>
     </div>
     <div id="contenedor-pregunta" class="bg-white p-12 rounded-lg shadow-lg w-[90%] sm:w-[500px] mt-8 neon-border">
+        <div class="w-full flex justify-end pb-4">
+            <button class="hidden" id="reproducirMusica">
+                <i class="fa-solid fa-volume-high fa-2xl"></i>
+            </button>
+            <button id="pausarMusica">
+                <i class="fa-solid fa-volume-xmark fa-2xl"></i>
+            </button>
+        </div>
         <div id="categoria"></div>
         <p class="text-xl text-purple-500 my-2">Puntaje: <span id="puntaje">0</span></p>
+        <p class="text-xl text-purple-500 my-2">Trampitas: <span id="trampitas">{{trampitas}}</span></p>
         <div>Tiempo restante: <span id="temporizador">{{tiempoLimite}}</span> segundos</div>
-
         <p id="pregunta" class="text-2xl font-bold my-2"></p>
         <form method="POST" id="form-pregunta">
             <label for="a" id="opcion-a"
@@ -62,6 +70,12 @@
                 </button>
                 <input type="hidden" name="id_pregunta" id="id_pregunta" value="">
                 <input type="hidden" name="respuesta_seleccionada" id="respuesta_seleccionada" value="">
+                <button type="button"
+                        class="text-purple-500 text-md font-bold tracking-wide px-5 py-2 hover:bg-gray-200 hover:rounded-full cursor-pointer"
+                        id="usarTrampita">
+                    <i class="fa-solid fa-forward-fast"></i>
+                    Usar trampita
+                </button>
                 <button type="submit"
                         class="bg-purple-500 text-white text-sm font-bold tracking-wide rounded-full px-5 py-2">
                     Responder
@@ -101,7 +115,7 @@
             const response = await fetch('http://localhost/tpFinal/partida/totalPuntaje');
             const totalJson = await response.json();
 
-            if (tiempoRestante === 0 || respondio === false) {
+            if (tiempoRestante === 0 && respondio === false) {
                 $('#contenedor-numero-pregunta').remove();
                 $('#contenedor-pregunta').remove();
                 $('#container').hide().append('<div class="max-w-xl p-12 bg-white rounded-lg shadow-lg neon-border">' +
@@ -330,6 +344,73 @@
                     }
                 });
             }
+        });
+        $('#usarTrampita').click(function () {
+            detenerTemporizador();
+            let $recuadro = $('<div>').addClass('flex justify-center items-center fixed inset-0 bg-gray-500 bg-opacity-80');
+            let $contenidoRecuadro = $('<div>').addClass('flex flex-col justify-center items-center w-[80%] sm:w-[450px] h-[450px] sm:h-[500px] bg-white border border-gray-100');
+            $recuadro.append($contenidoRecuadro);
+            $contenidoRecuadro.append('<p class="text-center text-3xl text-purple-500 font-bold m-4">¿Desea usar una trampita para responder la pregunta?</p>');
+            $contenidoRecuadro.append('<img src="/TpFinal/public/img/happy-man.png" class="w-64 my-6"/>');
+            $contenidoRecuadro.append('<div class="w-full flex justify-center"><button id="cancelarTrampita" class="w-2/5 bg-red-500 hover:bg-red-600 duration-300 text-white text-sm font-bold tracking-wide rounded-full mx-2 px-5 py-2">No</button><button type="submit" id="enviarTrampita" class="w-2/5 bg-green-500 hover:bg-green-600 duration-300 text-white text-sm font-bold tracking-wide rounded-full mx-2 px-5 py-2">Sí</button></div>');
+            $('body').append($recuadro);
+            $('#enviarTrampita').click(function () {
+                respondio = true;
+                $.ajax({
+                    url: 'http://localhost/tpFinal/partida/usarTrampita',
+                    type: 'POST',
+                    data: {
+                        id_pregunta: $('#id_pregunta').val()
+                    },
+                    success: function (response) {
+                        $recuadro.remove();
+                        let data = JSON.parse(response);
+
+                        $('#puntaje').text(data.puntos);
+                        $('#trampitas').text(data.trampitas);
+                        setTimeout(function () {
+                            $('#contenedor-numero-pregunta').hide();
+                            $('#contenedor-pregunta').hide();
+                            cargarPregunta();
+                            iniciarTemporizador();
+                            respondio = false;
+                            tiempoRestante += 2
+                            $('#container').hide().append('<div id="resultado" class="bg-white shadow-lg rounded-lg p-8 neon-border">' +
+                                    '<h1 class="text-5xl font-bold text-center text-blue-700 my-8">¡Respuesta Correcta!</h1>' +
+                                    '<div class="flex justify-center items-center">' +
+                                    '<img src="/TpFinal/public/img/carafeliz1.png" class="h-32" alt="Cara Feliz" />' +
+                                    '</div>' +
+                                    '<div class="my-8 loading w-full h-auto flex justify-center items-center">' +
+                                    '<div class="line-box w-4/5 border border-2 border-gray-200 rounded-2xl">' +
+                                    '<div class="line h-5 rounded-2xl bg-[#67D295]">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>'
+                            ).show();
+                            setTimeout(function () {
+                                $('#nroPregunta').text(data.puntos + 1);
+                                $('#respuesta_seleccionada').val('');
+                                $('.opcion').each(function () {
+                                    if ($(this).hasClass('bg-gray-500 text-gray-100')) {
+                                        $(this).removeClass('bg-gray-500 text-gray-100');
+                                    }
+                                });
+                                $('#contenedor-numero-pregunta').show();
+                                $('#contenedor-pregunta').show();
+                                $('#resultado').remove();
+                            }, 2000);
+                        },);
+                    },
+                    error: function (xhr, status, error) {
+
+                    }
+                });
+            });
+            $('#cancelarTrampita').click(function () {
+                $recuadro.remove();
+                reanudarTemporizador();
+            });
         });
     });
 </script>

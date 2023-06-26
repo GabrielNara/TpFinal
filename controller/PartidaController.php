@@ -18,10 +18,12 @@ class PartidaController
 		$_SESSION['lista_preguntas'] = $this->partidaModel->obtenerListaPreguntas($_SESSION['usuario']['id']);
 		$_SESSION['puntaje'] = 0;
 		$_SESSION['idPartida'] = $this->partidaModel->getIdPartida();
+		$trampitas = $this->partidaModel->getTrampitasUsuario($_SESSION['usuario']['id']);
 		$contexto = array(
 			'nroPregunta' => ($_SESSION['puntaje'] + 1),
 			'puntos' => $_SESSION['puntaje'],
-			'tiempoLimite' => 10
+			'tiempoLimite' => 10,
+			'trampitas' => $trampitas
 		);
 		$this->renderer->render("pregunta", $contexto);
 	}
@@ -75,6 +77,24 @@ class PartidaController
 		echo json_encode($_SESSION['puntaje']);
 		unset($_SESSION['lista_preguntas']);
 		unset($_SESSION['puntaje']);
+	}
+
+	public function usarTrampita()
+	{
+		if ($_SESSION['usuario']['trampitas'] > 0) {
+			$datos = array(
+				'idPregunta' => $_POST['id_pregunta']
+			);
+
+			$_SESSION['puntaje']++;
+			$contexto['puntos'] = $_SESSION['puntaje'];
+			$this->partidaModel->sumarPreguntaCorrectaALaEstadistica($datos['idPregunta']);
+			$this->partidaModel->sumarPreguntaCorrectaAlJugador($_SESSION['idPartida']);
+			$this->partidaModel->actualizarPorcentajeAciertoPregunta($datos['idPregunta']);
+			$this->partidaModel->restarTrampitaAlUsuario($_SESSION['usuario']['id']);
+			$contexto['trampitas'] = $this->partidaModel->getTrampitasUsuario($_SESSION['usuario']['id']);
+			echo json_encode($contexto);
+		}
 	}
 
 	public function reportarPregunta()

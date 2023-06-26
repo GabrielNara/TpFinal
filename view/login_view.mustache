@@ -5,8 +5,15 @@
              style="background-image: url('https://mlqfdkzc0cug.i.optimole.com/w:auto/h:auto/q:mauto/f:avif/https://humanit.as/experiences/wp-content/uploads/sites/7/2015/12/Question-Mark-HD-Wallpaper15.jpg')">
         </div>
         <div class="w-full lg:w-1/2 bg-white rounded-lg lg:rounded-l-none py-24 px-12">
+            <div class="w-full flex justify-end">
+                <button class="hidden" id="reproducirMusica">
+                    <i class="fa-solid fa-volume-high fa-2xl"></i>
+                </button>
+                <button id="pausarMusica">
+                    <i class="fa-solid fa-volume-xmark fa-2xl"></i>
+                </button>
+            </div>
             <h3 class="font-bold text-3xl text-indigo-700 text-center tracking-widest uppercase mb-4">Login</h3>
-
             <form class="bg-white" method="POST" action="loguearse">
                 <div class="mb-4">
                     <label class="block mb-2 text-sm font-bold" for="username">
@@ -49,4 +56,3 @@
         </div>
     </div>
 </div>
-{{> footer}}
