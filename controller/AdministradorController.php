@@ -376,7 +376,7 @@ class AdministradorController
         $pdf->Output();
     }
 
-    
+
 	public function cantUsuariosSexo()
 	{
 		$this->redireccionamiento();
