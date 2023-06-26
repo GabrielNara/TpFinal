@@ -12,8 +12,17 @@ class PartidaController
 		$this->partidaModel = $partidaModel;
 	}
 
+    public function redireccionamiento()
+    {
+        if (!isset($_SESSION['usuario'])) {
+            header('Location: /tpfinal/');
+            exit();
+        }
+    }
+
 	public function pregunta()
 	{
+        $this->redireccionamiento();
 		$this->partidaModel->crearPartida();
 		$_SESSION['lista_preguntas'] = $this->partidaModel->obtenerListaPreguntas($_SESSION['usuario']['id']);
 		$_SESSION['puntaje'] = 0;
