@@ -96,14 +96,25 @@
 <div class="flex flex-col justify-center items-center w-full my-8 lg:my-0 lg:h-screen">
     <h1 class="font-bold text-5xl text-center text-indigo-100">Revisión de preguntas</h1>
     <div class="w-[90%] bg-white p-8 rounded-lg shadow-lg mt-8">
-        <select class="mb-6 text-lg focus:outline-none border-b border-b-solid border-b-gray-400 p-2" id="filtroEstado"
-                onchange="filtrarPreguntas()">
-            <option value="todos">Todos</option>
-            <option value="1">Activa</option>
-            <option value="2">Suspendida</option>
-            <option value="3">Reportada</option>
-            <option value="4">Sugerida</option>
-        </select>
+        <div class="w-full flex justify-between items-center">
+            <select class="mb-6 text-lg focus:outline-none border-b border-b-solid border-b-gray-400 p-2"
+                    id="filtroEstado"
+                    onchange="filtrarPreguntas()">
+                <option value="todos">Todos</option>
+                <option value="1">Activa</option>
+                <option value="2">Suspendida</option>
+                <option value="3">Reportada</option>
+                <option value="4">Sugerida</option>
+            </select>
+            <div>
+                <button class="hidden" id="reproducirMusica">
+                    <i class="fa-solid fa-volume-high fa-2xl"></i>
+                </button>
+                <button id="pausarMusica">
+                    <i class="fa-solid fa-volume-xmark fa-2xl"></i>
+                </button>
+            </div>
+        </div>
         <div class="w-full border-b border-gray-200 shadow">
             <div class="preguntas-container">
                 <table class="w-full min-w-full divide-y divide-indigo-700">

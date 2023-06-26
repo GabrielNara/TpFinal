@@ -17,7 +17,14 @@
                 <p class="text-lg my-6">¡Te enviamos un correo electrónico a <span
                         class="font-bold">{{usuario.email}}</span> para confirmar tu cuenta!</p>
             </div>
+            <div class="w-full flex justify-end pr-6">
+                <button class="hidden" id="reproducirMusica">
+                    <i class="fa-solid fa-volume-high fa-2xl"></i>
+                </button>
+                <button id="pausarMusica">
+                    <i class="fa-solid fa-volume-xmark fa-2xl"></i>
+                </button>
+            </div>
         </div>
     </div>
 </div>
-{{> footer}}

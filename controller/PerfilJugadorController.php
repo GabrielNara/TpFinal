@@ -4,34 +4,47 @@ include_once('./model/RankingModel.php');
 
 class PerfilJugadorController
 {
-    private $renderer;
-    private $usuarioModel;
-    private $rankingModel;
+	private $renderer;
+	private $usuarioModel;
+	private $rankingModel;
 
-    public function __construct($renderer, $usuarioModel, $rankingModel)
-    {
-        $this->renderer = $renderer;
-        $this->usuarioModel = $usuarioModel;
-        $this->rankingModel = $rankingModel;
-    }
+	public function __construct($renderer, $usuarioModel, $rankingModel)
+	{
+		$this->renderer = $renderer;
+		$this->usuarioModel = $usuarioModel;
+		$this->rankingModel = $rankingModel;
+	}
 
-    public function list()
-    {
-        $id = $_GET['id'];
-        $usuario = $this->usuarioModel->getUsuarioPorId($id);
+	public function list()
+	{
+		$id = $_GET['id'];
+		$usuario = $this->usuarioModel->getUsuarioPorId($id);
 
-        $resultado = $this->rankingModel->obtenerElRankingPorIdUsuario($id);
+		if (empty($usuario)) {
+			header('Location: /tpfinal/lobby/list');
+			exit();
+		}
 
-        $qr = $this->usuarioModel->generarQr($id);
+		$resultado = $this->rankingModel->obtenerElRankingPorIdUsuario($id);
 
-        $datos = array(
 
-            'usuario' => $usuario[0],
-            'qr' => '.' . $qr
-        );
-        if (!empty($resultado)){
-            $datos['ranking'] = $resultado[0];
-        }
-        $this->renderer->render("perfilJugador", $datos);
-    }
+		$qr = $this->usuarioModel->generarQr($id);
+
+		$datos = array(
+			'usuario' => $usuario[0],
+			'qr' => '.'.$qr
+		);
+
+		if (!empty($resultado)) {
+			$datos['ranking'] = $resultado[0];
+		} else {
+			$datos['ranking'] = [
+				'puntajeTotal' => 0,
+				'cantidadPartidas' => 0
+			];
+		}
+
+		$this->renderer->render("perfilJugador", $datos);
+	}
+
 }
