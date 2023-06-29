@@ -1,4 +1,16 @@
 {{> header}}
+<style>
+    @CHARSET "ISO-8859-1";
+    #map {
+        width: 100%;
+        height: 250PX;
+    }
+
+
+</style>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKsOyLppGoYEHhTvwny8xDgKj96ZzSIFU&libraries=places&callback=initAutocomplete" async defer></script>
+
+
 <body class="font-mono bg-gray-400">
 <div class="flex items-center justify-center my-8 2xl:my-0 2xl:h-screen">
     <div class="flex w-full md:w-3/4 xl:w-3/5">
@@ -48,38 +60,41 @@
                         <span class="text-sm bg-red-200 text-red-800">{{errores.errorApellido}}</span>
                     </div>
                 </div>
-                <div class="mb-2 md:flex md:justify-center">
-                    <div class="w-full md:w-1/2 mb-2 md:mr-2 md:mb-0">
-                        <label class="block mb-2 text-sm font-bold text-gray-700" for="username">
-                            Nombre de Usuario
-                        </label>
-                        <input
-                                class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                id="username" name="username"
-                                type="text"
-                                placeholder="Nombre de usuario"
-                                value="{{datos.username}}"
-                        />
-                        <span class="text-sm bg-red-200 text-red-800">{{errores.errorUsername}}</span>
-                    </div>
-                    <div class="w-full md:w-1/2 md:ml-2">
-                        <label class="block mb-2 text-sm font-bold text-gray-700" for="localidad">
-                            País
-                        </label>
-                        <select
-                                class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                id="localidad"
-                                name="localidad"
-                        >
-                            <option value="Argentina">Argentina</option>
-                            <option value="Chile">Chile</option>
-                            <option value="Peru">Perú</option>
-                            <option value="Colombia">Colombia</option>
-                            <option value="Otro">Otro</option>
-                        </select>
-                        <span class="text-sm bg-red-200 text-red-800">{{errores.errorPaisCiudad}}</span>
-                    </div>
+
+                <div class="w-full mb-2">
+                    <label class="block mb-2 text-sm font-bold text-gray-700" for="direccion">
+                        Direccion
+                    </label>
+                    <input class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                           id="autocomplete" name="autocomplete"
+                           placeholder="Ingrese su dirección"
+                           onFocus="geolocate()" type="text" />
+                    <span class="text-sm bg-red-200 text-red-800">{{errores.errorAutocomplete}}</span>
+
+                    <input type="hidden" id="latitud" name="latitud" value="">
+                    <input type="hidden" id="longitud" name="longitud" value="">
+                    <input type="hidden" id="pais" name="pais" value="">
+
                 </div>
+
+                <div class="mb-2 md:flex md:justify-center">
+                    <div id="map"></div>
+                </div>
+
+                <div class="w-full mb-2">
+                    <label class="block mb-2 text-sm font-bold text-gray-700" for="username">
+                        Nombre de Usuario
+                    </label>
+                    <input
+                            class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                            id="username" name="username"
+                            type="text"
+                            placeholder="Nombre de usuario"
+                            value="{{datos.username}}"
+                    />
+                    <span class="text-sm bg-red-200 text-red-800">{{errores.errorUsername}}</span>
+                </div>
+
                 <div class="mb-2 md:flex md:justify-center">
                     <div class="w-full md:w-1/2 mb-2 md:mr-2 md:mb-0">
                         <label class="block mb-2 text-sm font-bold text-gray-700" for="sexo">
@@ -192,3 +207,102 @@
     </div>
 </div>
 </body>
+
+<script>
+    var placeSearch, autocomplete;
+
+    //inicializa el mapa con una direccion
+    //al input del autocomplete le da la funcion de filtrar y desplegar sugerencias
+    function initAutocomplete() {
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: -34.607034, lng: -58.375516},
+            zoom: 14,
+            mapTypeId: 'roadmap'
+        });
+
+        autocomplete = new google.maps.places.Autocomplete(
+                /** @type {!HTMLInputElement} */
+                (document.getElementById('autocomplete')), {
+                    types : [ 'geocode' ]
+                });
+        autocomplete.addListener('place_changed', rellenarDireaccion);
+
+    }
+    function rellenarDireaccion() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: -34.607034, lng: -58.375516},
+            zoom: 14,
+            mapTypeId: 'roadmap'
+        });
+
+        // Obtén los detalles del lugar desde el objeto de autocompletado.
+        var place = autocomplete.getPlace();
+
+        // Verificar si no se obtuvo una latitud y longitud
+        if (place == null || !place.geometry || !place.geometry.location) {
+            document.getElementById('latitud').value = '';
+            document.getElementById('longitud').value = '';
+            document.getElementById('pais').value = '';
+            return;
+        }
+
+
+        var marker = new google.maps.Marker({
+            position: place.geometry.location,
+            map: map,
+            title:  place.name
+        });
+
+        marker.setMap(map);
+        //configura la el cuadrado/vista del mapa
+        var bounds = new google.maps.LatLngBounds();
+        if (place.geometry.viewport) {
+            // Only geocodes have viewport.
+            bounds.union(place.geometry.viewport);
+        } else {
+            bounds.extend(place.geometry.location);
+        }
+
+        map.fitBounds(bounds);
+
+
+        // Obtener cada componente de la dirección desde los detalles
+        // del lugar y llenar el campo correspondiente en el formulario.
+        var country = "";
+        for (var i = 0; i < place.address_components.length; i++) {
+            var addressType = place.address_components[i].types[0];
+            if (addressType === "country") {
+                country = place.address_components[i].long_name;
+                break;
+            }
+        }
+        document.getElementById('pais').value = country;
+        var latitud = place.geometry.location.lat();
+        var longitud = place.geometry.location.lng();
+
+        document.getElementById('latitud').value = latitud;
+        document.getElementById('longitud').value = longitud;
+    }
+
+
+
+    // Ajusta el objeto de autocompletado a la ubicación geográfica del usuario,
+    // según lo proporcionado por el objeto 'navigator.geolocation' del navegador.
+    function geolocate() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var geolocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                var circle = new google.maps.Circle({
+                    center: geolocation,
+                    radius: position.coords.accuracy
+                });
+                autocomplete.setBounds(circle.getBounds());
+            });
+        }
+    }
+
+</script>

@@ -23,7 +23,10 @@ class FormRegistroController
 			'nombre' => $_POST['nombre'],
 			'apellido' => $_POST['apellido'],
 			'username' => $_POST['username'],
-			'localidad' => $_POST['localidad'],
+			'direccion' => $_POST['autocomplete'],
+            'latitud' => $_POST['latitud'],
+            'longitud' => $_POST['longitud'],
+            'pais' => $_POST['pais'],
 			'sexo' => $_POST['sexo'],
 			'fnacimiento' => $_POST['fnacimiento'],
 			'email' => $_POST['email'],
@@ -38,7 +41,7 @@ class FormRegistroController
 			'datos' => $datos,
 			'errores' => $errores
 		);
-
+        var_dump($datos);
 		if (!empty($errores)) {
 			$this->renderer->render("formRegistro", $contexto);
 		} else {

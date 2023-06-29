@@ -66,7 +66,7 @@
         {{#filtroMes}}mes{{/filtroMes}}
         {{#filtroSemana}}semana{{/filtroSemana}}
         {{#filtroDia}}día{{/filtroDia}}</h1>
-    <div id="chart_div" class="flex justify-center my-3"></div>
+    <div id="chart_div" class="my-4"></div>
     <form id="segundoFormulario" action="/tpFinal/administrador/convertirAPdfUsuariosPorPais" method="GET"
           class="flex items-center">
         <input type="hidden" name="filtro">
@@ -88,156 +88,30 @@
         newTab.focus();
     }
 
-    google.charts.load('current', {packages: ['corechart']});
+    google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-        let data = new google.visualization.DataTable();
 
-        {{#filtroDia}}
-            data.addColumn('string', 'Días');
-            data.addColumn('number', 'Argentina');
-            data.addColumn('number', 'Chile');
-            data.addColumn('number', 'Perú');
-            data.addColumn('number', 'Colombia');
-            data.addColumn('number', 'Otros');
+        var jsonData = JSON.parse('{{{datos}}}');
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Pais');
+        data.addColumn('number', 'Cantidad');
 
-            let ultimos7Dias = [];
-            let fechaActual = new Date();
+        jsonData.forEach(function(obj) {
+            var pais = obj.pais;
+            var cantidad = parseInt(obj.cant_usuarios);
+            data.addRow([pais, cantidad]);
+        });
 
-            for (let i = 0; i < 7; i++) {
-                let fecha = new Date(fechaActual);
-                fecha.setDate(fecha.getDate() - i);
-                let dia = fecha.getDate();
-                let mes = fecha.getMonth() + 1;
-                let fechaFormateada = dia.toString().padStart(2, '0') + '-' + mes.toString().padStart(2, '0');
-                ultimos7Dias.push(fechaFormateada);
-            }
-            ultimos7Dias.sort();
-
-            let cantidadUsuariosTotalParsed = JSON.parse('{{{cantidadUsuariosTotal}}}');
-
-            for (let i = 0; i < cantidadUsuariosTotalParsed.length; i++) {
-                data.addRow([
-                    ultimos7Dias[i],
-                    cantidadUsuariosTotalParsed[i].argentinos,
-                    cantidadUsuariosTotalParsed[i].chilenos,
-                    cantidadUsuariosTotalParsed[i].peruanos,
-                    cantidadUsuariosTotalParsed[i].colombianos,
-                    cantidadUsuariosTotalParsed[i].otros
-                ]);
-            }
-        {{/filtroDia}}
-
-        {{#filtroSemana}}
-            data.addColumn('string', 'Semanas');
-            data.addColumn('number', 'Argentina');
-            data.addColumn('number', 'Chile');
-            data.addColumn('number', 'Perú');
-            data.addColumn('number', 'Colombia');
-            data.addColumn('number', 'Otros');
-
-            let fechas = [];
-
-            for (let i = 0; i < 4; i++) {
-                let fechaInicio = new Date();
-                fechaInicio.setDate(fechaInicio.getDate() - i * 7);
-                fechaInicio.setHours(0, 0, 0, 0);
-
-                let inicio = ("0" + fechaInicio.getDate()).slice(-2) + "-" + ("0" + (fechaInicio.getMonth() + 1)).slice(-2);
-
-                fechas.push(inicio);
-            }
-
-            fechas.sort();
-
-            let cantidadUsuariosTotalParsed = JSON.parse('{{{cantidadUsuariosTotal}}}');
-
-            for (let i = 0; i < cantidadUsuariosTotalParsed.length; i++) {
-                data.addRow([
-                    fechas[i],
-                    cantidadUsuariosTotalParsed[i].argentinos,
-                    cantidadUsuariosTotalParsed[i].chilenos,
-                    cantidadUsuariosTotalParsed[i].peruanos,
-                    cantidadUsuariosTotalParsed[i].colombianos,
-                    cantidadUsuariosTotalParsed[i].otros
-                ]);
-            }
-        {{/filtroSemana}}
-
-        {{#filtroMes}}
-            data.addColumn('string', 'Meses');
-            data.addColumn('number', 'Argentina');
-            data.addColumn('number', 'Chile');
-            data.addColumn('number', 'Perú');
-            data.addColumn('number', 'Colombia');
-            data.addColumn('number', 'Otros');
-            let meses = [
-                'Enero',
-                'Febrero',
-                'Marzo',
-                'Abril',
-                'Mayo',
-                'Junio',
-                'Julio',
-                'Agosto',
-                'Septiembre',
-                'Octubre',
-                'Noviembre',
-                'Diciembre'
-            ];
-
-            let cantidadUsuariosTotalParsed = JSON.parse('{{{cantidadUsuariosTotal}}}');
-
-            for (let i = 0; i < meses.length; i++) {
-                data.addRow([meses[i],
-                    cantidadUsuariosTotalParsed[i].argentinos,
-                    cantidadUsuariosTotalParsed[i].chilenos,
-                    cantidadUsuariosTotalParsed[i].peruanos,
-                    cantidadUsuariosTotalParsed[i].colombianos,
-                    cantidadUsuariosTotalParsed[i].otros
-                ]);
-            }
-        {{/filtroMes}}
-
-        {{#filtroAnio}}
-            data.addColumn('number', 'Año');
-            data.addColumn('number', 'Argentina');
-            data.addColumn('number', 'Chile');
-            data.addColumn('number', 'Perú');
-            data.addColumn('number', 'Colombia');
-            data.addColumn('number', 'Otros');
-
-            let anios = {{anios}};
-
-            let cantidadUsuariosTotalParsed = JSON.parse('{{{cantidadUsuariosTotal}}}');
-
-            for (let i = 0; i < anios.length; i++) {
-                data.addRow([anios[i],
-                    cantidadUsuariosTotalParsed[i].argentinos,
-                    cantidadUsuariosTotalParsed[i].chilenos,
-                    cantidadUsuariosTotalParsed[i].peruanos,
-                    cantidadUsuariosTotalParsed[i].colombianos,
-                    cantidadUsuariosTotalParsed[i].otros
-                ]);
-            }
-        {{/filtroAnio}}
-
-        let options = {
-            curveType: 'function',
+        var options = {
+            pieHole: 0.25,
             legend: {position: 'right'},
             width: Math.floor(window.innerWidth * 0.5),
             height: 400,
-            hAxis: {
-                format: '0'
-            },
-            vAxis: {
-                format: '0'
-            }
         };
 
-        let chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
         chart.draw(data, options);
     }
 </script>
