@@ -1166,199 +1166,46 @@ class AdministradorController
 		$pdf->Output();
 	}
 
-	public function convertirAPdfUsuariosPorPais()
-	{
-		$this->redireccionamiento();
+    public function convertirAPdfUsuariosPorPais()
+    {
+        $this->redireccionamiento();
+        $desde = 0;
+        $filtro = $_GET['filtro'] ?? 'anio';
+        $pdf = new FPDF();
+        $pdf->AddPage();
 
-		$filtro = $_GET['filtro'] ?? 'anio';
-		$pdf = new FPDF();
-		$pdf->AddPage();
+        // Establecer el título de la tabla
+        $pdf->SetFont('Arial', 'B', 14);
+        $pdf->Cell(0, 10, 'Usuarios por pais', 0, 1, 'C');
 
-		// Establecer el título de la tabla
-		$pdf->SetFont('Arial', 'B', 14);
-		$pdf->Cell(0, 10, 'Usuarios por pais', 0, 1, 'C');
+        // Obtener los datos según el filtro seleccionado
+        switch ($filtro) {
+            case 'dia':
+                $desde = 1;
+                break;
+            case 'semana':
+                $desde = 7;
+                break;
+            case 'mes':
+                $desde = 30;
+                break;
+            case 'anio':
+                $desde = 365;
+                break;
+        }
+        $datos = $this->administradorModel->obtenerCantidadUsuariosPorPais($desde);
 
-		// Obtener los datos según el filtro seleccionado
-		switch ($filtro) {
-			case 'dia':
-				$datos = $this->administradorModel->obtenerCantidadUsuariosPorPaisPorDia();
-				$ultimos7Dias = array();
-				$fechaActual = new DateTime();
+        $pdf->Cell(40, 10, 'Pais', 1);
+        $pdf->Cell(40, 10, 'Cantidad', 1);
+        $pdf->Ln();
+        foreach ($datos as $dato){
+            $pdf->Cell(40, 10, $dato['pais'], 1);
+            $pdf->Cell(40, 10, $dato['cant_usuarios'], 1);
+            $pdf->Ln();
+        }
 
-				for ($i = 0; $i < 7; $i++) {
-					$fecha = clone $fechaActual;
-					$fecha->sub(new DateInterval('P'.$i.'D'));
-					$dia = $fecha->format('d');
-					$mes = $fecha->format('m');
-					$fechaFormateada = $dia.'-'.$mes;
-					$ultimos7Dias[] = $fechaFormateada;
-				}
-
-				$ultimos7Dias = array_reverse($ultimos7Dias); // Invertir el orden para que aparezcan en el PDF en orden ascendente
-
-				$pdf->SetFont('Arial', '', 12);
-				$pdf->Cell(20, 10, 'Dia', 1);
-				$pdf->Cell(20, 10, 'Argentina', 1);
-				$pdf->Cell(20, 10, 'Chile', 1);
-				$pdf->Cell(20, 10, 'Peru', 1);
-				$pdf->Cell(20, 10, 'Colombia', 1);
-				$pdf->Cell(20, 10, 'Otros', 1);
-				$pdf->Ln(); // Salto de línea
-
-				if (!empty($datos)) {
-					$indice = 0;
-					foreach ($ultimos7Dias as $dia) {
-						$cantidadArgentina = isset($datos[$indice]['argentinos']) ? $datos[$indice]['argentinos'] : 0;
-						$cantidadChile = isset($datos[$indice]['chilenos']) ? $datos[$indice]['chilenos'] : 0;
-						$cantidadPeru = isset($datos[$indice]['peruanos']) ? $datos[$indice]['peruanos'] : 0;
-						$cantidadColombia = isset($datos[$indice]['colombianos']) ? $datos[$indice]['colombianos'] : 0;
-						$cantidadOtros = isset($datos[$indice]['otros']) ? $datos[$indice]['otros'] : 0;
-						$pdf->Cell(20, 10, $dia, 1);
-						$pdf->Cell(20, 10, $cantidadArgentina, 1);
-						$pdf->Cell(20, 10, $cantidadChile, 1);
-						$pdf->Cell(20, 10, $cantidadPeru, 1);
-						$pdf->Cell(20, 10, $cantidadColombia, 1);
-						$pdf->Cell(20, 10, $cantidadOtros, 1);
-						$pdf->Ln(); // Salto de línea
-						$indice++;
-					}
-				} else {
-					$pdf->Cell(160, 10, 'No hay datos disponibles', 1, 1, 'C');
-				}
-				break;
-			case 'semana':
-				$datos = $this->administradorModel->obtenerCantidadUsuariosPorPaisPorSemana();
-				$ultimas4Semanas = array();
-				$fechaActual = new DateTime();
-
-				for ($i = 0; $i < 4; $i++) {
-					$fecha = clone $fechaActual;
-					$fecha->sub(new DateInterval('P'.($i * 7).'D')); // Restar múltiplos de 7 días para obtener las semanas
-					$semana = $fecha->format('W');
-					$ultimas4Semanas[] = $semana;
-				}
-
-				$ultimas4Semanas = array_reverse($ultimas4Semanas); // Invertir el orden para que aparezcan en el PDF en orden ascendente
-
-				// Generar la tabla en el PDF
-				$pdf->SetFont('Arial', '', 12);
-				$pdf->Cell(20, 10, 'Semana', 1);
-				$pdf->Cell(20, 10, 'Argentina', 1);
-				$pdf->Cell(20, 10, 'Chile', 1);
-				$pdf->Cell(20, 10, 'Peru', 1);
-				$pdf->Cell(20, 10, 'Colombia', 1);
-				$pdf->Cell(20, 10, 'Otros', 1);
-				$pdf->Ln(); // Salto de línea
-
-				if (!empty($datos)) {
-					$indice = 0;
-					foreach ($ultimas4Semanas as $semana) {
-						$cantidadArgentina = isset($datos[$indice]['argentinos']) ? $datos[$indice]['argentinos'] : 0;
-						$cantidadChile = isset($datos[$indice]['chilenos']) ? $datos[$indice]['chilenos'] : 0;
-						$cantidadPeru = isset($datos[$indice]['peruanos']) ? $datos[$indice]['peruanos'] : 0;
-						$cantidadColombia = isset($datos[$indice]['colombianos']) ? $datos[$indice]['colombianos'] : 0;
-						$cantidadOtros = isset($datos[$indice]['otros']) ? $datos[$indice]['otros'] : 0;
-						$pdf->Cell(20, 10, $semana, 1);
-						$pdf->Cell(20, 10, $cantidadArgentina, 1);
-						$pdf->Cell(20, 10, $cantidadChile, 1);
-						$pdf->Cell(20, 10, $cantidadPeru, 1);
-						$pdf->Cell(20, 10, $cantidadColombia, 1);
-						$pdf->Cell(20, 10, $cantidadOtros, 1);
-						$pdf->Ln(); // Salto de línea
-						$indice++;
-					}
-				} else {
-					$pdf->Cell(160, 10, 'No hay datos disponibles', 1, 1, 'C');
-				}
-				break;
-			case 'mes':
-				$datos = $this->administradorModel->obtenerCantidadUsuariosPorPaisPorMes();
-				$meses = array(
-					'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre',
-					'Octubre',
-					'Noviembre', 'Diciembre'
-				);
-
-				// Generar la tabla en el PDF
-				$pdf->SetFont('Arial', '', 12);
-				$pdf->Cell(40, 10, 'Mes', 1);
-				$pdf->Cell(20, 10, 'Argentina', 1);
-				$pdf->Cell(20, 10, 'Chile', 1);
-				$pdf->Cell(20, 10, 'Peru', 1);
-				$pdf->Cell(20, 10, 'Colombia', 1);
-				$pdf->Cell(20, 10, 'Otros', 1);
-				$pdf->Ln(); // Salto de línea
-
-				if (!empty($datos)) {
-					$indice = 0;
-					foreach ($meses as $mes) {
-						$cantidadArgentina = isset($datos[$indice]['argentinos']) ? $datos[$indice]['argentinos'] : 0;
-						$cantidadChile = isset($datos[$indice]['chilenos']) ? $datos[$indice]['chilenos'] : 0;
-						$cantidadPeru = isset($datos[$indice]['peruanos']) ? $datos[$indice]['peruanos'] : 0;
-						$cantidadColombia = isset($datos[$indice]['colombianos']) ? $datos[$indice]['colombianos'] : 0;
-						$cantidadOtros = isset($datos[$indice]['otros']) ? $datos[$indice]['otros'] : 0;
-						$pdf->Cell(40, 10, $mes, 1);
-						$pdf->Cell(20, 10, $cantidadArgentina, 1);
-						$pdf->Cell(20, 10, $cantidadChile, 1);
-						$pdf->Cell(20, 10, $cantidadPeru, 1);
-						$pdf->Cell(20, 10, $cantidadColombia, 1);
-						$pdf->Cell(20, 10, $cantidadOtros, 1);
-						$pdf->Ln(); // Salto de línea
-						$indice++;
-					}
-				} else {
-					$pdf->Cell(160, 10, 'No hay datos disponibles', 1, 1, 'C');
-				}
-				break;
-			case 'anio':
-				$datos = $this->administradorModel->obtenerCantidadUsuariosPorPaisPorAnio();
-				$ultimos4Anios = array();
-				$anioActual = date('Y');
-
-				for ($i = 0; $i < 4; $i++) {
-					$anio = $anioActual - $i;
-					$ultimos4Anios[] = $anio;
-				}
-
-				$ultimos4Anios = array_reverse($ultimos4Anios);
-
-				// Generar la tabla en el PDF
-				$pdf->SetFont('Arial', '', 12);
-				$pdf->Cell(40, 10, 'Anio', 1);
-				$pdf->Cell(20, 10, 'Argentina', 1);
-				$pdf->Cell(20, 10, 'Chile', 1);
-				$pdf->Cell(20, 10, 'Peru', 1);
-				$pdf->Cell(20, 10, 'Colombia', 1);
-				$pdf->Cell(20, 10, 'Otros', 1);
-				$pdf->Ln(); // Salto de línea
-
-				if (!empty($datos)) {
-					$indice = count($ultimos4Anios) - 1;
-					foreach ($ultimos4Anios as $anio) {
-						$cantidadArgentina = isset($datos[$indice]['argentinos']) ? $datos[$indice]['argentinos'] : 0;
-						$cantidadChile = isset($datos[$indice]['chilenos']) ? $datos[$indice]['chilenos'] : 0;
-						$cantidadPeru = isset($datos[$indice]['peruanos']) ? $datos[$indice]['peruanos'] : 0;
-						$cantidadColombia = isset($datos[$indice]['colombianos']) ? $datos[$indice]['colombianos'] : 0;
-						$cantidadOtros = isset($datos[$indice]['otros']) ? $datos[$indice]['otros'] : 0;
-						$pdf->Cell(40, 10, $anio, 1);
-						$pdf->Cell(20, 10, $cantidadArgentina, 1);
-						$pdf->Cell(20, 10, $cantidadChile, 1);
-						$pdf->Cell(20, 10, $cantidadPeru, 1);
-						$pdf->Cell(20, 10, $cantidadColombia, 1);
-						$pdf->Cell(20, 10, $cantidadOtros, 1);
-						$pdf->Ln(); // Salto de línea
-						$indice--;
-					}
-				} else {
-					$pdf->Cell(160, 10, 'No hay datos disponibles', 1, 1, 'C');
-				}
-				break;
-			default:
-				$datos = array(); // Definir datos por defecto si no se encuentra un filtro válido
-		}
-
-		$pdf->Output();
-	}
+        $pdf->Output();
+    }
 
 	public function convertirAPdfPorcentajeAciertoPorJugador()
 	{
