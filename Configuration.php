@@ -12,9 +12,11 @@ include_once("model/RankingModel.php");
 include_once("model/CrearPreguntaModel.php");
 include_once("model/EditorModel.php");
 include_once("model/AdministradorModel.php");
+include_once("model/CrearCategoriaModel.php");
 
 include_once('controller/HomeController.php');
 include_once('controller/CrearPreguntaController.php');
+include_once('controller/CrearCategoriaController.php');
 include_once('controller/LobbyController.php');
 include_once('controller/PerfilJugadorController.php');
 include_once('controller/FormRegistroController.php');
@@ -107,6 +109,12 @@ class Configuration
 		return new CrearPreguntaController($this->getRenderer(),
 			new CrearPreguntaModel($this->getDatabase()));
 	}
+
+    public function getCrearCategoriaController()
+    {
+        return new CrearCategoriaController($this->getRenderer(),
+            new CrearCategoriaModel($this->getDatabase()));
+    }
 
 	public function getLobbyController()
 	{
