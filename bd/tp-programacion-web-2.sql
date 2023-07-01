@@ -27,6 +27,7 @@ DROP TABLE IF EXISTS `categorias`;
 CREATE TABLE `categorias` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `categoria` varchar(255) NOT NULL,
+  `id_estado_categoria` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -40,6 +41,13 @@ LOCK TABLES `categorias` WRITE;
 INSERT INTO `categorias` VALUES (1,'Deporte'),(2,'Geografía'),(3,'Música'),(4,'Entretenimiento'),(5,'Historia'),(6,'Tecnología'),(7,'Literatura'),(8,'Matemática');
 /*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Indices de la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  ADD KEY `id_estado_categoria` (`id_estado_categoria`);
+
 
 --
 -- Table structure for table `estado_pregunta`
@@ -264,3 +272,27 @@ ALTER TABLE `usuarios` CHANGE `pais_ciudad` `pais` VARCHAR(255) CHARACTER SET ut
 ALTER TABLE `usuarios` ADD `latitud` FLOAT NOT NULL AFTER `trampitas`;
 ALTER TABLE `usuarios` ADD `longitud` FLOAT NOT NULL AFTER `latitud`;
 
+--
+-- Estructura de tabla para la tabla `estado_categoria`
+--
+CREATE TABLE `estado_categoria` (
+    `id` int(11) NOT NULL,
+     `estado` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+--
+-- Volcado de datos para la tabla `estado_categoria`
+--
+INSERT INTO `estado_categoria` (`id`, `estado`) VALUES (1, 'activa'),(2, 'suspendida');
+--
+-- Indices de la tabla `estado_categoria`
+--
+ALTER TABLE `estado_categoria`
+    ADD PRIMARY KEY (`id`);
+--
+-- AUTO_INCREMENT de la tabla `estado_categoria`
+--
+ALTER TABLE `estado_categoria`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+COMMIT;
+
+ALTER TABLE `categorias` ADD `id_estado_categoria` int(11) DEFAULT NULL AFTER `categoria`;

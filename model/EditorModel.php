@@ -76,5 +76,12 @@ class EditorModel
         $this->database->queryInsertar($query);
     }
 
+    public function obtenerCategorias()
+    {
+        $query = "SELECT * FROM `categorias`";
+        return $this->database->query($query);
+    }
+
+
 }
 

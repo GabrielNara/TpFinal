@@ -1,0 +1,186 @@
+{{> header}}
+<style>
+    body {
+        background-image: url("/TpFinal/public/img/quiz_time.jpg");
+        background-size: cover;
+        background-position: center;
+    }
+
+    .tr-animation {
+        transition: background-color 0.3s ease;
+    }
+
+    .tr-animation:hover {
+        background-color: #f5f5f5; /* Color de fondo al poner el puntero encima */
+        cursor: pointer;
+    }
+
+    .tr-animation:active {
+        background-color: #dcdcdc; /* Color de fondo al hacer clic */
+    }
+
+    .estado1:before {
+        content: 'Activa';
+        background-color: #86efac;
+        color: #166534;
+    }
+
+    .estado2:before {
+        content: 'Suspendida';
+        background-color: #fca5a5;
+        color: #991b1b;
+    }
+
+    .estado3:before {
+        content: 'Reportada';
+        background-color: #fde047;
+        color: #854d0e;
+    }
+
+    .estado4:before {
+        content: 'Sugerida';
+        background-color: #7dd3fc;
+        color: #075985;
+    }
+
+    .estado1:before, .estado2:before, .estado3:before, .estado4:before {
+        padding: 0.5rem;
+        border-radius: 3px;
+    }
+
+    .categoria1:before {
+        content: 'Deporte';
+    }
+
+    .categoria2:before {
+        content: 'Geografía';
+    }
+
+    .categoria3:before {
+        content: 'Música';
+    }
+
+    .categoria4:before {
+        content: 'Entretenimiento';
+    }
+
+    .categoria5:before {
+        content: 'Historia';
+    }
+
+    .categoria6:before {
+        content: 'Tecnología';
+    }
+
+    .categoria7:before {
+        content: 'Literatura';
+    }
+
+    .categoria8:before {
+        content: 'Matemática';
+    }
+
+    .preguntas-container {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    table {
+        table-layout: fixed;
+    }
+
+    td {
+        word-wrap: break-word;
+    }
+</style>
+<nav class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
+     aria-label="Breadcrumb">
+    <ol class="inline-flex items-center space-x-1 md:space-x-3">
+        <li class="inline-flex items-center">
+            <a href="/tpFinal/lobby/list"
+               class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                <svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                </svg>
+                Lobby
+            </a>
+        </li>
+        <li aria-current="page">
+            <div class="flex items-center">
+                <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                          clip-rule="evenodd"></path>
+                </svg>
+                <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">...</span>
+            </div>
+        </li>
+    </ol>
+</nav>
+<div class="flex flex-col justify-center items-center w-full my-8 lg:my-0 lg:h-screen">
+    <h1 class="font-bold text-5xl text-center text-indigo-100">Revisión de Categorias</h1>
+    <div class="w-[90%] bg-white p-8 rounded-lg shadow-lg mt-8">
+        <div class="w-full flex justify-between items-center">
+            <select class="mb-6 text-lg focus:outline-none border-b border-b-solid border-b-gray-400 p-2"
+                    id="filtroEstado"
+                    onchange="filtrarCategorias()">
+                <option value="todos">Todos</option>
+                <option value="1">Activa</option>
+                <option value="2">Suspendida</option>
+            </select>
+            <div>
+                <button class="hidden" id="reproducirMusica">
+                    <i class="fa-solid fa-volume-high fa-2xl"></i>
+                </button>
+                <button id="pausarMusica">
+                    <i class="fa-solid fa-volume-xmark fa-2xl"></i>
+                </button>
+            </div>
+        </div>
+        <div class="w-full border-b border-gray-200 shadow">
+            <div class="preguntas-container">
+                <table class="w-full min-w-full divide-y divide-indigo-700">
+                    <thead class="bg-gray-50">
+                    <tr>
+                        <th class="md:w-1/5 text-center text-md px-2 sm:px-6 py-2 text-gray-500">Categoría</th>
+                        <th class="md:w-1/5 text-center text-md px-2 sm:px-6 py-2 text-gray-500">Estado</th>
+                    </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-300">
+                    {{#categorias}}
+                        <tr class="tr-animation" onclick="window.location='/tpFinal/editor/revisarCategoria?id={{id}}';"
+                        data-estado="{{id_estado_categoria}}">
+                        <td class="md:w-1/5 px-2 sm:px-6 py-4 text-center text-md text-gray-900 categoria{{categoria}}">{{categoria}}</td>
+                        <td class="md:w-1/5 px-2 sm:px-6 py-4 text-center text-md text-gray-900 estado{{id_estado_categoria}}"></td>
+                        </tr>
+                    {{/categorias}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function filtrarCategorias() {
+        let estadoSeleccionado = document.getElementById('filtroEstado').value;
+        let filasCategorias = document.querySelectorAll('.tr-animation');
+
+        filasCategorias.forEach(function (fila) {
+            let estadoCategoria = parseInt(fila.getAttribute('data-estado'));
+            let filaVisible = true;
+
+            if (estadoSeleccionado !== 'todos' && estadoCategoria !== parseInt(estadoSeleccionado)) {
+                filaVisible = false;
+            }
+
+            if (filaVisible) {
+                fila.style.display = 'table-row';
+            } else {
+                fila.style.display = 'none';
+            }
+        });
+    }
+</script>

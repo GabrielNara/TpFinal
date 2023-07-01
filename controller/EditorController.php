@@ -95,4 +95,17 @@ class EditorController
 		header('Location: /tpfinal/lobby/list');
 		exit();
 	}
+
+    public function revisionCategorias() {
+        $this->redireccionamiento();
+
+        $categorias = $this->editorModel->obtenerCategorias();
+
+        $contexto = array(
+            'categorias' => $categorias
+        );
+
+
+        $this->renderer->render("revisionCategorias", $contexto);
+    }
 }
