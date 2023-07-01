@@ -71,8 +71,8 @@ class FormRegistroModel
 		$apellido = $datos['apellido'];
 		$username = $datos['username'];
 		$pais = $datos['pais'];
-		$longitud = $datos['longitud'];
-		$latitud = $datos['latitud'];
+        $longitud = $datos['longitud'];
+        $latitud = $datos['latitud'];
 		$sexo = $datos['sexo'];
 		$anionacimiento = $datos['fnacimiento'];
 		$email = $datos['email'];
@@ -83,6 +83,7 @@ class FormRegistroModel
 		$this->enviarEmail($token, $email);
 
 		$query = "INSERT INTO `usuarios`(`nombre`, `apellido`, `email`, `contrasena`, `ano_nacimiento`, `sexo`, `pais`, `longitud`, `latitud`, `nombre_usuario`, `foto_perfil`,`token`,`fecha_registro`) 
+
 			VALUES ('$nombre','$apellido','$email','$contrasena','$anionacimiento','$sexo','$pais','$longitud','$latitud','$username','$fotoperfil','$token',NOW())";
 		$this->database->queryInsertar($query);
 	}
@@ -138,4 +139,5 @@ class FormRegistroModel
 		$fotoperfil = $_FILES['fotoPerfil']['tmp_name'];
 		move_uploaded_file($fotoperfil, "./public/img/".$_FILES['fotoPerfil']['name']);
 	}
+
 }

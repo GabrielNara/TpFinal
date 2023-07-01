@@ -65,6 +65,7 @@
         var lat = {{ usuario.latitud }};
         var lng = {{ usuario.longitud }};
 
+
         var myLatLng = {lat: lat, lng: lng};
 
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -83,7 +84,7 @@
     }
 
     // Inicializar el mapa cuando la página haya cargado
-    window.onload = function () {
+    window.onload = function() {
         initMap();
     };
 

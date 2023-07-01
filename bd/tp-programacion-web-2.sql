@@ -258,4 +258,9 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-01 11:29:48
+
+-- Dump completed on 2023-06-26 15:12:30
+ALTER TABLE `usuarios` CHANGE `pais_ciudad` `pais` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
+ALTER TABLE `usuarios` ADD `latitud` FLOAT NOT NULL AFTER `trampitas`;
+ALTER TABLE `usuarios` ADD `longitud` FLOAT NOT NULL AFTER `latitud`;
+

@@ -110,6 +110,7 @@ class AdministradorModel
 		return intval($cantidad[0]["cant_preguntas"]);
 	}
 
+
 	public function obtenerCantidadPartidasPorDia()
 	{
 		$cantidad_partidas = [];
@@ -445,9 +446,9 @@ class AdministradorModel
 
 	public function obtenerCantidadUsuariosPorPais($desde)
 	{
-		$query = "SELECT COUNT(*) AS cant_usuarios, pais FROM usuarios WHERE UNIX_TIMESTAMP(fecha_registro) >= UNIX_TIMESTAMP(DATE_SUB(CURDATE(), INTERVAL $desde DAY)) AND UNIX_TIMESTAMP(fecha_registro) <= UNIX_TIMESTAMP(CURDATE()) GROUP BY pais;";
-		$cantidad = $this->database->querySelectFetchAssoc($query);
-		return $cantidad;
+        $query = "SELECT COUNT(*) AS cant_usuarios, pais FROM usuarios WHERE UNIX_TIMESTAMP(fecha_registro) >= UNIX_TIMESTAMP(DATE_SUB(CURDATE(), INTERVAL $desde DAY)) AND UNIX_TIMESTAMP(fecha_registro) <= UNIX_TIMESTAMP(CURDATE()) GROUP BY pais;";
+        $cantidad = $this->database->querySelectFetchAssoc($query);
+        return $cantidad;
 	}
 
 	public function obtenerPorcentajeAciertoPorJugador()

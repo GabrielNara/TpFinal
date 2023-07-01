@@ -27,6 +27,7 @@ class PerfilJugadorController
 
 		$resultado = $this->rankingModel->obtenerElRankingPorIdUsuario($id);
 
+
 		$qr = $this->usuarioModel->generarQr($id);
 
 		$datos = array(
@@ -45,4 +46,5 @@ class PerfilJugadorController
 
 		$this->renderer->render("perfilJugador", $datos);
 	}
+
 }
