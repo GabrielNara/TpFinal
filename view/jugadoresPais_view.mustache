@@ -88,17 +88,15 @@
         newTab.focus();
     }
 
-    google.charts.load('current', {'packages':['corechart']});
+    google.charts.load('current', {'packages': ['corechart']});
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-
         var jsonData = JSON.parse('{{{datos}}}');
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Pais');
         data.addColumn('number', 'Cantidad');
-
-        jsonData.forEach(function(obj) {
+        jsonData.forEach(function (obj) {
             var pais = obj.pais;
             var cantidad = parseInt(obj.cant_usuarios);
             data.addRow([pais, cantidad]);

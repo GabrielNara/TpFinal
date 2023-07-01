@@ -310,7 +310,9 @@ class AdministradorController
 	public function cantUsuariosPais()
 	{
 		$this->redireccionamiento();
+
         $desde = 0;
+
 		$filtro = $_GET['filtro'] ?? 'anio';
 
 		$contexto = array(
@@ -335,8 +337,8 @@ class AdministradorController
 				break;
 		}
         $datos =$this->administradorModel->obtenerCantidadUsuariosPorPais($desde);
-
         $contexto['datos'] = json_encode($datos);
+
 
 		$this->renderer->render("jugadoresPais", $contexto);
 	}

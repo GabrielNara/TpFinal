@@ -83,8 +83,9 @@ class FormRegistroModel
 		$this->enviarEmail($token, $email);
 
 		$query = "INSERT INTO `usuarios`(`nombre`, `apellido`, `email`, `contrasena`, `ano_nacimiento`, `sexo`, `pais`, `longitud`, `latitud`, `nombre_usuario`, `foto_perfil`,`token`,`fecha_registro`) 
-VALUES ('$nombre','$apellido','$email','$contrasena','$anionacimiento','$sexo','$pais','$longitud','$latitud','$username','$fotoperfil','$token',NOW())";
-		return $this->database->queryInsertar($query);
+
+			VALUES ('$nombre','$apellido','$email','$contrasena','$anionacimiento','$sexo','$pais','$longitud','$latitud','$username','$fotoperfil','$token',NOW())";
+		$this->database->queryInsertar($query);
 	}
 
 	public function enviarEmail($token, $email)
