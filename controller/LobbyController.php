@@ -35,7 +35,7 @@ class LobbyController
                 {
 				$data['editor'] = true;
 			} else {
-                if (!empty($rol) && isset($rol[0]['idRol']) && $rol[0]['idRol'] == 1) 
+                if (!empty($rol) && isset($rol[0]['idRol']) && $rol[0]['idRol'] == 1)
                     {
 					$data['editor'] = true;
 					$data['administrador'] = true;
