@@ -1,20 +1,23 @@
 <?php
 include_once('./model/PartidaModel.php');
+include_once('./model/LobbyModel.php');
 
 class PartidaController
 {
 	private $renderer;
 	private $partidaModel;
+	private $lobbyModel;
 
-	public function __construct($renderer, $partidaModel)
+	public function __construct($renderer, $partidaModel, $lobbyModel)
 	{
 		$this->renderer = $renderer;
 		$this->partidaModel = $partidaModel;
+		$this->lobbyModel = $lobbyModel;
 	}
 
 	public function redireccionamiento()
 	{
-		if (!isset($_SESSION['usuario'])) {
+		if (!isset($_SESSION['usuario']) || !$this->lobbyModel->estaValidadoElCorreoUsuario($_SESSION['usuario']['email'])) {
 			header('Location: /tpfinal/');
 			exit();
 		}

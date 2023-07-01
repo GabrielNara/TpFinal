@@ -15,18 +15,33 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 </head>
 <body class="antialiased text-gray-700 bg-gray-100">
-<audio id="musica" src="/TpFinal/public/music/Fluffing-a-Duck.mp3" autoplay loop></audio>
+<audio id="musica" src="/TpFinal/public/music/Fluffing-a-Duck.mp3" loop></audio>
 <script>
     $(document).ready(function () {
         let audio = document.getElementById('musica');
 
+        if (localStorage.getItem('musica') === null) {
+            localStorage.setItem('musica', 'si');
+        }
+
+        if (localStorage.getItem('musica') === 'si') {
+            audio.play();
+            $('#reproducirMusica').removeClass('block').addClass('hidden');
+            $('#pausarMusica').removeClass('hidden').addClass('block');
+        } else {
+            $('#pausarMusica').removeClass('block').addClass('hidden');
+            $('#reproducirMusica').removeClass('hidden').addClass('block');
+        }
+
         $('#reproducirMusica').click(function () {
+            localStorage.setItem('musica', 'si');
             audio.play();
             $(this).removeClass('block').addClass('hidden');
             $('#pausarMusica').removeClass('hidden').addClass('block');
         });
 
         $('#pausarMusica').click(function () {
+            localStorage.setItem('musica', 'no');
             audio.pause();
             $(this).removeClass('block').addClass('hidden');
             $('#reproducirMusica').removeClass('hidden').addClass('block');
