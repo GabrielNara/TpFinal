@@ -28,8 +28,8 @@ class FormRegistroModel
 		if (count($result) > 0) {
 			$errores['errorUsername'] = 'Ya existe un jugador con ese nombre de usuario.';
 		}
-		if (empty($datos['localidad'])) {
-			$errores['errorPaisCiudad'] = 'El campo país y ciudad no puede estar vacío.';
+		if (empty($datos['latitud']) || empty($datos['longitud']) || empty($datos['pais'])) {
+			$errores['errorAutocomplete'] = 'Dirección no puede estar vacío.';
 		}
 		if (empty($datos['sexo'])) {
 			$errores['errorSexo'] = 'El campo sexo no puede estar vacío.';
@@ -70,7 +70,9 @@ class FormRegistroModel
 		$nombre = $datos['nombre'];
 		$apellido = $datos['apellido'];
 		$username = $datos['username'];
-		$localidad = $datos['localidad'];
+		$pais = $datos['pais'];
+		$longitud = $datos['longitud'];
+		$latitud = $datos['latitud'];
 		$sexo = $datos['sexo'];
 		$anionacimiento = $datos['fnacimiento'];
 		$email = $datos['email'];
@@ -80,9 +82,9 @@ class FormRegistroModel
 		$this->moverImagen();
 		$this->enviarEmail($token, $email);
 
-		$query = "INSERT INTO `usuarios`(`nombre`, `apellido`, `email`, `contrasena`, `ano_nacimiento`, `sexo`, `pais_ciudad`, `nombre_usuario`, `foto_perfil`,`token`,`fecha_registro`) 
-VALUES ('$nombre','$apellido','$email','$contrasena','$anionacimiento','$sexo','$localidad','$username','$fotoperfil','$token',NOW())";
-		return $this->database->queryInsertar($query);
+		$query = "INSERT INTO `usuarios`(`nombre`, `apellido`, `email`, `contrasena`, `ano_nacimiento`, `sexo`, `pais`, `longitud`, `latitud`, `nombre_usuario`, `foto_perfil`,`token`,`fecha_registro`) 
+			VALUES ('$nombre','$apellido','$email','$contrasena','$anionacimiento','$sexo','$pais','$longitud','$latitud','$username','$fotoperfil','$token',NOW())";
+		$this->database->queryInsertar($query);
 	}
 
 	public function enviarEmail($token, $email)

@@ -309,7 +309,7 @@ class AdministradorController
 	public function cantUsuariosPais()
 	{
 		$this->redireccionamiento();
-
+		$desde = 0;
 		$filtro = $_GET['filtro'] ?? 'anio';
 
 		$contexto = array(
@@ -321,66 +321,20 @@ class AdministradorController
 
 		switch ($filtro) {
 			case 'dia':
-				$cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorPaisPorDia();
-				$usuariosJson = [];
-				foreach ($cantidadUsuariosTotal as $usuarios) {
-					$usuariosJson[] = [
-						'argentinos' => $usuarios['argentinos'],
-						'chilenos' => $usuarios['chilenos'],
-						'peruanos' => $usuarios['peruanos'],
-						'colombianos' => $usuarios['colombianos'],
-						'otros' => $usuarios['otros']
-					];
-				}
-				$contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+				$desde = 1;
 				break;
 			case 'semana':
-				$cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorPaisPorSemana();
-				$usuariosJson = [];
-				foreach ($cantidadUsuariosTotal as $usuarios) {
-					$usuariosJson[] = [
-						'argentinos' => $usuarios['argentinos'],
-						'chilenos' => $usuarios['chilenos'],
-						'peruanos' => $usuarios['peruanos'],
-						'colombianos' => $usuarios['colombianos'],
-						'otros' => $usuarios['otros']
-					];
-				}
-				$contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+				$desde = 7;
 				break;
 			case 'mes':
-				$cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorPaisPorMes();
-				$usuariosJson = [];
-				foreach ($cantidadUsuariosTotal as $usuarios) {
-					$usuariosJson[] = [
-						'argentinos' => $usuarios['argentinos'],
-						'chilenos' => $usuarios['chilenos'],
-						'peruanos' => $usuarios['peruanos'],
-						'colombianos' => $usuarios['colombianos'],
-						'otros' => $usuarios['otros']
-					];
-				}
-				$contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
+				$desde = 30;
 				break;
-
 			case 'anio':
-				$cantidadUsuariosTotal = $this->administradorModel->obtenerCantidadUsuariosPorPaisPorAnio();
-				$usuariosJson = [];
-				$anios = [];
-				foreach ($cantidadUsuariosTotal as $usuarios) {
-					$usuariosJson[] = [
-						'argentinos' => $usuarios['argentinos'],
-						'chilenos' => $usuarios['chilenos'],
-						'peruanos' => $usuarios['peruanos'],
-						'colombianos' => $usuarios['colombianos'],
-						'otros' => $usuarios['otros']
-					];
-					$anios[] = $usuarios['anio'];
-				}
-				$contexto['cantidadUsuariosTotal'] = json_encode($usuariosJson);
-				$contexto['anios'] = json_encode($anios);
+				$desde = 365;
 				break;
 		}
+		$datos = $this->administradorModel->obtenerCantidadUsuariosPorPais($desde);
+		$contexto['datos'] = json_encode($datos);
 
 		$this->renderer->render("jugadoresPais", $contexto);
 	}
