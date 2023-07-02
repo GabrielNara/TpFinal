@@ -282,7 +282,7 @@ CREATE TABLE `estado_categoria` (
 --
 -- Volcado de datos para la tabla `estado_categoria`
 --
-INSERT INTO `estado_categoria` (`id`, `estado`) VALUES (1, 'activa'),(2, 'suspendida');
+INSERT INTO `estado_categoria` (`id`, `estado`) VALUES (1, 'activa'),(2, 'suspendida'),(3,'sugerida');
 --
 -- Indices de la tabla `estado_categoria`
 --

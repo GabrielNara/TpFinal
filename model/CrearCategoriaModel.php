@@ -28,8 +28,8 @@ class CrearCategoriaModel
 
         $categoria = $datos['categoria'];
 
-        $query = "INSERT INTO `categorias`(`categoria`)
-         VALUES ('$categoria')";
+        $query = "INSERT INTO `categorias`(`categoria`,`id_estado_categoria`)
+         VALUES ('$categoria',3)";
 
         return $this->database->queryInsertar($query);
     }
