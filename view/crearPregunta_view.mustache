@@ -66,14 +66,9 @@
                     <label for="categoria" class="text-lg">Categoría:</label>
                     <select id="categoria" name="categoria"
                             class="w-full mt-2 py-2 px-4 border border-gray-300 rounded-lg focus:outline-gray-400">
-                        <option value="1">Deporte</option>
-                        <option value="2">Geografía</option>
-                        <option value="3">Música</option>
-                        <option value="4">Entretenimiento</option>
-                        <option value="5">Historia</option>
-                        <option value="6">Tecnología</option>
-                        <option value="7">Literatura</option>
-                        <option value="8">Matemática</option>
+                        {{#categorias}}
+                            <option value="{{id}}">{{categoria}}</option>
+                        {{/categorias}}
                     </select>
                 </div>
                 <button type="submit"

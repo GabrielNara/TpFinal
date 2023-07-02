@@ -51,4 +51,9 @@ class CrearPreguntaModel
         return $this->database->queryInsertar($query);
     }
 
+    public function obtenerCategorias(){
+        $query = "SELECT * FROM `categorias` WHERE id_estado_categoria = 1";
+        return $this->database->query($query);
+    }
+
 }

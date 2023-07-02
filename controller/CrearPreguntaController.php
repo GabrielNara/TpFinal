@@ -11,7 +11,13 @@ class CrearPreguntaController
     }
 
     public function list() {
-        $this->renderer->render("crearPregunta");
+        $datos = $this->crearPreguntaModel->obtenerCategorias();
+
+        $data = array(
+            'categorias' => $datos
+        );
+
+        $this->renderer->render("crearPregunta", $data);
     }
 
     public function crearPregunta(){
