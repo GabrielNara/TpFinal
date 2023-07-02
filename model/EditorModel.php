@@ -29,6 +29,19 @@ class EditorModel
         return $this->database->query($query);
     }
 
+    public function aprobarCategoria($id)
+    {
+        $query = "UPDATE `categorias` SET `id_estado_categoria` = 1 WHERE  id = '$id'";
+        return $this->database->query($query);
+    }
+
+    public function suspenderCategoria($id)
+    {
+        $query = "UPDATE `categorias` SET `id_estado_categoria` = 2 WHERE  id = '$id'";
+        return $this->database->query($query);
+    }
+
+
     public function validarPreguntaAprobada($datos)
     {
         $errores = [];

@@ -92,6 +92,24 @@
     td {
         word-wrap: break-word;
     }
+
+    .actions-column {
+        width: 20%;
+    }
+
+    .action-button {
+        padding: 0.5rem;
+        border: none;
+        background-color: transparent;
+    }
+
+    .approve-button {
+        color: #34D399;
+    }
+
+    .suspend-button {
+        color: #EF4444;
+    }
 </style>
 <nav class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
      aria-label="Breadcrumb">
@@ -151,10 +169,20 @@
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-300">
                     {{#categorias}}
-                        <tr class="tr-animation" onclick="window.location='/tpFinal/editor/revisarCategoria?id={{id}}';"
+                        <tr class="tr-animation" onclick="window.location='/tpFinal/editor/revisionCategorias';"
                         data-estado="{{id_estado_categoria}}">
                         <td class="md:w-1/5 px-2 sm:px-6 py-4 text-center text-md text-gray-900 categoria{{categoria}}">{{categoria}}</td>
                         <td class="md:w-1/5 px-2 sm:px-6 py-4 text-center text-md text-gray-900 estado{{id_estado_categoria}}"></td>
+                        <td class="md:w-1/5 px-2 sm:px-6 py-4 text-center actions-column">
+                            <div class="flex justify-center items-center space-x-2">
+                                <button onclick="aprobarCategoria({{id}})" class="action-button approve-button">
+                                    <i class="fa-solid fa-check-circle text-green-500 hover:text-green-600 cursor-pointer"></i>
+                                </button>
+                                <button onclick="suspenderCategoria({{id}})" class="action-button suspend-button">
+                                    <i class="fa-solid fa-times-circle text-red-500 hover:text-red-600 cursor-pointer"></i>
+                                </button>
+                            </div>
+                        </td>
                         </tr>
                     {{/categorias}}
                     </tbody>
@@ -181,6 +209,35 @@
                 fila.style.display = 'table-row';
             } else {
                 fila.style.display = 'none';
+            }
+        });
+    }
+
+    function aprobarCategoria(categoriaId) {
+
+        $.ajax({
+            url: '/tpFinal/editor/aprobarCategoria',
+            method: 'POST',
+            data: { id: categoriaId },
+            success: function(response) {
+                console.log('Categoría aprobada:', response);
+            },
+            error: function (xhr, status, error) {
+                alert('error');
+            }
+        });
+    }
+
+    function suspenderCategoria(categoriaId) {
+        $.ajax({
+            url: '/tpFinal/editor/suspenderCategoria',
+            method: 'POST',
+            data: { id: categoriaId },
+            success: function(response) {
+                console.log('Categoría suspendida:', response);
+            },
+            error: function (xhr, status, error) {
+                alert('error');
             }
         });
     }
