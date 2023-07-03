@@ -446,7 +446,7 @@ class AdministradorModel
 
 	public function obtenerCantidadUsuariosPorPais($desde)
 	{
-        $query = "SELECT COUNT(*) AS cant_usuarios, pais FROM usuarios WHERE UNIX_TIMESTAMP(fecha_registro) >= UNIX_TIMESTAMP(DATE_SUB(CURDATE(), INTERVAL $desde DAY)) AND UNIX_TIMESTAMP(fecha_registro) <= UNIX_TIMESTAMP(CURDATE()) GROUP BY pais;";
+        $query = "SELECT COUNT(*) AS cant_usuarios, pais FROM usuarios WHERE fecha_registro >= CURDATE() - INTERVAL $desde DAY AND fecha_registro < CURDATE() + INTERVAL 1 DAY GROUP BY pais;";
         $cantidad = $this->database->querySelectFetchAssoc($query);
         return $cantidad;
 	}
