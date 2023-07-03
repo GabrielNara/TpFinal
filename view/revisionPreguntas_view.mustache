@@ -48,38 +48,6 @@
         border-radius: 3px;
     }
 
-    .categoria1:before {
-        content: 'Deporte';
-    }
-
-    .categoria2:before {
-        content: 'Geografía';
-    }
-
-    .categoria3:before {
-        content: 'Música';
-    }
-
-    .categoria4:before {
-        content: 'Entretenimiento';
-    }
-
-    .categoria5:before {
-        content: 'Historia';
-    }
-
-    .categoria6:before {
-        content: 'Tecnología';
-    }
-
-    .categoria7:before {
-        content: 'Literatura';
-    }
-
-    .categoria8:before {
-        content: 'Matemática';
-    }
-
     .preguntas-container {
         max-height: 400px;
         overflow-y: auto;
@@ -155,7 +123,7 @@
                     {{#preguntas}}
                         <tr class="tr-animation" onclick="window.location='/tpFinal/editor/revisarPregunta?id={{id}}';"
                         data-estado="{{id_estado_pregunta}}">
-                        <td class="md:w-1/5 px-2 sm:px-6 py-4 text-center text-md text-gray-900 categoria{{id_categoria}}"></td>
+                        <td class="md:w-1/5 px-2 sm:px-6 py-4 text-center text-md text-gray-900">{{categoria}}</td>
                         <td class="md:w-3/5 px-2 sm:px-6 py-4 text-center text-md text-gray-900">{{pregunta}}</td>
                         <td class="md:w-1/5 px-2 sm:px-6 py-4 text-center text-md text-gray-900 estado{{id_estado_pregunta}}"></td>
                         </tr>

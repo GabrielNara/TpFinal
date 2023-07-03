@@ -18,7 +18,7 @@ class EditorModel
 
     public function obtenerPreguntas()
     {
-        $query = "SELECT * FROM `preguntas`";
+        $query = "SELECT p.id,p.pregunta,p.id_estado_pregunta, c.categoria FROM `preguntas` p inner join categorias c on p.id_categoria=c.id;";
         return $this->database->query($query);
     }
 
