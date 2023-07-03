@@ -95,6 +95,9 @@ class EditorModel
         return $this->database->query($query);
     }
 
-
+    public function obtenerCategoriasActivas(){
+        $query = "SELECT * FROM `categorias` WHERE id_estado_categoria = 1";
+        return $this->database->query($query);
+    }
 }
 

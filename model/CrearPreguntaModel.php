@@ -56,4 +56,5 @@ class CrearPreguntaModel
         return $this->database->query($query);
     }
 
+
 }

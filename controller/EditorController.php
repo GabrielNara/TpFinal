@@ -49,9 +49,11 @@ class EditorController
         $idPregunta = $_GET["id"];
 
         $preguntaObtenida = $this->editorModel->obtenerPregunta($idPregunta);
+        $categoriasObtenidas = $this->editorModel->obtenerCategoriasActivas();
 
         $datos = array(
-            'pregunta' => $preguntaObtenida
+            'pregunta' => $preguntaObtenida,
+            'categorias' => $categoriasObtenidas
         );
 
         $this->renderer->render('revisarPregunta', $datos);
