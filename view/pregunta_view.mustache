@@ -90,6 +90,18 @@
     let temporizador; // letiable para almacenar el temporizador
     let respondio = false;
     let cantidadTrampitas;
+    let clickeoLink = false;
+
+    window.addEventListener('beforeunload', function (event) {
+        if (!clickeoLink) {
+            event.preventDefault();
+            event.returnValue = '';
+        }
+    });
+
+    function clickeaLink() {
+        clickeoLink = true;
+    }
 
     function iniciarTemporizador() {
         temporizador = setInterval(function () {
@@ -121,8 +133,8 @@
                         '<p class="text-6xl font-bold text-purple-500">' + totalJson + '</p>' +
                         '</div>' +
                         '<div class="flex justify-center space-x-4">' +
-                        '<a href="/tpFinal/partida/pregunta" class="bg-purple-500 neon-border hover:bg-purple-600 text-white px-6 py-3 rounded-md font-medium">Jugar de nuevo</a>' +
-                        '<a href="/tpfinal/lobby" class="bg-white border neon-border hover:bg-purple-600 text-black hover:text-white px-6 py-3 rounded-md font-medium">Volver al lobby</a>' +
+                        '<a onclick="clickeaLink()" href="/tpFinal/partida/pregunta" class="bg-purple-500 neon-border hover:bg-purple-600 text-white px-6 py-3 rounded-md font-medium">Jugar de nuevo</a>' +
+                        '<a onclick="clickeaLink()" href="/tpfinal/lobby" class="bg-white border neon-border hover:bg-purple-600 text-black hover:text-white px-6 py-3 rounded-md font-medium">Volver al lobby</a>' +
                         '</div>' +
                         '</div>'
                 ).show();
@@ -336,8 +348,8 @@
                                         '<p class="text-6xl font-bold text-purple-500">' + data.puntos + '</p>' +
                                         '</div>' +
                                         '<div class="flex justify-center space-x-4">' +
-                                        '<a href="/tpFinal/partida/pregunta" class="bg-purple-500 neon-border hover:bg-purple-600 text-white px-6 py-3 rounded-md font-medium">Jugar de nuevo</a>' +
-                                        '<a href="/tpfinal/lobby" class="bg-white border neon-border hover:bg-purple-600 text-black hover:text-white px-6 py-3 rounded-md font-medium">Volver al lobby</a>' +
+                                        '<a onclick="clickeaLink()" href="/tpFinal/partida/pregunta" class="bg-purple-500 neon-border hover:bg-purple-600 text-white px-6 py-3 rounded-md font-medium">Jugar de nuevo</a>' +
+                                        '<a onclick="clickeaLink()" href="/tpfinal/lobby" class="bg-white border neon-border hover:bg-purple-600 text-black hover:text-white px-6 py-3 rounded-md font-medium">Volver al lobby</a>' +
                                         '</div>' +
                                         '</div>'
                                 ).show();
